@@ -1,9 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/service/firebase_conf.dart';
-import 'package:ss_test/view/home.dart';
 import 'package:ss_test/view/login_screen.dart';
 
 import 'bindings/start_app.dart';
@@ -31,10 +29,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        scaffoldBackgroundColor: ProjectCustomColors().customExtraPaleGrey,
+        primarySwatch: Colors.green,
       ),
-      home: const Home(),
+      home: const LoginScreen(),
     );
   }
 }
