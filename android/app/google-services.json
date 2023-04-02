@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "907225272590",
+    "firebase_url": "https://ss-test-ae751-default-rtdb.firebaseio.com",
+    "project_id": "ss-test-ae751",
+    "storage_bucket": "ss-test-ae751.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907225272590:android:05250a7beed209c4fa475f",
+        "android_client_info": {
+          "package_name": "com.pepteam.ss_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907225272590-dnsq9lqsfdujra3c3loou3m4k6s6p5ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAut6ZEwOAmr9oLb5-GtvOcXOvroIxNfVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907225272590-dnsq9lqsfdujra3c3loou3m4k6s6p5ok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

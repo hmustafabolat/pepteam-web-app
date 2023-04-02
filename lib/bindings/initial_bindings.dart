@@ -1,0 +1,13 @@
+import 'package:get/get.dart';
+import 'package:ss_test/repository/auth_repository.dart';
+import 'package:ss_test/service/auth_service.dart';
+import 'package:ss_test/viewModel/auth_viewModel.dart';
+
+class InitialBindings extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => AuthViewModel(), fenix: true);
+    Get.lazyPut(() => AuthRepository(), fenix: true);
+    Get.lazyPut(() => AuthService(), fenix: true);
+  }
+}
