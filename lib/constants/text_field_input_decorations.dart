@@ -16,4 +16,18 @@ class InputDecorators {
     fillColor: Colors.white,
     filled: true,
   );
+  final PasswordInput = InputDecoration(
+    contentPadding: EdgeInsets.fromLTRB(14, 10, 14, 10),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: ProjectCustomColors().customPaleGrey),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: ProjectCustomColors().customPaleGrey),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    hintText: '••••••••',
+    fillColor: Colors.white,
+    filled: true,
+  );
 }
