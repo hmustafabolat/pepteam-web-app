@@ -5,6 +5,7 @@ import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/constants/project_text_styles.dart';
 import 'package:ss_test/constants/text_field_input_decorations.dart';
+import 'package:ss_test/view/home.dart';
 import 'package:ss_test/viewModel/auth_viewModel.dart';
 
 import 'forgot_password.dart';
@@ -34,7 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 15),
                 Text('Tekrar hoşgeldiniz! Lütfen bilgilerinizi giriniz.'),
                 SizedBox(height: 35),
-
                 Form(
                     key: _viewModel.signInFormGlobalKey,
                     child: Column(
@@ -62,7 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     )),
                 SizedBox(height: 25),
-
                 SizedBox(
                   width: double.maxFinite,
                   child: Column(
@@ -80,7 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               minimumSize: Size(double.maxFinite, 50),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8))),
-                          onPressed: _viewModel.signIn,
+                          onPressed: () {
+                            Get.to(Home());
+                          },
                           child: Text('Giriş Yap',
                               style: ProjectTextStyles().white_w500_s15)),
                     ],

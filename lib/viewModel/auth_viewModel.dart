@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/model/user_model.dart';
 import 'package:ss_test/repository/auth_repository.dart';
-import 'package:ss_test/view/landing_page.dart';
-
 
 class AuthViewModel extends GetxController {
   final AuthRepository _repository = Get.find();
@@ -17,7 +15,6 @@ class AuthViewModel extends GetxController {
       signInFormGlobalKey.currentState!.save();
       userModel.value =
           await _repository.signIn(UserModel(email: email, password: password));
-    Get.to(LandingPage());
     }
   }
 
