@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/model/user_model.dart';
@@ -10,12 +12,17 @@ class AuthViewModel extends GetxController {
   final signInFormGlobalKey = GlobalKey<FormState>();
   String? email, password;
 
-  Future<UserModel?> signIn() async {
+  Future<bool> signIn() async {
+    bool flag = false;
     if (signInFormGlobalKey.currentState!.validate()) {
       signInFormGlobalKey.currentState!.save();
-      userModel.value =
-          await _repository.signIn(UserModel(email: email, password: password));
+      userModel.value = await _repository.signIn(email!, password!);
+      if (userModel.value?.id != null) {
+        log("sign in başarılı true dönüyor");
+        flag = true;
+      }
     }
+    return flag;
   }
 
   Future signOut() async {

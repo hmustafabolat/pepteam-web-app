@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
@@ -7,14 +8,14 @@ import 'package:ss_test/constants/project_paddings.dart';
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
 
-class UserAddPage extends StatefulWidget {
-  const UserAddPage({super.key});
+class UserEditingPage extends StatefulWidget {
+  const UserEditingPage({super.key});
 
   @override
-  State<UserAddPage> createState() => _UserAddPageState();
+  State<UserEditingPage> createState() => _UserEditingPageState();
 }
 
-class _UserAddPageState extends State<UserAddPage> {
+class _UserEditingPageState extends State<UserEditingPage> {
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users'];
   @override
@@ -114,12 +115,11 @@ class _UserAddPageState extends State<UserAddPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Kullanıcı Ekle',
+                'Kullanıcılar',
                 style: ProjectTextStyles().darkGrey_w500_s14,
               ),
               SizedBox(height: 5),
-              Text(
-                  'Lütfen eklemek istediğiniz kullanıcının bilgilerini giriniz.',
+              Text('Sensör Kullanıcıları',
                   style: ProjectTextStyles().grey_w400_s14),
               SizedBox(height: 20),
               Container(
@@ -127,54 +127,9 @@ class _UserAddPageState extends State<UserAddPage> {
                 color: Colors.grey[300],
               ),
               SizedBox(height: 25),
-              Text('Adı Soyadı'),
-              SizedBox(height: 5),
-              TextFormField(
-                // onSaved: (value) {
-                //   _viewModel.password = value;
-                // },
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecorators().EmailInput,
-              ),
-              SizedBox(height: 20),
-              Text('Şifre'),
-              SizedBox(height: 5),
-              TextFormField(
-                // onSaved: (value) {
-                //   _viewModel.password = value;
-                // },
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecorators().PasswordInput,
-              ),
-              SizedBox(height: 5),
-              Text('Şifre 8 karakterden uzun olmalıdır.',
-                  style: ProjectTextStyles().grey_w400_s14),
-              SizedBox(height: 20),
-              Text('Mail Adresi'),
-              SizedBox(height: 5),
-              TextFormField(
-                // onSaved: (value) {
-                //   _viewModel.password = value;
-                // },
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecorators().EmailInput,
-              ),
-              SizedBox(height: 45),
-              SizedBox(
-                width: double.maxFinite,
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  OutlinedButton(
-                      onPressed: () {},
-                      child: Text(
-                        'İptal',
-                        style: ProjectTextStyles().darkGrey_w500_s14,
-                      )),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                      onPressed: () {}, child: Text('Kullanıcı Ekle'))
-                ]),
-              )
+              //Table Oluşturulacak.
+              //Yeni kullanıcı ekleme butonu oluşturulacak.
+              //Roller verilecek.
             ],
           ))
         ],

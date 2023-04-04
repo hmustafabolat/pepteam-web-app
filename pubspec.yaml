@@ -22,7 +22,7 @@ dependencies:
 
   #stateManagement
   get: ^4.6.5
-  
+
 
 
   #Firebase

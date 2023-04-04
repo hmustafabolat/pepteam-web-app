@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ss_test/model/user_model.dart';
@@ -7,19 +9,25 @@ class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final UserModel _userModel = UserModel();
 
-  Future<UserModel?> signIn(UserModel userModel) async {
+  Future<UserModel?> signIn(String email, String password) async {
     try {
-      var user = await _auth.signInWithEmailAndPassword(
-        email: userModel.email!,
-        password: userModel.password!,
+      log("try içi");
+      UserCredential user = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
-
+      print(user);
       if (user.user?.uid != null) {
         var doc =
             await _firestore.collection('Users').doc(user.user!.uid).get();
-
-        return UserModel.fromJson(doc);
+        log("uid : " + doc.id);
+        log("cred id: " + user.user!.uid);
+        UserModel tempUser =
+            UserModel(email: doc["email"], name: doc["name"], id: doc.id);
+        log(tempUser.id.toString());
+        return tempUser;
       } else {
+        print("uid boş");
         return null;
       }
     } catch (e) {

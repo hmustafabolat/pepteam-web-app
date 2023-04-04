@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
+
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class UserEditingPage extends StatefulWidget {
+  const UserEditingPage({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<UserEditingPage> createState() => _UserEditingPageState();
 }
 
-class _HomeState extends State<Home> {
+class _UserEditingPageState extends State<UserEditingPage> {
   int _selectedIndex = 0;
-  List<String> _buttonNames = [
-    'Home',
-    'Dashboard',
-    'Projects',
-    'Tasks',
-    'Reporting',
-    'Users'
-  ];
-
+  List<String> _buttonNames = ['Dashboard', 'Users'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,14 +71,14 @@ class _HomeState extends State<Home> {
               backgroundImage: NetImage().userImage,
               radius: 25,
             ),
-          ),
+          )
         ],
       ),
-      body: _adminDetailPageWidget(),
+      body: _addUserWidget(),
     );
   }
 
-  Padding _adminDetailPageWidget() {
+  Padding _addUserWidget() {
     return Padding(
       padding: ProjectPaddings().only_lTR_125_50_125,
       child: Row(
@@ -119,10 +113,12 @@ class _HomeState extends State<Home> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Şifre'),
-              SizedBox(height: 5),
               Text(
-                  'Şifrenizi değiştirmek için lütfen mevcut şifrenizi giriniz.',
+                'Kullanıcı Düzenle',
+                style: ProjectTextStyles().darkGrey_w500_s14,
+              ),
+              SizedBox(height: 5),
+              Text('Lütfen düzenlemek istediğiniz kullanıcı bilgilerini girin.',
                   style: ProjectTextStyles().grey_w400_s14),
               SizedBox(height: 20),
               Container(
@@ -130,51 +126,54 @@ class _HomeState extends State<Home> {
                 color: Colors.grey[300],
               ),
               SizedBox(height: 25),
-              Text('Yeni şifre'),
+              Text('Adı Soyadı'),
               SizedBox(height: 5),
               TextFormField(
                 // onSaved: (value) {
                 //   _viewModel.password = value;
                 // },
                 keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecorators().PasswordInput,
+                decoration: InputDecorators().EmailInput,
               ),
               SizedBox(height: 20),
-              Text('Yeni şifreyi onayla'),
+              Text('Şifre'),
               SizedBox(height: 5),
               TextFormField(
                 // onSaved: (value) {
                 //   _viewModel.password = value;
                 // },
+                obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecorators().PasswordInput,
               ),
               SizedBox(height: 5),
-              Text('Yeni şifreniz 8 karakterden uzun olmalıdır.',
+              Text('Şifre 8 karakterden uzun olmalıdır.',
                   style: ProjectTextStyles().grey_w400_s14),
               SizedBox(height: 20),
-              Text('Yeni şifreyi onayla'),
+              Text('Mail Adresi'),
               SizedBox(height: 5),
               TextFormField(
                 // onSaved: (value) {
                 //   _viewModel.password = value;
                 // },
                 keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecorators().PasswordInput,
+                decoration: InputDecorators().EmailInput,
               ),
               SizedBox(height: 45),
               SizedBox(
                 width: double.maxFinite,
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.back();
+                      },
                       child: Text(
                         'İptal',
                         style: ProjectTextStyles().darkGrey_w500_s14,
                       )),
                   SizedBox(width: 10),
                   ElevatedButton(
-                      onPressed: () {}, child: Text('Şifreyi Güncelle'))
+                      onPressed: () {}, child: Text('Kullanıcı Düzenle'))
                 ]),
               )
             ],

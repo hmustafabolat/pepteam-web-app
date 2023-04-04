@@ -5,7 +5,7 @@ import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/constants/project_text_styles.dart';
 import 'package:ss_test/constants/text_field_input_decorations.dart';
-import 'package:ss_test/view/home.dart';
+import 'package:ss_test/view/dashboard_page.dart';
 import 'package:ss_test/viewModel/auth_viewModel.dart';
 
 import 'forgot_password.dart';
@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text('Email'),
                         SizedBox(height: 5),
                         TextFormField(
-                          onSaved: (value) {
+                          onChanged: (value) {
                             _viewModel.email = value;
                           },
                           keyboardType: TextInputType.visiblePassword,
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text('Şifre'),
                         SizedBox(height: 5),
                         TextFormField(
-                          onSaved: (value) {
+                          onChanged: (value) {
                             _viewModel.password = value;
                           },
                           keyboardType: TextInputType.visiblePassword,
@@ -80,7 +80,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8))),
                           onPressed: () {
-                            Get.to(Home());
+                            _viewModel.signIn().then((value) {
+                              print("Value + ${value}");
+                              if (value) {
+                                Get.to(DashboardPage());
+                              } else {
+                                print("HATA");
+                              }
+                            });
                           },
                           child: Text('Giriş Yap',
                               style: ProjectTextStyles().white_w500_s15)),
