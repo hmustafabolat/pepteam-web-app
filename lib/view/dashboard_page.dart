@@ -5,17 +5,19 @@ import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/view/user_editing_page.dart';
+import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({Key? key}) : super(key: key);
+  DashboardPage({Key? key}) : super(key: key);
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  final DashboardViewModel _dashboardViewModel = DashboardViewModel();
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users'];
 
@@ -107,6 +109,12 @@ class _DashboardPageState extends State<DashboardPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        print("test");
+                        _dashboardViewModel.getAlarms();
+                      },
+                      child: Text("Buna bas")),
                   _containerWidget1(),
                   _containerWidget2(),
                   _containerWidget3(),
