@@ -41,6 +41,11 @@ class ProjectTextStyles {
           fontSize: 12,
           fontWeight: FontWeight.w400,
           color: ProjectCustomColors().customDarkBlue));
+  final TextStyle white_w400_s12 = GoogleFonts.inter(
+      textStyle: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: ProjectCustomColors().customWhiteText));
 
   final TextStyle darkBlue_w600_s24 = GoogleFonts.inter(
       textStyle: TextStyle(

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
+import 'package:ss_test/constants/widgets/dropDown_widget.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
@@ -157,92 +158,96 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           children: [
             _dasboardPageWidget(),
-            Padding(
-              padding: ProjectPaddings().only_rL,
-              child: Column(
-                children: [
-                  Card(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: ProjectPaddings().only_lT_45_30,
-                        child: Text(
-                          "Sales Report",
-                          style: ProjectTextStyles().darkBlue_w600_s24,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(40.0),
-                        child: SfCartesianChart(
-                            primaryXAxis: NumericAxis(
-                              isVisible: true,
-                              minimum: 1,
-                              maximum: 12,
-                            ),
-                            primaryYAxis: NumericAxis(isVisible: false),
-                            series: <ChartSeries>[
-                              SplineSeries<ChartData, int>(
-                                  dataSource: chartData,
-                                  color: ProjectCustomColors().customPurple,
-                                  splineType: SplineType.cardinal,
-                                  cardinalSplineTension: 0.9,
-                                  xValueMapper: (ChartData data, _) => data.x,
-                                  yValueMapper: (ChartData data, _) => data.y),
-                              SplineSeries<ChartData, int>(
-                                  dataSource: chartData,
-                                  color:
-                                      ProjectCustomColors().customPalePurple2,
-                                  splineType: SplineType.cardinal,
-                                  cardinalSplineTension: 0.9,
-                                  xValueMapper: (ChartData data, _) => data.x,
-                                  yValueMapper: (ChartData data, _) => data.y2),
-                            ]),
-                      ),
-                    ],
-                  )),
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Card(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: ProjectPaddings().only_lT_45_30,
-                        child: Text(
-                          "Store Traffic",
-                          style: ProjectTextStyles().darkBlue_w600_s24,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(40.0),
-                        child: SfCartesianChart(
-                          primaryXAxis: CategoryAxis(isVisible: true),
-                          primaryYAxis: CategoryAxis(isVisible: false),
-                          series: <ChartSeries>[
-                            StackedColumnSeries<ChartData2, String>(
-                              dataSource: chartData2,
-                              color: ProjectCustomColors().customPurple,
-                              xValueMapper: (ChartData2 data, _) => data.x!,
-                              yValueMapper: (ChartData2 data, _) => data.y2!,
-                            ),
-                            StackedColumnSeries<ChartData2, String>(
-                              dataSource: chartData2,
-                              color: ProjectCustomColors().customPalePurple2,
-                              xValueMapper: (ChartData2 data, _) => data.x!,
-                              yValueMapper: (ChartData2 data, _) => data.y1!,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )),
-                ],
-              ),
-            )
+            _dashboardChartsWidget(chartData, chartData2)
           ],
         ),
+      ),
+    );
+  }
+
+  Padding _dashboardChartsWidget(
+      List<ChartData> chartData, List<ChartData2> chartData2) {
+    return Padding(
+      padding: ProjectPaddings().only_rL,
+      child: Column(
+        children: [
+          Card(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: ProjectPaddings().only_lT_45_30,
+                child: Text(
+                  "Sales Report",
+                  style: ProjectTextStyles().darkBlue_w600_s24,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(40.0),
+                child: SfCartesianChart(
+                    primaryXAxis: NumericAxis(
+                      isVisible: true,
+                      minimum: 1,
+                      maximum: 12,
+                    ),
+                    primaryYAxis: NumericAxis(isVisible: false),
+                    series: <ChartSeries>[
+                      SplineSeries<ChartData, int>(
+                          dataSource: chartData,
+                          color: ProjectCustomColors().customPurple,
+                          splineType: SplineType.cardinal,
+                          cardinalSplineTension: 0.9,
+                          xValueMapper: (ChartData data, _) => data.x,
+                          yValueMapper: (ChartData data, _) => data.y),
+                      SplineSeries<ChartData, int>(
+                          dataSource: chartData,
+                          color: ProjectCustomColors().customPalePurple2,
+                          splineType: SplineType.cardinal,
+                          cardinalSplineTension: 0.9,
+                          xValueMapper: (ChartData data, _) => data.x,
+                          yValueMapper: (ChartData data, _) => data.y2),
+                    ]),
+              ),
+            ],
+          )),
+          SizedBox(
+            height: 100,
+          ),
+          Card(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: ProjectPaddings().only_lT_45_30,
+                child: Text(
+                  "Store Traffic",
+                  style: ProjectTextStyles().darkBlue_w600_s24,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(40.0),
+                child: SfCartesianChart(
+                  primaryXAxis: CategoryAxis(isVisible: true),
+                  primaryYAxis: CategoryAxis(isVisible: false),
+                  series: <ChartSeries>[
+                    StackedColumnSeries<ChartData2, String>(
+                      dataSource: chartData2,
+                      color: ProjectCustomColors().customPurple,
+                      xValueMapper: (ChartData2 data, _) => data.x!,
+                      yValueMapper: (ChartData2 data, _) => data.y2!,
+                    ),
+                    StackedColumnSeries<ChartData2, String>(
+                      dataSource: chartData2,
+                      color: ProjectCustomColors().customPalePurple2,
+                      xValueMapper: (ChartData2 data, _) => data.x!,
+                      yValueMapper: (ChartData2 data, _) => data.y1!,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )),
+        ],
       ),
     );
   }
@@ -256,9 +261,15 @@ class _DashboardPageState extends State<DashboardPage> {
           Expanded(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                "Analysis",
-                style: ProjectTextStyles().darkBlue_w600_s30,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Analysis",
+                    style: ProjectTextStyles().darkBlue_w600_s30,
+                  ),
+                  MyDropDownButton(),
+                ],
               ),
               SizedBox(
                 height: 10,
@@ -267,8 +278,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 "Sensor Datas",
                 style: ProjectTextStyles().grey_w400_s12,
               ),
+              Text(""),
               SizedBox(
-                height: 100,
+                height: 80,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -296,6 +308,7 @@ class _DashboardPageState extends State<DashboardPage> {
       width: 450,
       height: 130,
       decoration: BoxDecoration(
+          color: ProjectCustomColors().containerBackground,
           border:
               Border.all(width: 2, color: ProjectCustomColors().customGrey2),
           borderRadius: BorderRadius.circular(20)),
@@ -308,42 +321,37 @@ class _DashboardPageState extends State<DashboardPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Avg. Order Value",
+                  "Alarm Durumu",
                   style: ProjectTextStyles().black_w400_s12,
                 ),
                 Text(
-                  "91,42",
+                  "91 Derece",
                   style: ProjectTextStyles().darkBlue_w600_s30,
                 ),
               ],
             ),
-            Padding(
-              padding: ProjectPaddings().only_rT,
-              child: Row(
-                children: [
-                  Container(
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: ProjectCustomColors().customRed,
                     ),
-                    width: 55,
-                    height: 25,
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.arrow_drop_up,
-                          color: ProjectCustomColors().customRedText,
-                        ),
-                        Text(
-                          "20%",
-                          style: TextStyle(
-                              color: ProjectCustomColors().customRedText),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Date",
+                          ),
                         )
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -368,41 +376,34 @@ class _DashboardPageState extends State<DashboardPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Today's Orders",
+                  "Pompa Durumu",
                   style: ProjectTextStyles().black_w400_s12,
                 ),
                 Text(
-                  "14",
+                  "Aktif",
                   style: ProjectTextStyles().darkBlue_w600_s30,
                 ),
               ],
             ),
             Padding(
-              padding: ProjectPaddings().only_rT,
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: ProjectCustomColors().customGreen,
-                    ),
-                    width: 55,
-                    height: 25,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_drop_up,
-                          color: ProjectCustomColors().customGreenText,
-                        ),
-                        Text(
-                          "12%",
-                          style: TextStyle(
-                              color: ProjectCustomColors().customGreenText),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: ProjectCustomColors().customGreen,
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Date",
+                        style: TextStyle(
+                            color: ProjectCustomColors().customGreenText),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -428,42 +429,14 @@ class _DashboardPageState extends State<DashboardPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Today's Revenue",
+                  "Cihaz Konumu",
                   style: ProjectTextStyles().black_w400_s12,
                 ),
                 Text(
-                  "1,290",
+                  "Ankara",
                   style: ProjectTextStyles().darkBlue_w600_s30,
                 ),
               ],
-            ),
-            Padding(
-              padding: ProjectPaddings().only_rT,
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: ProjectCustomColors().customGreen,
-                    ),
-                    width: 55,
-                    height: 25,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_drop_up,
-                          color: ProjectCustomColors().customGreenText,
-                        ),
-                        Text(
-                          "20%",
-                          style: TextStyle(
-                              color: ProjectCustomColors().customGreenText),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
           ],
         ),

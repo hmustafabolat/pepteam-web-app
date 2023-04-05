@@ -11,7 +11,9 @@ class ProjectCustomColors {
   final Color customGrey2 = Color.fromARGB(88, 182, 182, 182);
   final Color customGreen = Color.fromARGB(69, 131, 255, 53);
   final Color customGreenText = Color.fromARGB(230, 65, 152, 11);
-  final Color customRed = Color.fromARGB(69, 255, 31, 31);
-  final Color customRedText = Color.fromARGB(230, 255, 31, 31);
+  final Color customRed = Color.fromARGB(206, 255, 53, 53);
+  final Color customRedText = Color.fromARGB(230, 255, 64, 64);
   final Color customPalePurple2 = Color.fromARGB(255, 195, 167, 255);
+  final Color containerBackground = Color.fromRGBO(234, 95, 95, 0.7);
+  final Color customWhiteText = Colors.white;
 }
