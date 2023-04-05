@@ -23,7 +23,7 @@ class _DashboardPageState extends State<DashboardPage> {
   final DashboardViewModel _dashboardViewModel = DashboardViewModel();
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users'];
-
+  String? selectedOption;
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
@@ -268,7 +268,12 @@ class _DashboardPageState extends State<DashboardPage> {
                     "Analysis",
                     style: ProjectTextStyles().darkBlue_w600_s30,
                   ),
-                  MyDropDownButton(),
+                  MyDropDownButton(
+                    selectedFunction: (selected) {
+                      selectedOption = selected;
+                      setState(() {});
+                    },
+                  ),
                 ],
               ),
               SizedBox(
@@ -278,7 +283,13 @@ class _DashboardPageState extends State<DashboardPage> {
                 "Sensor Datas",
                 style: ProjectTextStyles().grey_w400_s12,
               ),
-              Text(""),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "${selectedOption ?? ""}",
+                style: ProjectTextStyles().darkBlue_w600_s24,
+              ),
               SizedBox(
                 height: 80,
               ),
@@ -290,12 +301,12 @@ class _DashboardPageState extends State<DashboardPage> {
                   _containerWidget3(),
                 ],
               ),
-              ElevatedButton(
+              /*  ElevatedButton(
                   onPressed: () {
                     print("test");
                     _dashboardViewModel.getAlarms();
                   },
-                  child: Text("Buna bas")),
+                  child: Text("Buna bas")), */
             ]),
           ),
         ],
