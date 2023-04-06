@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -292,8 +294,8 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    print("test");
-                    _dashboardViewModel.getAlarms();
+                    // print("test");
+                    // _dashboardViewModel.getPumps();
                   },
                   child: Text("Buna bas")),
             ]),
@@ -360,6 +362,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Container _containerWidget2() {
+    final DashboardViewModel controller = Get.put(DashboardViewModel());
     return Container(
       width: 450,
       height: 130,
@@ -379,10 +382,38 @@ class _DashboardPageState extends State<DashboardPage> {
                   "Pompa Durumu",
                   style: ProjectTextStyles().black_w400_s12,
                 ),
-                Text(
-                  "Aktif",
-                  style: ProjectTextStyles().darkBlue_w600_s30,
+
+                Container(
+                  height: 50,
+                  width: 300,
+                  child: StreamBuilder<List<String>>(
+                    stream: controller.pumpStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+
+                      if (!snapshot.hasData) {
+                        return CircularProgressIndicator();
+                      }
+                      List<String> pumps = snapshot.data!;
+
+                        return ListView.builder(
+                          itemCount: pumps.length,
+                          itemBuilder: (context, index) {
+                            return Text(pumps[index]);
+                          },
+                        );
+                    },
+                  ),
                 ),
+
+
+
+                // Text(
+                //   "Aktif",
+                //   style: ProjectTextStyles().darkBlue_w600_s30,
+                // ),
               ],
             ),
             Padding(
