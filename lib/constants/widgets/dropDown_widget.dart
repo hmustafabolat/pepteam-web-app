@@ -4,6 +4,8 @@ import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_text_styles.dart';
 
 class MyDropDownButton extends StatefulWidget {
+  final Function(String? selectedOption)? selectedFunction;
+  MyDropDownButton({this.selectedFunction});
   @override
   _MyDropDownButtonState createState() => _MyDropDownButtonState();
 }
@@ -12,32 +14,29 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
   String? _selectedOption;
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: FirebaseFirestore.instance
           .collection('Users')
           .doc('User1')
           .collection('Devices')
-          .orderBy('Devices', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          print("#1");
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.connectionState == ConnectionState.active) {
+        print(snapshot.data?.docs.length);
+
+        if (snapshot.hasData) {
           print("#2");
           print(snapshot.data!.docs.length);
           List<DropdownMenuItem> dropdownItems = [];
-          snapshot.data!.docs.forEach((doc) {
-            print(doc);
+          for (var doc in snapshot.data!.docs) {
+            print(doc.data());
+
             dropdownItems.add(
               DropdownMenuItem(
-                child: Text(doc['DeviceName']),
-                value: doc['DeviceName'],
+                child: Text(doc.data()["DeviceName"] ?? ""),
+                value: doc.data()["DeviceName"] ?? "",
               ),
             );
-          });
+          }
           print("#3");
           return Container(
             decoration: BoxDecoration(
@@ -60,12 +59,16 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
                 onChanged: (value) {
                   setState(() {
                     _selectedOption = value;
-                    print("#4");
+                    if (widget.selectedFunction != null)
+                      widget.selectedFunction!(_selectedOption);
+
+                    print("SECİLEN CİHAZA ${_selectedOption}");
                   });
                   print("#5: selected value: $value");
                 }),
           );
         }
+
         return SizedBox();
       },
     );
