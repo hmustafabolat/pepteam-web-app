@@ -24,6 +24,7 @@ class DashboardViewModel extends GetxController {
           .snapshots()
         .listen((data) {
       List<String> items = [];
+
       data.docs.forEach((doc) {
         items.add(doc['PumpState']);
       });

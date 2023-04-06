@@ -11,8 +11,8 @@ class Pump {
 
   factory Pump.fromSnapshot(DocumentSnapshot snapshot) {
     return Pump(
-        pumpState: snapshot['request status'],
-        time: snapshot['statement']
+        pumpState: snapshot['PumpState'],
+        time: snapshot['Time']
     );
   }
 }

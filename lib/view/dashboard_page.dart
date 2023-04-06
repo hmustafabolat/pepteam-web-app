@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -10,9 +8,7 @@ import 'package:ss_test/constants/widgets/dropDown_widget.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
-import '../constants/text_field_input_decorations.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage({Key? key}) : super(key: key);
@@ -412,7 +408,8 @@ class _DashboardPageState extends State<DashboardPage> {
                         return ListView.builder(
                           itemCount: pumps.length,
                           itemBuilder: (context, index) {
-                            return Text(pumps[index]);
+                            return
+                                Text(pumps[index]);
                           },
                         );
                     },
