@@ -171,6 +171,9 @@ class _DashboardPageState extends State<DashboardPage> {
       padding: ProjectPaddings().only_rL,
       child: Column(
         children: [
+          SizedBox(
+            height: 40,
+          ),
           Card(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

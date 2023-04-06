@@ -62,7 +62,7 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
                     if (widget.selectedFunction != null)
                       widget.selectedFunction!(_selectedOption);
 
-                    print("SECİLEN CİHAZA ${_selectedOption}");
+                    print("Seçilen Cihaz: ${_selectedOption}");
                   });
                   print("#5: selected value: $value");
                 }),
