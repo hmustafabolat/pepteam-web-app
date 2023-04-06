@@ -15,9 +15,9 @@ class DashboardViewModel extends GetxController {
     super.onInit();
     _firestore
         .collection("Users")
-          .doc("Users1")
+          .doc("User1")
           .collection("Devices")
-          .doc("Devices1")
+          .doc("Device1")
           .collection("Pump")
           .orderBy("Time",descending: true)
           .limit(1)
@@ -25,7 +25,7 @@ class DashboardViewModel extends GetxController {
         .listen((data) {
       List<String> items = [];
       data.docs.forEach((doc) {
-        items.add(doc['name']);
+        items.add(doc['PumpState']);
       });
       _pumpController.add(items);
     });
