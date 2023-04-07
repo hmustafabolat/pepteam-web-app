@@ -5,12 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
+import 'package:ss_test/constants/widgets/card_widget.dart';
+import 'package:ss_test/constants/widgets/charts_widget.dart';
 import 'package:ss_test/constants/widgets/dropDown_widget.dart';
 import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../model/device_model.dart';
 import '../model/pump_model.dart';
@@ -23,7 +24,9 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final DashboardViewModel _dashboardViewModel = DashboardViewModel();
+  final DashboardViewModel controller3 = Get.put(DashboardViewModel());
+  final DashboardViewModel controller = Get.put(DashboardViewModel());
+  final DashboardViewModel controller2 = Get.put(DashboardViewModel());
 
   final dateFormat = DateFormat('dd.MM.yyyy');
 
@@ -32,78 +35,6 @@ class _DashboardPageState extends State<DashboardPage> {
   Device? selectedOption;
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData(01, 35, 30),
-      ChartData(02, 13, 10),
-      ChartData(03, 34, 30),
-      ChartData(04, 27, 20),
-      ChartData(05, 40, 30),
-      ChartData(06, 35, 28),
-      ChartData(07, 13, 8),
-      ChartData(08, 34, 28),
-      ChartData(09, 27, 20),
-      ChartData(10, 40, 32),
-      ChartData(11, 35, 28),
-      ChartData(12, 13, 8),
-    ];
-    final List<ChartData2> chartData2 = [
-      ChartData2('Jan', 12, 10),
-      ChartData2(
-        'Feb',
-        14,
-        11,
-      ),
-      ChartData2(
-        'Mar',
-        16,
-        10,
-      ),
-      ChartData2(
-        'Apr',
-        18,
-        16,
-      ),
-      ChartData2(
-        'May',
-        18,
-        16,
-      ),
-      ChartData2(
-        'Jun',
-        18,
-        16,
-      ),
-      ChartData2(
-        'Jul',
-        18,
-        16,
-      ),
-      ChartData2(
-        'Aug',
-        18,
-        16,
-      ),
-      ChartData2(
-        'Sep',
-        18,
-        16,
-      ),
-      ChartData2(
-        'Oct',
-        18,
-        16,
-      ),
-      ChartData2(
-        'Nov',
-        18,
-        16,
-      ),
-      ChartData2(
-        'Dec',
-        18,
-        16,
-      ),
-    ];
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -163,387 +94,191 @@ class _DashboardPageState extends State<DashboardPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _dasboardPageWidget(),
-            SizedBox(
-              height: 60,
-            ),
-            _dashboardChartsWidget(chartData, chartData2)
-          ],
-        ),
-      ),
-    );
-  }
-
-  Padding _dashboardChartsWidget(
-      List<ChartData> chartData, List<ChartData2> chartData2) {
-    return Padding(
-      padding: ProjectPaddings().only_rL,
-      child: Column(
-        children: [
-          Card(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: ProjectPaddings().only_lT_45_30,
-                child: Text(
-                  "Sales Report",
-                  style: ProjectTextStyles().darkBlue_w600_s24,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(40.0),
-                child: SfCartesianChart(
-                    primaryXAxis: NumericAxis(
-                      isVisible: true,
-                      minimum: 1,
-                      maximum: 12,
-                    ),
-                    primaryYAxis: NumericAxis(isVisible: false),
-                    series: <ChartSeries>[
-                      SplineSeries<ChartData, int>(
-                          dataSource: chartData,
-                          color: ProjectCustomColors().customPurple,
-                          splineType: SplineType.cardinal,
-                          cardinalSplineTension: 0.9,
-                          xValueMapper: (ChartData data, _) => data.x,
-                          yValueMapper: (ChartData data, _) => data.y),
-                      SplineSeries<ChartData, int>(
-                          dataSource: chartData,
-                          color: ProjectCustomColors().customPalePurple2,
-                          splineType: SplineType.cardinal,
-                          cardinalSplineTension: 0.9,
-                          xValueMapper: (ChartData data, _) => data.x,
-                          yValueMapper: (ChartData data, _) => data.y2),
-                    ]),
-              ),
-            ],
-          )),
-          SizedBox(
-            height: 100,
-          ),
-          Card(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: ProjectPaddings().only_lT_45_30,
-                child: Text(
-                  "Store Traffic",
-                  style: ProjectTextStyles().darkBlue_w600_s24,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(40.0),
-                child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(isVisible: true),
-                  primaryYAxis: CategoryAxis(isVisible: false),
-                  series: <ChartSeries>[
-                    StackedColumnSeries<ChartData2, String>(
-                      dataSource: chartData2,
-                      color: ProjectCustomColors().customPurple,
-                      xValueMapper: (ChartData2 data, _) => data.x!,
-                      yValueMapper: (ChartData2 data, _) => data.y2!,
-                    ),
-                    StackedColumnSeries<ChartData2, String>(
-                      dataSource: chartData2,
-                      color: ProjectCustomColors().customPalePurple2,
-                      xValueMapper: (ChartData2 data, _) => data.x!,
-                      yValueMapper: (ChartData2 data, _) => data.y1!,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )),
-        ],
-      ),
-    );
-  }
-
-  Padding _dasboardPageWidget() {
-    final DashboardViewModel controller3 = Get.put(DashboardViewModel());
-
-    return Padding(
-      padding: ProjectPaddings().only_lTR_125_50_125,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ElevatedButton(
-          //   onPressed: () {
-          //     print(controller3.devices.length);
-          //     print(controller3.devices[0].deviceName);
-          //   },
-          //   child: Text("buna bas"),
-          // ),
-          Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Padding(
+              padding: ProjectPaddings().only_lTR_125_50_125,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Analysis",
-                    style: ProjectTextStyles().darkBlue_w600_s30,
-                  ),
-                  MyDropDownButton(
-                      // selectedFunction: (selected) {
-                      //   log("selected func calisti");
-                      //   selectedOption = selected;
-                      //   setState(() {});
-                      // },
-                      ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Sensor Datas",
-                style: ProjectTextStyles().grey_w400_s12,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                "${selectedOption?.deviceName ?? ""}",
-                style: ProjectTextStyles().darkBlue_w600_s24,
-              ),
-              SizedBox(
-                height: 60,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _containerWidget1(),
-                  _containerWidget2(),
-                  _containerWidget3(),
-                ],
-              ),
-            ]),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container _containerWidget3() {
-    final DashboardViewModel controller2 = Get.put(DashboardViewModel());
-
-    return Container(
-      width: 450,
-      height: 130,
-      decoration: BoxDecoration(
-          color: ProjectCustomColors().containerBackground,
-          border:
-              Border.all(width: 2, color: ProjectCustomColors().customGrey2),
-          borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: ProjectPaddings().only_lT,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Alarm Durumu",
-                  style: ProjectTextStyles().black_w400_s12,
-                ),
-                Container(
-                  height: 50,
-                  width: 300,
-                  child: StreamBuilder<List<Alarm>>(
-                    stream: controller2.alarmModelStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-
-                      if (!snapshot.hasData) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      List<Alarm> alarm = snapshot.data!;
-
-                      return ListView.builder(
-                        itemCount: alarm.length,
-                        itemBuilder: (context, index) {
-                          DateTime time = alarm[index].time;
-
-                          return Row(
+                  Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                alarm[index].alarmState.toString(),
-                                style: ProjectTextStyles().darkGrey_w500_s14,
+                                "Analysis",
+                                style: ProjectTextStyles().darkBlue_w600_s30,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: ProjectCustomColors().customRed,
-                                    ),
-                                    child: Row(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          dateFormat.format(time),
-                                        ),
-                                      )
-                                    ])),
-                              ),
+                              MyDropDownButton(),
                             ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container _containerWidget2() {
-    final DashboardViewModel controller = Get.put(DashboardViewModel());
-    return Container(
-      width: 450,
-      height: 130,
-      decoration: BoxDecoration(
-          border:
-              Border.all(width: 2, color: ProjectCustomColors().customGrey2),
-          borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: ProjectPaddings().only_lT,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Pompa Durumu",
-              style: ProjectTextStyles().black_w400_s12,
-            ),
-
-            Container(
-              height: 50,
-              width: double.maxFinite,
-              child: StreamBuilder<List<Pump>>(
-                stream: controller.pumpModelStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  List<Pump> pumps = snapshot.data!;
-
-                  return ListView.builder(
-                    itemCount: pumps.length,
-                    itemBuilder: (context, index) {
-                      String pumpState = pumps[index].pumpState;
-                      DateTime time = pumps[index].time;
-
-                      if (pumpState == 'activated') {
-                        pumpState = 'Aktif';
-                      } else if (pumpState == 'decativated') {
-                        pumpState = 'Pasif';
-                      }
-
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
-                            pumpState,
-                            style: ProjectTextStyles().darkBlue_w600_s30,
+                            "Sensor Datas",
+                            style: ProjectTextStyles().grey_w400_s12,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: ProjectCustomColors().customGreen,
-                              ),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      dateFormat.format(time),
-                                      style: TextStyle(
-                                          color: ProjectCustomColors()
-                                              .customGreenText),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                          SizedBox(
+                            height: 30,
                           ),
-                        ],
-                      );
-                    },
-                  );
-                },
+                          Text(
+                            "${selectedOption?.deviceName ?? ""}",
+                            style: ProjectTextStyles().darkBlue_w600_s24,
+                          ),
+                          SizedBox(
+                            height: 60,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CardWidget(),
+                              CardWidgets(
+                                itemTextState: "Pompa Durumu",
+                                containerChildState: StreamBuilder<List<Pump>>(
+                                  stream: controller.pumpModelStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    }
+
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                    List<Pump> pumps = snapshot.data!;
+
+                                    return ListView.builder(
+                                      itemCount: pumps.length,
+                                      itemBuilder: (context, index) {
+                                        String pumpState =
+                                            pumps[index].pumpState;
+                                        DateTime time = pumps[index].time;
+
+                                        if (pumpState == 'activated') {
+                                          pumpState = 'Aktif';
+                                        } else if (pumpState == 'decativated') {
+                                          pumpState = 'Pasif';
+                                        }
+
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              pumpState,
+                                              style: ProjectTextStyles()
+                                                  .darkBlue_w600_s30,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: ProjectCustomColors()
+                                                      .customGreen,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        dateFormat.format(time),
+                                                        style: TextStyle(
+                                                            color: ProjectCustomColors()
+                                                                .customGreenText),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              CardWidgets(
+                                itemTextState: "Alarm Durumu",
+                                containerChildState: StreamBuilder<List<Alarm>>(
+                                  stream: controller2.alarmModelStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    }
+
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                    List<Alarm> alarm = snapshot.data!;
+
+                                    return ListView.builder(
+                                      itemCount: alarm.length,
+                                      itemBuilder: (context, index) {
+                                        DateTime time = alarm[index].time;
+
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              alarm[index]
+                                                  .alarmState
+                                                  .toString(),
+                                              style: ProjectTextStyles()
+                                                  .darkGrey_w500_s14,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: ProjectCustomColors()
+                                                        .customRed,
+                                                  ),
+                                                  child: Row(children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        dateFormat.format(time),
+                                                      ),
+                                                    )
+                                                  ])),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 60,
+                          ),
+                          ChartsWidget(),
+                        ]),
+                  ),
+                ],
               ),
             ),
-
-            // Text(
-            //   "Aktif",
-            //   style: ProjectTextStyles().darkBlue_w600_s30,
-            // ),
           ],
         ),
       ),
     );
   }
-
-  Container _containerWidget1() {
-    return Container(
-      width: 450,
-      height: 130,
-      decoration: BoxDecoration(
-          border:
-              Border.all(width: 2, color: ProjectCustomColors().customGrey2),
-          borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: ProjectPaddings().only_lT,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Cihaz Konumu",
-                  style: ProjectTextStyles().black_w400_s12,
-                ),
-                Text(
-                  "Ankara",
-                  style: ProjectTextStyles().darkBlue_w600_s30,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ChartData {
-  ChartData(this.x, this.y, this.y2);
-  final int? x;
-  final int? y;
-  final int? y2;
-}
-
-class ChartData2 {
-  ChartData2(this.x, this.y1, this.y2);
-  final String? x;
-  final int? y1;
-  final int? y2;
 }
