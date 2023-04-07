@@ -3,43 +3,86 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/model/alarm_model.dart';
+import 'package:ss_test/model/device_model.dart';
+import 'package:ss_test/model/pump_model.dart';
+
 
 class DashboardViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  StreamController<List<String>> _pumpController = StreamController<List<String>>();
-  Stream<List<String>> get pumpStream => _pumpController.stream;
+
+  StreamController<List<Pump>> _pumpModelController = StreamController<List<Pump>>();
+  Stream<List<Pump>> get pumpModelStream => _pumpModelController.stream;
+
+  StreamController<List<Alarm>> _alarmModelController = StreamController<List<Alarm>>();
+  Stream<List<Alarm>> get alarmModelStream => _alarmModelController.stream;
+
+  List<Device> devices = [];
 
   @override
   void onInit() {
     super.onInit();
+
     _firestore
         .collection("Users")
-          .doc("User1")
-          .collection("Devices")
-          .doc("Device1")
-          .collection("Pump")
-          .orderBy("Time",descending: true)
-          .limit(1)
-          .snapshots()
+        .doc("User1")
+        .collection("Devices")
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Device tempDevice = Device.fromSnapshot(doc);
+        devices.add(tempDevice);
+        print("Ekelenen device id: " + devices.last.id);
+      });
+    });
+
+    _firestore
+        .collection("Users")
+        .doc("User1")
+        .collection("Devices")
+        .doc("Device1") // Secilen device a göre hareket edicek selected device.id
+        .collection("Pump")
+        .orderBy("Time", descending: true)
+        .limit(1)
+        .snapshots()
         .listen((data) {
-      List<String> items = [];
+      List<Pump> pumps = [];
 
       data.docs.forEach((doc) {
-        items.add(doc['PumpState']);
+        log(doc['PumpState'].toString());
+        pumps.add(Pump.fromSnapshot(doc));
+        print("Modelden gelen : " + pumps.last.pumpState);
       });
-      _pumpController.add(items);
+      _pumpModelController.add(pumps);
+    });
+
+    _firestore
+        .collection("Users")
+        .doc("User1")
+        .collection("Devices")
+        .doc("Device1")
+        .collection("Alarms")
+        .orderBy("Time", descending: true)
+        .limit(1)
+        .snapshots()
+        .listen((data) {
+      List<Alarm> alarms = [];
+
+      data.docs.forEach((doc) {
+        alarms.add(Alarm.fromSnapshot(doc));
+      });
+      _alarmModelController.add(alarms);
     });
   }
 
   @override
   void onClose() {
-    _pumpController.close();
+    _pumpModelController.close();
+    _alarmModelController.close();
     super.onClose();
   }
 
-
-  Future<List<Alarm>> getAlarms() async {
+/* Future<List<Alarm>> getAlarms() async {
     log("get alarm");
     List<Alarm> tempList = [];
     await _firestore
@@ -66,5 +109,5 @@ class DashboardViewModel extends GetxController {
     });
 
     return tempList;
-  }
+  } */
 }

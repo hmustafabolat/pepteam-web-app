@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/constants/widgets/dropDown_widget.dart';
+import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../model/device_model.dart';
+import '../model/pump_model.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage({Key? key}) : super(key: key);
@@ -19,9 +24,12 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   final DashboardViewModel _dashboardViewModel = DashboardViewModel();
+
+  final dateFormat = DateFormat('dd.MM.yyyy');
+
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users'];
-  String? selectedOption;
+  Device? selectedOption;
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
@@ -156,6 +164,9 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           children: [
             _dasboardPageWidget(),
+            SizedBox(
+              height: 60,
+            ),
             _dashboardChartsWidget(chartData, chartData2)
           ],
         ),
@@ -169,9 +180,6 @@ class _DashboardPageState extends State<DashboardPage> {
       padding: ProjectPaddings().only_rL,
       child: Column(
         children: [
-          SizedBox(
-            height: 40,
-          ),
           Card(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,11 +262,20 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Padding _dasboardPageWidget() {
+    final DashboardViewModel controller3 = Get.put(DashboardViewModel());
+
     return Padding(
       padding: ProjectPaddings().only_lTR_125_50_125,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ElevatedButton(
+          //   onPressed: () {
+          //     print(controller3.devices.length);
+          //     print(controller3.devices[0].deviceName);
+          //   },
+          //   child: Text("buna bas"),
+          // ),
           Expanded(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -270,11 +287,12 @@ class _DashboardPageState extends State<DashboardPage> {
                     style: ProjectTextStyles().darkBlue_w600_s30,
                   ),
                   MyDropDownButton(
-                    selectedFunction: (selected) {
-                      selectedOption = selected;
-                      setState(() {});
-                    },
-                  ),
+                      // selectedFunction: (selected) {
+                      //   log("selected func calisti");
+                      //   selectedOption = selected;
+                      //   setState(() {});
+                      // },
+                      ),
                 ],
               ),
               SizedBox(
@@ -288,11 +306,11 @@ class _DashboardPageState extends State<DashboardPage> {
                 height: 30,
               ),
               Text(
-                "${selectedOption ?? ""}",
+                "${selectedOption?.deviceName ?? ""}",
                 style: ProjectTextStyles().darkBlue_w600_s24,
               ),
               SizedBox(
-                height: 80,
+                height: 60,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -302,12 +320,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   _containerWidget3(),
                 ],
               ),
-              /*  ElevatedButton(
-                  onPressed: () {
-                    // print("test");
-                    // _dashboardViewModel.getPumps();
-                  },
-                  child: Text("Buna bas")), */
             ]),
           ),
         ],
@@ -316,6 +328,8 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Container _containerWidget3() {
+    final DashboardViewModel controller2 = Get.put(DashboardViewModel());
+
     return Container(
       width: 450,
       height: 130,
@@ -336,31 +350,54 @@ class _DashboardPageState extends State<DashboardPage> {
                   "Alarm Durumu",
                   style: ProjectTextStyles().black_w400_s12,
                 ),
-                Text(
-                  "91 Derece",
-                  style: ProjectTextStyles().darkBlue_w600_s30,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: ProjectCustomColors().customRed,
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Date",
-                          ),
-                        )
-                      ],
-                    ),
+                Container(
+                  height: 50,
+                  width: 300,
+                  child: StreamBuilder<List<Alarm>>(
+                    stream: controller2.alarmModelStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+
+                      if (!snapshot.hasData) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      List<Alarm> alarm = snapshot.data!;
+
+                      return ListView.builder(
+                        itemCount: alarm.length,
+                        itemBuilder: (context, index) {
+                          DateTime time = alarm[index].time;
+
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                alarm[index].alarmState.toString(),
+                                style: ProjectTextStyles().darkGrey_w500_s14,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: ProjectCustomColors().customRed,
+                                    ),
+                                    child: Row(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          dateFormat.format(time),
+                                        ),
+                                      )
+                                    ])),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
@@ -382,72 +419,82 @@ class _DashboardPageState extends State<DashboardPage> {
           borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: ProjectPaddings().only_lT,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Pompa Durumu",
-                  style: ProjectTextStyles().black_w400_s12,
-                ),
-
-                Container(
-                  height: 50,
-                  width: 300,
-                  child: StreamBuilder<List<String>>(
-                    stream: controller.pumpStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-
-                      if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
-                      }
-                      List<String> pumps = snapshot.data!;
-
-                        return ListView.builder(
-                          itemCount: pumps.length,
-                          itemBuilder: (context, index) {
-                            return
-                                Text(pumps[index]);
-                          },
-                        );
-                    },
-                  ),
-                ),
-
-
-
-                // Text(
-                //   "Aktif",
-                //   style: ProjectTextStyles().darkBlue_w600_s30,
-                // ),
-              ],
+            Text(
+              "Pompa Durumu",
+              style: ProjectTextStyles().black_w400_s12,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ProjectCustomColors().customGreen,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Date",
-                        style: TextStyle(
-                            color: ProjectCustomColors().customGreenText),
-                      ),
-                    )
-                  ],
-                ),
+
+            Container(
+              height: 50,
+              width: double.maxFinite,
+              child: StreamBuilder<List<Pump>>(
+                stream: controller.pumpModelStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  List<Pump> pumps = snapshot.data!;
+
+                  return ListView.builder(
+                    itemCount: pumps.length,
+                    itemBuilder: (context, index) {
+                      String pumpState = pumps[index].pumpState;
+                      DateTime time = pumps[index].time;
+
+                      if (pumpState == 'activated') {
+                        pumpState = 'Aktif';
+                      } else if (pumpState == 'decativated') {
+                        pumpState = 'Pasif';
+                      }
+
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            pumpState,
+                            style: ProjectTextStyles().darkBlue_w600_s30,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ProjectCustomColors().customGreen,
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      dateFormat.format(time),
+                                      style: TextStyle(
+                                          color: ProjectCustomColors()
+                                              .customGreenText),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
             ),
+
+            // Text(
+            //   "Aktif",
+            //   style: ProjectTextStyles().darkBlue_w600_s30,
+            // ),
           ],
         ),
       ),

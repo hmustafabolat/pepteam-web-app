@@ -1,17 +1,21 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_text_styles.dart';
 
+import '../../model/device_model.dart';
+
 class MyDropDownButton extends StatefulWidget {
-  final Function(String? selectedOption)? selectedFunction;
+  final Function(Device? selectedOption)? selectedFunction;
   MyDropDownButton({this.selectedFunction});
   @override
   _MyDropDownButtonState createState() => _MyDropDownButtonState();
 }
 
 class _MyDropDownButtonState extends State<MyDropDownButton> {
-  String? _selectedOption;
+  Device? _selectedOption;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -21,23 +25,22 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
           .collection('Devices')
           .snapshots(),
       builder: (context, snapshot) {
-        print(snapshot.data?.docs.length);
-
         if (snapshot.hasData) {
-          print("#2");
-          print(snapshot.data!.docs.length);
           List<DropdownMenuItem> dropdownItems = [];
+          List<Device> devices = [];
           for (var doc in snapshot.data!.docs) {
-            print(doc.data());
+            devices.add(Device.fromSnapshot(doc));
+            print("Device id:" + devices.last.id);
+            print("Device name:" + devices.last.deviceName);
 
             dropdownItems.add(
               DropdownMenuItem(
-                child: Text(doc.data()["DeviceName"] ?? ""),
-                value: doc.data()["DeviceName"] ?? "",
-              ),
+                  child: Text(doc.data()["DeviceName"] ?? ""),
+                  //value: doc.data()["DeviceName"] ?? "",
+                  value: devices.last),
             );
           }
-          print("#3");
+
           return Container(
             decoration: BoxDecoration(
               color: ProjectCustomColors().customPurple,
@@ -47,7 +50,9 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
             child: DropdownButton(
                 value: _selectedOption,
                 items: dropdownItems,
-                onTap: () {},
+                onTap: () {
+                  print(_selectedOption);
+                },
                 icon: Icon(Icons.add),
                 iconDisabledColor: Colors.white,
                 iconEnabledColor: Colors.white,
@@ -59,12 +64,13 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
                 onChanged: (value) {
                   setState(() {
                     _selectedOption = value;
-                    if (widget.selectedFunction != null)
+                    if (widget.selectedFunction != null) {
+                      log("if içi");
                       widget.selectedFunction!(_selectedOption);
-
-                    print("Seçilen Cihaz: ${_selectedOption}");
+                    }
                   });
-                  print("#5: selected value: $value");
+                  //   _selectedOption = value;
+                  print(_selectedOption?.deviceName);
                 }),
           );
         }
