@@ -62,7 +62,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     primary: _selectedIndex == _buttonNames.indexOf(name)
                         ? ProjectCustomColors()
                             .customPalePurple // seçili butonun rengi
-                        : Colors.transparent, // seçili olmayan butonların rengi
+                        : Color.fromARGB(0, 255, 255,
+                            255), // seçili olmayan butonların rengi
                     elevation: 0,
                   ),
                 );
@@ -223,7 +224,15 @@ class _DashboardPageState extends State<DashboardPage> {
                                     return ListView.builder(
                                       itemCount: alarm.length,
                                       itemBuilder: (context, index) {
+                                        String? alarmState =
+                                            alarm[index].alarmState;
                                         DateTime time = alarm[index].time;
+                                        if (alarmState == 'activated') {
+                                          alarmState = 'Aktif';
+                                        } else if (alarmState ==
+                                            'decativated') {
+                                          alarmState = 'Pasif';
+                                        }
 
                                         return Row(
                                           mainAxisAlignment:
@@ -234,7 +243,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                                   .alarmState
                                                   .toString(),
                                               style: ProjectTextStyles()
-                                                  .darkGrey_w500_s14,
+                                                  .darkBlue_w600_s30,
                                             ),
                                             Padding(
                                               padding:

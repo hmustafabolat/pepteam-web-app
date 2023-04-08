@@ -79,4 +79,140 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
       },
     );
   }
+} 
+
+//YÖNTEM 1
+/* class MyDropDownButton extends StatefulWidget {
+  const MyDropDownButton({super.key});
+
+  @override
+  State<MyDropDownButton> createState() => _MyDropDownButtonState();
 }
+
+class _MyDropDownButtonState extends State<MyDropDownButton> {
+  String? _selectedItem;
+  List<DropdownMenuItem<String>> items = [];
+
+  Future<void> fetchData() async {
+    QuerySnapshot snapshot = (await FirebaseFirestore.instance
+          ..collection('Users').doc('User1').collection('Devices').get())
+        as QuerySnapshot<Object?>;
+    List<DropdownMenuItem<String>> fetchedItems = [];
+    snapshot.docs.forEach((doc) {
+      fetchedItems.add(DropdownMenuItem(
+        child: Text(doc["DeviceName"]),
+        value: doc["DeviceName"],
+      ));
+    });
+
+    setState(() {
+      items = fetchedItems;
+    });
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+        value: _selectedItem,
+        items: items,
+        hint: Text("Cihaz Seç"),
+        onChanged: (value) {
+          setState(() {
+            _selectedItem = value;
+          });
+        });
+  }
+}
+ */
+//YÖNTEM 2
+/* StreamBuilder<QuerySnapshot>(
+                  stream: Firestore.instance.collection("currency").snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData)
+                      const Text("Loading.....");
+                    else {
+                      List<DropdownMenuItem> currencyItems = [];
+                      for (int i = 0; i < snapshot.data.documents.length; i++) {
+                        DocumentSnapshot snap = snapshot.data.documents[i];
+                        currencyItems.add(
+                          DropdownMenuItem(
+                            child: Text(
+                              snap.documentID,
+                              style: TextStyle(color: Color(0xff11b719)),
+                            ),
+                            value: "${snap.documentID}",
+                          ),
+                        );
+                      }
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(FontAwesomeIcons.coins,
+                              size: 25.0, color: Color(0xff11b719)),
+                          SizedBox(width: 50.0),
+                          DropdownButton(
+                            items: currencyItems,
+                            onChanged: (currencyValue) {
+                              final snackBar = SnackBar(
+                                content: Text(
+                                  'Selected Currency value is $currencyValue',
+                                  style: TextStyle(color: Color(0xff11b719)),
+                                ),
+                              );
+                              Scaffold.of(context).showSnackBar(snackBar);
+                              setState(() {
+                                selectedCurrency = currencyValue;
+                              });
+                            },
+                            value: selectedCurrency,
+                            isExpanded: false,
+                            hint: new Text(
+                              "Choose Currency Type",
+                              style: TextStyle(color: Color(0xff11b719)),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  }), */
+
+                  //YÖNTEM 3
+ /*   List<String> drinks = List();
+
+Future<List<String>> get drinks async {
+  QuerySnapshot docs = await _constantes.getDocuments();
+  List<String> res = List();
+  List<Map<String, dynamic>> datos = List();
+
+  for (var d in docs.documents) {
+    datos.add(d.data);
+  }
+
+  for (var d in datos[0]['drinks'].toList()) {
+    res.add(d.toString());
+  }
+
+  setState(() {
+    drinks = res;
+  });
+
+  return res;
+}
+
+DropdownButtonFormField(
+      hint: Text('Choose a drink'),
+      value: _currentDrink ?? 'Water',
+      items: drinks == null? []: drinks.map((drink) {
+          return DropdownMenuItem<String>(
+         child: Text(drink),
+             value: drink,
+              );
+          }).toList(),
+            onChanged: (val) => setState(() => _currentDrink = val),
+), */

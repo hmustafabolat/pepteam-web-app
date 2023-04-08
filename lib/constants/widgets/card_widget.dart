@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../model/pump_model.dart';
 import '../../viewModel/dashboard_viewModel.dart';
 import '../project_custom_colors.dart';
 import '../project_paddings.dart';
@@ -47,22 +46,6 @@ class CardWidgets extends StatelessWidget {
                       Container(
                           height: 50, width: 300, child: containerChildState),
                     ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text(""),
-                          )
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),
