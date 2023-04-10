@@ -125,7 +125,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             height: 30,
                           ),
                           Text(
-                            "${selectedOption?.deviceName ?? ""}",
+                            "${selectedOption ?? ""}",
                             style: ProjectTextStyles().darkBlue_w600_s24,
                           ),
                           SizedBox(
