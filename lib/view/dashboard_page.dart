@@ -9,10 +9,10 @@ import 'package:ss_test/constants/widgets/card_widget.dart';
 import 'package:ss_test/constants/widgets/charts_widget.dart';
 import 'package:ss_test/constants/widgets/dropDown_widget.dart';
 import 'package:ss_test/model/alarm_model.dart';
+import 'package:ss_test/storage/storage.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
-
 import '../model/device_model.dart';
 import '../model/pump_model.dart';
 
@@ -28,11 +28,21 @@ class _DashboardPageState extends State<DashboardPage> {
   final DashboardViewModel controller = Get.put(DashboardViewModel());
   final DashboardViewModel controller2 = Get.put(DashboardViewModel());
 
+
   final dateFormat = DateFormat('dd.MM.yyyy');
 
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users'];
   Device? selectedOption;
+
+  String? selectedId;
+
+  void onSelectedIdChanged(String? value) {
+    setState(() {
+      selectedId = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +121,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                 "Analysis",
                                 style: ProjectTextStyles().darkBlue_w600_s30,
                               ),
-                              MyDropDownButton(),
+                              DropButton(onSelectedIdChanged: onSelectedIdChanged),
+                              MyDropDownButton()
                             ],
                           ),
                           SizedBox(
@@ -126,6 +137,17 @@ class _DashboardPageState extends State<DashboardPage> {
                           ),
                           Text(
                             "${selectedOption ?? ""}",
+                            style: ProjectTextStyles().darkBlue_w600_s24,
+                          ),
+                          ElevatedButton(onPressed: (){
+
+                            print(selectedDevice.id);
+                            print(selectedDevice.deviceName);
+                            print('sdfsdgs');
+                          }, child: Text('elevated')),
+
+                          Text(
+                            selectedId ?? 'No device selected',
                             style: ProjectTextStyles().darkBlue_w600_s24,
                           ),
                           SizedBox(

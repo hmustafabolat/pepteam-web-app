@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/model/device_model.dart';
 import 'package:ss_test/model/pump_model.dart';
+import 'package:ss_test/storage/storage.dart';
 
 
 class DashboardViewModel extends GetxController {
@@ -18,6 +19,15 @@ class DashboardViewModel extends GetxController {
   Stream<List<Alarm>> get alarmModelStream => _alarmModelController.stream;
 
   List<Device> devices = [];
+
+  String? _selectedId;
+
+  String? get selectedId => _selectedId;
+
+  void onSelectedIdChanged(String? value) {
+    _selectedId = value;
+    update();
+  }
 
   @override
   void onInit() {
@@ -40,7 +50,7 @@ class DashboardViewModel extends GetxController {
         .collection("Users")
         .doc("User1")
         .collection("Devices")
-        .doc("Device1") // Secilen device a göre hareket edicek selected device.id
+        .doc('Device1')
         .collection("Pump")
         .orderBy("Time", descending: true)
         .limit(1)
@@ -52,6 +62,7 @@ class DashboardViewModel extends GetxController {
         log(doc['PumpState'].toString());
         pumps.add(Pump.fromSnapshot(doc));
         print("Modelden gelen : " + pumps.last.pumpState);
+
       });
       _pumpModelController.add(pumps);
     });

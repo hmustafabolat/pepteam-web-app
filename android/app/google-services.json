@@ -30,6 +30,13 @@
             {
               "client_id": "907225272590-dnsq9lqsfdujra3c3loou3m4k6s6p5ok.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "907225272590-00d1iu2j01ltttulm14om8hrpbbrmu85.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pepteam.ssTest"
+              }
             }
           ]
         }

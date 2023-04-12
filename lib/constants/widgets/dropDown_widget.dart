@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
-import 'package:ss_test/constants/project_text_styles.dart';
+import 'package:get/get.dart';
+import 'package:ss_test/storage/storage.dart';
 
 import '../../model/device_model.dart';
 
@@ -87,7 +87,7 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
   }
 }
 
-/* 
+/*
 class MyDropDownButton extends StatefulWidget {
   final Function(Device? selectedOption)? selectedFunction;
   MyDropDownButton({this.selectedFunction});
@@ -160,7 +160,7 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
       },
     );
   }
-} 
+}
 
  *///YÖNTEM 1
 /* class MyDropDownButton extends StatefulWidget {
@@ -263,8 +263,8 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
                     }
                   }), */
 
-                  //YÖNTEM 3
- /*   List<String> drinks = List();
+//YÖNTEM 3
+/*   List<String> drinks = List();
 
 Future<List<String>> get drinks async {
   QuerySnapshot docs = await _constantes.getDocuments();
@@ -297,3 +297,57 @@ DropdownButtonFormField(
           }).toList(),
             onChanged: (val) => setState(() => _currentDrink = val),
 ), */
+
+class DropButton extends StatefulWidget {
+  final void Function(String?) onSelectedIdChanged;
+
+  const DropButton({Key? key, required this.onSelectedIdChanged})
+      : super(key: key);
+
+  @override
+  State<DropButton> createState() => _DropButtonState();
+}
+
+class _DropButtonState extends State<DropButton> {
+  String? selectedId;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('Users')
+          .doc('User1')
+          .collection('Devices')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        final documents = snapshot.data!.docs;
+
+        final items = documents.map((doc) {
+          return DropdownMenuItem<String>(
+            value: doc.id,
+            child: Text(doc.id),
+          );
+        }).toList();
+
+        return DropdownButton<String>(
+          value: selectedId,
+          items: items,
+          onChanged: (String? value) {
+            setState(() {
+              selectedId = value;
+            });
+            widget.onSelectedIdChanged(value);
+          },
+        );
+      },
+    );
+  }
+}
