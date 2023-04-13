@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -40,7 +42,9 @@ class _DashboardPageState extends State<DashboardPage> {
   void onSelectedIdChanged(String? value) {
     setState(() {
       selectedId = value;
+      controller.getPump(selectedId!);
     });
+    log('fonksiyon içi');
   }
 
   @override

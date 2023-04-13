@@ -24,9 +24,38 @@ class DashboardViewModel extends GetxController {
 
   String? get selectedId => _selectedId;
 
-  void onSelectedIdChanged(String? value) {
-    _selectedId = value;
-    update();
+  // void onSelectedIdChanged(String? value) {
+  //   _selectedId = value;
+  //   getPump(_selectedId);
+  //   update();
+  //
+  //   log('fonksiyona girdi');
+  // }
+
+  void getPump(String deviceId){
+    log('fonksiyon başladı');
+    _firestore
+        .collection("Users")
+        .doc("User1")
+        .collection("Devices")
+        .doc(deviceId)
+        .collection("Pump")
+        .orderBy("Time", descending: true)
+        .limit(1)
+        .snapshots()
+        .listen((data) {
+      List<Pump> pumps = [];
+
+      data.docs.forEach((doc) {
+        log(doc['PumpState'].toString());
+        pumps.add(Pump.fromSnapshot(doc));
+        print("Modelden gelen : " + pumps.last.pumpState);
+
+      });
+      _pumpModelController.add(pumps);
+      log(pumps.last.time.toString());
+    });
+
   }
 
   @override
@@ -46,26 +75,9 @@ class DashboardViewModel extends GetxController {
       });
     });
 
-    _firestore
-        .collection("Users")
-        .doc("User1")
-        .collection("Devices")
-        .doc('Device1')
-        .collection("Pump")
-        .orderBy("Time", descending: true)
-        .limit(1)
-        .snapshots()
-        .listen((data) {
-      List<Pump> pumps = [];
-
-      data.docs.forEach((doc) {
-        log(doc['PumpState'].toString());
-        pumps.add(Pump.fromSnapshot(doc));
-        print("Modelden gelen : " + pumps.last.pumpState);
-
-      });
-      _pumpModelController.add(pumps);
-    });
+    // if(_selectedId !=  null){
+    //   getPump();
+    // }
 
     _firestore
         .collection("Users")
