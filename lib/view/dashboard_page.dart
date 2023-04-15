@@ -35,17 +35,29 @@ class _DashboardPageState extends State<DashboardPage> {
 
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users'];
+
   Device? selectedOption;
+  String? selectedName;
+
+  void onSelectedIdChanged(Device? value) {
+    setState(() {
+      selectedOption = value;
+      controller.getPump(selectedOption!.id);
+      controller.getAlarm(selectedOption!.id);
+
+      selectedName = selectedOption!.deviceName;
+    });
+  }
 
   String? selectedId;
 
-  void onSelectedIdChanged(String? value) {
-    setState(() {
-      selectedId = value;
-      controller.getPump(selectedId!);
-    });
-    log('fonksiyon içi');
-  }
+  // void onSelectedIdChanged(String? value) {
+  //   setState(() {
+  //     selectedId = value;
+  //     controller.getPump(selectedId!);
+  //     controller.getAlarm(selectedId!);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -125,8 +137,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                 "Analysis",
                                 style: ProjectTextStyles().darkBlue_w600_s30,
                               ),
-                              DropButton(onSelectedIdChanged: onSelectedIdChanged),
-                              MyDropDownButton()
+                              // DropButton(onSelectedIdChanged: onSelectedIdChanged),
+                              MyDropDownButton(selectedFunction: onSelectedIdChanged)
                             ],
                           ),
                           SizedBox(
@@ -140,20 +152,13 @@ class _DashboardPageState extends State<DashboardPage> {
                             height: 30,
                           ),
                           Text(
-                            "${selectedOption ?? ""}",
+                            selectedName ?? "Lütfen bir cihaz seçiniz!",
                             style: ProjectTextStyles().darkBlue_w600_s24,
                           ),
-                          ElevatedButton(onPressed: (){
-
-                            print(selectedDevice.id);
-                            print(selectedDevice.deviceName);
-                            print('sdfsdgs');
-                          }, child: Text('elevated')),
-
-                          Text(
-                            selectedId ?? 'No device selected',
-                            style: ProjectTextStyles().darkBlue_w600_s24,
-                          ),
+                          // Text(
+                          //   selectedId ?? 'No device selected',
+                          //   style: ProjectTextStyles().darkBlue_w600_s24,
+                          // ),
                           SizedBox(
                             height: 60,
                           ),
@@ -185,7 +190,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
                                         if (pumpState == 'activated') {
                                           pumpState = 'Aktif';
-                                        } else if (pumpState == 'decativated') {
+                                        } else if (pumpState == 'deactivated') {
                                           pumpState = 'Pasif';
                                         }
 

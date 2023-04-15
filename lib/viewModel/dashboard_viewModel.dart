@@ -20,42 +20,61 @@ class DashboardViewModel extends GetxController {
 
   List<Device> devices = [];
 
-  String? _selectedId;
+  Device? deviceId;
 
-  String? get selectedId => _selectedId;
+  void getPump(deviceId){
 
-  // void onSelectedIdChanged(String? value) {
-  //   _selectedId = value;
-  //   getPump(_selectedId);
-  //   update();
-  //
-  //   log('fonksiyona girdi');
-  // }
+    if(deviceId == null){
+      deviceId = 'Device1';
+    }
+      log('fonksiyon başladı');
+      _firestore
+          .collection("Users")
+          .doc("User1")
+          .collection("Devices")
+          .doc(deviceId)
+          .collection("Pump")
+          .orderBy("Time", descending: true)
+          .limit(1)
+          .snapshots()
+          .listen((data) {
+        List<Pump> pumps = [];
 
-  void getPump(String deviceId){
-    log('fonksiyon başladı');
+        data.docs.forEach((doc) {
+          log(doc['PumpState'].toString());
+          pumps.add(Pump.fromSnapshot(doc));
+          print("Modelden gelen : " + pumps.last.pumpState);
+
+        });
+        _pumpModelController.add(pumps);
+        log(pumps.last.time.toString());
+      });
+
+  }
+
+  void getAlarm(deviceId){
+
+    if(deviceId == null){
+      deviceId = 'Device1';
+    }
+
     _firestore
         .collection("Users")
         .doc("User1")
         .collection("Devices")
         .doc(deviceId)
-        .collection("Pump")
+        .collection("Alarms")
         .orderBy("Time", descending: true)
         .limit(1)
         .snapshots()
         .listen((data) {
-      List<Pump> pumps = [];
+      List<Alarm> alarms = [];
 
       data.docs.forEach((doc) {
-        log(doc['PumpState'].toString());
-        pumps.add(Pump.fromSnapshot(doc));
-        print("Modelden gelen : " + pumps.last.pumpState);
-
+        alarms.add(Alarm.fromSnapshot(doc));
       });
-      _pumpModelController.add(pumps);
-      log(pumps.last.time.toString());
+      _alarmModelController.add(alarms);
     });
-
   }
 
   @override
@@ -75,27 +94,9 @@ class DashboardViewModel extends GetxController {
       });
     });
 
-    // if(_selectedId !=  null){
-    //   getPump();
-    // }
+    getPump(deviceId);
+    getAlarm(deviceId);
 
-    _firestore
-        .collection("Users")
-        .doc("User1")
-        .collection("Devices")
-        .doc("Device1")
-        .collection("Alarms")
-        .orderBy("Time", descending: true)
-        .limit(1)
-        .snapshots()
-        .listen((data) {
-      List<Alarm> alarms = [];
-
-      data.docs.forEach((doc) {
-        alarms.add(Alarm.fromSnapshot(doc));
-      });
-      _alarmModelController.add(alarms);
-    });
   }
 
   @override

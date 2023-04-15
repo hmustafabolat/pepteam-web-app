@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
-import 'package:get/get.dart';
-import 'package:ss_test/storage/storage.dart';
 
 import '../../model/device_model.dart';
 
@@ -16,8 +14,8 @@ class MyDropDownButton extends StatefulWidget {
 }
 
 class _MyDropDownButtonState extends State<MyDropDownButton> {
-  String? _selectedOptionId;
   Device? selectedOption;
+  String? _selectedOptionName;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -49,10 +47,10 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
             ),
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: DropdownButton(
-              value: _selectedOptionId,
+              value: selectedOption?.id,
               items: dropdownItems,
               onTap: () {
-                print(_selectedOptionId);
+                print(_selectedOptionName);
               },
               icon: Icon(Icons.add),
               iconDisabledColor: Colors.white,
@@ -64,7 +62,6 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
               underline: SizedBox(),
               onChanged: (value) {
                 setState(() {
-                  _selectedOptionId = value as String?;
                   selectedOption =
                       devices.firstWhere((device) => device.id == value);
                   if (widget.selectedFunction != null) {
@@ -73,7 +70,6 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
                     print("#3: Seçilen Cihaz: ${selectedOption}");
                   }
                 });
-                //   _selectedOption = value;
                 print("#4: ${selectedOption?.deviceName}");
                 print("#5: selected value: $value");
               },
@@ -82,6 +78,61 @@ class _MyDropDownButtonState extends State<MyDropDownButton> {
         }
 
         return SizedBox();
+      },
+    );
+  }
+}
+
+
+class DropButton extends StatefulWidget {
+  final void Function(String?) onSelectedIdChanged;
+
+  const DropButton({Key? key, required this.onSelectedIdChanged})
+      : super(key: key);
+
+  @override
+  State<DropButton> createState() => _DropButtonState();
+}
+
+class _DropButtonState extends State<DropButton> {
+  String? selectedId;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('Users')
+          .doc('User1')
+          .collection('Devices')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        final documents = snapshot.data!.docs;
+
+        final items = documents.map((doc) {
+          return DropdownMenuItem<String>(
+            value: doc.id,
+            child: Text(doc.id),
+          );
+        }).toList();
+
+        return DropdownButton<String>(
+          value: selectedId,
+          items: items,
+          onChanged: (String? value) {
+            setState(() {
+              selectedId = value;
+            });
+            widget.onSelectedIdChanged(value);
+          },
+        );
       },
     );
   }
@@ -297,57 +348,3 @@ DropdownButtonFormField(
           }).toList(),
             onChanged: (val) => setState(() => _currentDrink = val),
 ), */
-
-class DropButton extends StatefulWidget {
-  final void Function(String?) onSelectedIdChanged;
-
-  const DropButton({Key? key, required this.onSelectedIdChanged})
-      : super(key: key);
-
-  @override
-  State<DropButton> createState() => _DropButtonState();
-}
-
-class _DropButtonState extends State<DropButton> {
-  String? selectedId;
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('Users')
-          .doc('User1')
-          .collection('Devices')
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        }
-
-        final documents = snapshot.data!.docs;
-
-        final items = documents.map((doc) {
-          return DropdownMenuItem<String>(
-            value: doc.id,
-            child: Text(doc.id),
-          );
-        }).toList();
-
-        return DropdownButton<String>(
-          value: selectedId,
-          items: items,
-          onChanged: (String? value) {
-            setState(() {
-              selectedId = value;
-            });
-            widget.onSelectedIdChanged(value);
-          },
-        );
-      },
-    );
-  }
-}
