@@ -49,16 +49,6 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
-  String? selectedId;
-
-  // void onSelectedIdChanged(String? value) {
-  //   setState(() {
-  //     selectedId = value;
-  //     controller.getPump(selectedId!);
-  //     controller.getAlarm(selectedId!);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,10 +145,6 @@ class _DashboardPageState extends State<DashboardPage> {
                             selectedName ?? "Lütfen bir cihaz seçiniz!",
                             style: ProjectTextStyles().darkBlue_w600_s24,
                           ),
-                          // Text(
-                          //   selectedId ?? 'No device selected',
-                          //   style: ProjectTextStyles().darkBlue_w600_s24,
-                          // ),
                           SizedBox(
                             height: 60,
                           ),
