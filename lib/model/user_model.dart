@@ -11,11 +11,4 @@ class UserModel {
 
   UserModel.fromJson(DocumentSnapshot<Map<String, dynamic>> document)
       : this.email = document.data()?["email"];
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     if (this.email != null) 'email': this.email,
-  //     if (this.password != null) 'password': this.password,
-  //   };
-  // }
 }

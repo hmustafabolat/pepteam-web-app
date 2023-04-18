@@ -30,7 +30,6 @@ class _DashboardPageState extends State<DashboardPage> {
   final DashboardViewModel controller = Get.put(DashboardViewModel());
   final DashboardViewModel controller2 = Get.put(DashboardViewModel());
 
-
   final dateFormat = DateFormat('dd.MM.yyyy');
 
   int _selectedIndex = 0;
@@ -44,6 +43,7 @@ class _DashboardPageState extends State<DashboardPage> {
       selectedOption = value;
       controller.getPump(selectedOption!.id);
       controller.getAlarm(selectedOption!.id);
+      controller.getLogs(selectedOption!.id);
 
       selectedName = selectedOption!.deviceName;
     });
@@ -128,7 +128,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                 style: ProjectTextStyles().darkBlue_w600_s30,
                               ),
                               // DropButton(onSelectedIdChanged: onSelectedIdChanged),
-                              MyDropDownButton(selectedFunction: onSelectedIdChanged)
+                              MyDropDownButton(
+                                  selectedFunction: onSelectedIdChanged)
                             ],
                           ),
                           SizedBox(
@@ -248,6 +249,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           alarmState = 'Aktif';
                                         } else if (alarmState ==
                                             'decativated') {
+                                          print("Alarm durumu yazdırıldı");
                                           alarmState = 'Pasif';
                                         }
 

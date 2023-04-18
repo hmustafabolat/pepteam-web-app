@@ -16,7 +16,7 @@ class UserAddPage extends StatefulWidget {
 
 class _UserAddPageState extends State<UserAddPage> {
   int _selectedIndex = 0;
-  List<String> _buttonNames = ['Dashboard', 'Users'];
+  List<String> _buttonNames = ['Dashboard', 'Users', 'Kullanıcı Ekle'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,110 +74,107 @@ class _UserAddPageState extends State<UserAddPage> {
           )
         ],
       ),
-      body: _addUserWidget(),
-    );
-  }
-
-  Padding _addUserWidget() {
-    return Padding(
-      padding: ProjectPaddings().only_lTR_125_50_125,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ToggleButtons(
-            direction: Axis.vertical,
-            selectedColor: Colors.white,
-            renderBorder: false,
-            fillColor: Colors.red,
-            children: _buttonNames.map((name) {
-              return ElevatedButton(
-                onPressed: () {
-                  int index = _buttonNames.indexOf(name);
-                  _selectedIndex = index;
-                },
-                child: Text(name, style: ProjectTextStyles().grey_w500_s14),
-                style: ElevatedButton.styleFrom(
-                  primary: _selectedIndex == _buttonNames.indexOf(name)
-                      ? Colors.white
-                      : Colors.transparent,
-                  elevation: 0,
+      body: Padding(
+        padding: ProjectPaddings().only_lTR_125_50_125,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ToggleButtons(
+              direction: Axis.vertical,
+              selectedColor: Colors.white,
+              renderBorder: false,
+              fillColor: Colors.red,
+              children: _buttonNames.map((name) {
+                return ElevatedButton(
+                  onPressed: () {
+                    int index = _buttonNames.indexOf(name);
+                    _selectedIndex = index;
+                  },
+                  child: Text(name, style: ProjectTextStyles().grey_w500_s14),
+                  style: ElevatedButton.styleFrom(
+                    primary: _selectedIndex == _buttonNames.indexOf(name)
+                        ? Colors.white
+                        : Colors.transparent,
+                    elevation: 0,
+                  ),
+                );
+              }).toList(),
+              isSelected: List.generate(_buttonNames.length, (index) {
+                return _selectedIndex == index;
+              }),
+            ),
+            SizedBox(width: 110),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Kullanıcı Ekle',
+                  style: ProjectTextStyles().darkGrey_w500_s14,
                 ),
-              );
-            }).toList(),
-            isSelected: List.generate(_buttonNames.length, (index) {
-              return _selectedIndex == index;
-            }),
-          ),
-          SizedBox(width: 110),
-          Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Kullanıcı Ekle',
-                style: ProjectTextStyles().darkGrey_w500_s14,
-              ),
-              SizedBox(height: 5),
-              Text(
-                  'Lütfen eklemek istediğiniz kullanıcının bilgilerini giriniz.',
-                  style: ProjectTextStyles().grey_w400_s14),
-              SizedBox(height: 20),
-              Container(
-                height: 1,
-                color: Colors.grey[300],
-              ),
-              SizedBox(height: 25),
-              Text('Adı Soyadı'),
-              SizedBox(height: 5),
-              TextFormField(
-                // onSaved: (value) {
-                //   _viewModel.password = value;
-                // },
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecorators().EmailInput,
-              ),
-              SizedBox(height: 20),
-              Text('Şifre'),
-              SizedBox(height: 5),
-              TextFormField(
-                // onSaved: (value) {
-                //   _viewModel.password = value;
-                // },
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecorators().PasswordInput,
-              ),
-              SizedBox(height: 5),
-              Text('Şifre 8 karakterden uzun olmalıdır.',
-                  style: ProjectTextStyles().grey_w400_s14),
-              SizedBox(height: 20),
-              Text('Mail Adresi'),
-              SizedBox(height: 5),
-              TextFormField(
-                // onSaved: (value) {
-                //   _viewModel.password = value;
-                // },
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecorators().EmailInput,
-              ),
-              SizedBox(height: 45),
-              SizedBox(
-                width: double.maxFinite,
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  OutlinedButton(
-                      onPressed: () {},
-                      child: Text(
-                        'İptal',
-                        style: ProjectTextStyles().darkGrey_w500_s14,
-                      )),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                      onPressed: () {}, child: Text('Kullanıcı Ekle'))
-                ]),
-              )
-            ],
-          ))
-        ],
+                SizedBox(height: 5),
+                Text(
+                    'Lütfen eklemek istediğiniz kullanıcının bilgilerini giriniz.',
+                    style: ProjectTextStyles().grey_w400_s14),
+                SizedBox(height: 20),
+                Container(
+                  height: 1,
+                  color: Colors.grey[300],
+                ),
+                SizedBox(height: 25),
+                Text('Adı Soyadı'),
+                SizedBox(height: 5),
+                TextFormField(
+                  // onSaved: (value) {
+                  //   _viewModel.password = value;
+                  // },
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecorators().FullNameInput,
+                ),
+                SizedBox(height: 20),
+                Text('Şifre'),
+                SizedBox(height: 5),
+                TextFormField(
+                  // onSaved: (value) {
+                  //   _viewModel.password = value;
+                  // },
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecorators().PasswordInput,
+                ),
+                SizedBox(height: 5),
+                Text('Şifre 8 karakterden uzun olmalıdır.',
+                    style: ProjectTextStyles().grey_w400_s14),
+                SizedBox(height: 20),
+                Text('Mail Adresi'),
+                SizedBox(height: 5),
+                TextFormField(
+                  // onSaved: (value) {
+                  //   _viewModel.password = value;
+                  // },
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecorators().EmailInput,
+                ),
+                SizedBox(height: 45),
+                SizedBox(
+                  width: double.maxFinite,
+                  child:
+                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    OutlinedButton(
+                        onPressed: () {},
+                        child: Text(
+                          'İptal',
+                          style: ProjectTextStyles().darkGrey_w500_s14,
+                        )),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                        onPressed: () {}, child: Text('Kullanıcı Ekle'))
+                  ]),
+                )
+              ],
+            ))
+          ],
+        ),
       ),
     );
   }

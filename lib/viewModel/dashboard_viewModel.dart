@@ -4,57 +4,85 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/model/device_model.dart';
+import 'package:ss_test/model/logs_model.dart';
 import 'package:ss_test/model/pump_model.dart';
 import 'package:ss_test/storage/storage.dart';
-
 
 class DashboardViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-
-  StreamController<List<Pump>> _pumpModelController = StreamController<List<Pump>>();
+  StreamController<List<Pump>> _pumpModelController =
+      StreamController<List<Pump>>();
   Stream<List<Pump>> get pumpModelStream => _pumpModelController.stream;
 
-  StreamController<List<Alarm>> _alarmModelController = StreamController<List<Alarm>>();
+  StreamController<List<Alarm>> _alarmModelController =
+      StreamController<List<Alarm>>();
   Stream<List<Alarm>> get alarmModelStream => _alarmModelController.stream;
+
+  StreamController<List<Logs>> _logsModelController =
+      StreamController<List<Logs>>();
+  Stream<List<Logs>> get logsModelStream => _logsModelController.stream;
 
   List<Device> devices = [];
 
+  List<Logs> logs = [];
+
   Device? deviceId;
 
-  void getPump(deviceId){
-
-    if(deviceId == null){
+  void getLogs(deviceId) {
+    if (deviceId == null) {
       deviceId = 'Device1';
     }
-      log('fonksiyon başladı');
-      _firestore
-          .collection("Users")
-          .doc("User1")
-          .collection("Devices")
-          .doc(deviceId)
-          .collection("Pump")
-          .orderBy("Time", descending: true)
-          .limit(1)
-          .snapshots()
-          .listen((data) {
-        List<Pump> pumps = [];
-
-        data.docs.forEach((doc) {
-          log(doc['PumpState'].toString());
-          pumps.add(Pump.fromSnapshot(doc));
-          print("Modelden gelen : " + pumps.last.pumpState);
-
-        });
-        _pumpModelController.add(pumps);
-        log(pumps.last.time.toString());
+    _firestore
+        .collection('Users')
+        .doc('User1')
+        .collection('Devices')
+        .doc(deviceId)
+        .collection('Logs')
+        .orderBy('Time', descending: true)
+        //  .limit(1)
+        .snapshots()
+        .listen((data) {
+      List<Logs> logs = [];
+      data.docs.forEach((doc) {
+        logs.add(Logs.fromSnapShot(doc));
+        print('Modelden gelen: ' + logs.last.humidity.toString());
       });
-
+      deviceLogs.clear();
+      deviceLogs = logs;
+      _logsModelController.add(logs);
+    });
   }
 
-  void getAlarm(deviceId){
+  void getPump(deviceId) {
+    if (deviceId == null) {
+      deviceId = 'Device1';
+    }
+    log('fonksiyon başladı');
+    _firestore
+        .collection("Users")
+        .doc("User1")
+        .collection("Devices")
+        .doc(deviceId)
+        .collection("Pump")
+        .orderBy("Time", descending: true)
+        .limit(1)
+        .snapshots()
+        .listen((data) {
+      List<Pump> pumps = [];
 
-    if(deviceId == null){
+      data.docs.forEach((doc) {
+        log(doc['PumpState'].toString());
+        pumps.add(Pump.fromSnapshot(doc));
+        print("Modelden gelen : " + pumps.last.pumpState);
+      });
+      _pumpModelController.add(pumps);
+      log(pumps.last.time.toString());
+    });
+  }
+
+  void getAlarm(deviceId) {
+    if (deviceId == null) {
       deviceId = 'Device1';
     }
 
@@ -93,10 +121,9 @@ class DashboardViewModel extends GetxController {
         print("Ekelenen device id: " + devices.last.id);
       });
     });
-
+    getLogs(deviceId);
     getPump(deviceId);
     getAlarm(deviceId);
-
   }
 
   @override
