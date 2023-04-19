@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -11,7 +9,6 @@ import 'package:ss_test/constants/widgets/card_widget.dart';
 import 'package:ss_test/constants/widgets/charts_widget.dart';
 import 'package:ss_test/constants/widgets/dropDown_widget.dart';
 import 'package:ss_test/model/alarm_model.dart';
-import 'package:ss_test/storage/storage.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
@@ -146,9 +143,53 @@ class _DashboardPageState extends State<DashboardPage> {
                             selectedName ?? "Lütfen bir cihaz seçiniz!",
                             style: ProjectTextStyles().darkBlue_w600_s24,
                           ),
-                          SizedBox(
-                            height: 60,
-                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                OutlinedButton(
+                                  onPressed: () {
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.date_range,color: Colors.black),
+                                      Text(
+                                        'Jan 6, 2023 – Jan 13, 2023',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+
+                                OutlinedButton(
+                                  onPressed: () {
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.menu,color: Colors.black),
+                                      Text(
+                                        'Filters',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
