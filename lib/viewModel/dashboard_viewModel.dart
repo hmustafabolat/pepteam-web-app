@@ -46,7 +46,7 @@ class DashboardViewModel extends GetxController {
       List<Logs> logs = [];
       data.docs.forEach((doc) {
         logs.add(Logs.fromSnapShot(doc));
-        print('Modelden gelen: ' + logs.last.humidity.toString());
+        print('Modelden gelen: ' + logs.last.Humidity.toString());
       });
       deviceLogs.clear();
       deviceLogs = logs;

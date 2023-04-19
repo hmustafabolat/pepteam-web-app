@@ -39,7 +39,7 @@ class ChartsWidget extends StatelessWidget {
                           dataSource: deviceLogs,
                           xValueMapper: (Logs logs, _) =>
                               logs.time!.day.toString(),
-                          yValueMapper: (Logs logs, _) => logs.humidity,
+                          yValueMapper: (Logs logs, _) => logs.Humidity,
                           name: "Humidity"),
                       SplineSeries<Logs, String>(
                           color: ProjectCustomColors().customPalePurple2,
@@ -78,7 +78,7 @@ class ChartsWidget extends StatelessWidget {
                         dataSource: deviceLogs,
                         xValueMapper: (Logs logs, _) =>
                             logs.time!.day.toString(),
-                        yValueMapper: (Logs logs, _) => logs.humidity,
+                        yValueMapper: (Logs logs, _) => logs.Humidity,
                         name: 'Humidity'),
                     StackedColumnSeries(
                         color: ProjectCustomColors().customPalePurple2,

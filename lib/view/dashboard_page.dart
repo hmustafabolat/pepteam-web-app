@@ -8,6 +8,7 @@ import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/constants/widgets/card_widget.dart';
 import 'package:ss_test/constants/widgets/charts_widget.dart';
 import 'package:ss_test/constants/widgets/dropDown_widget.dart';
+import 'package:ss_test/constants/widgets/filter_widget.dart';
 import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
@@ -143,7 +144,8 @@ class _DashboardPageState extends State<DashboardPage> {
                             selectedName ?? "Lütfen bir cihaz seçiniz!",
                             style: ProjectTextStyles().darkBlue_w600_s24,
                           ),
-                          Row(
+                          FilterPage(),
+                          /* Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 OutlinedButton(
@@ -189,6 +191,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 ),
                               ],
                             ),
+                           */
                           SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
