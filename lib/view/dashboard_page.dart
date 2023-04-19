@@ -7,6 +7,7 @@ import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/constants/widgets/card_widget.dart';
 import 'package:ss_test/constants/widgets/charts_widget.dart';
+import 'package:ss_test/constants/widgets/date_selection.dart';
 import 'package:ss_test/constants/widgets/dropDown_widget.dart';
 import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/view/user_editing_page.dart';
@@ -146,27 +147,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                OutlinedButton(
-                                  onPressed: () {
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.date_range,color: Colors.black),
-                                      Text(
-                                        'Jan 6, 2023 – Jan 13, 2023',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-
+                                DateRangeSelectionButton(),
                                 OutlinedButton(
                                   onPressed: () {
                                   },
