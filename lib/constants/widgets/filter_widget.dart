@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
+import 'package:ss_test/model/device_model.dart';
 
 class FilterPage extends StatefulWidget {
+  final Function(Device? selectedOption, DateTime? startDate, DateTime? _endDate)? selectedFunction;
+  FilterPage({this.selectedFunction});
   @override
   _FilterPageState createState() => _FilterPageState();
 }
 
 class _FilterPageState extends State<FilterPage> {
+  Device? selectedOption;
   DateTime? _startDate;
   DateTime? _endDate;
 

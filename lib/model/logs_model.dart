@@ -6,6 +6,7 @@ class Logs {
   double? water;
 
   Logs({required this.Humidity, required this.time, required this.water});
+
   factory Logs.fromSnapShot(DocumentSnapshot snapshot) {
     return Logs(
         Humidity: snapshot['Humidity'],

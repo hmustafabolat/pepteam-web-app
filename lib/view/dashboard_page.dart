@@ -11,6 +11,7 @@ import 'package:ss_test/constants/widgets/date_selection.dart';
 import 'package:ss_test/constants/widgets/dropDown_widget.dart';
 import 'package:ss_test/constants/widgets/filter_widget.dart';
 import 'package:ss_test/model/alarm_model.dart';
+import 'package:ss_test/model/logs_model.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
@@ -37,14 +38,21 @@ class _DashboardPageState extends State<DashboardPage> {
   Device? selectedOption;
   String? selectedName;
 
-  void onSelectedIdChanged(Device? value) {
+
+  void onSelectedIdChanged(Device? deviceValue) {
     setState(() {
-      selectedOption = value;
+      selectedOption = deviceValue;
       controller.getPump(selectedOption!.id);
       controller.getAlarm(selectedOption!.id);
-      controller.getLogs(selectedOption!.id);
 
       selectedName = selectedOption!.deviceName;
+    });
+  }
+
+  void onSelectedTimeChanged(Device? deviceValue, DateTime? startTimeValue, DateTime? endTimeValue) {
+    setState(() {
+      selectedOption = deviceValue;
+      controller.getLogs(selectedOption!.id, startTimeValue, endTimeValue);
     });
   }
 
@@ -126,7 +134,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                 "Analysis",
                                 style: ProjectTextStyles().darkBlue_w600_s30,
                               ),
-                              // DropButton(onSelectedIdChanged: onSelectedIdChanged),
                               MyDropDownButton(
                                   selectedFunction: onSelectedIdChanged)
                             ],
@@ -145,34 +152,34 @@ class _DashboardPageState extends State<DashboardPage> {
                             selectedName ?? "Lütfen bir cihaz seçiniz!",
                             style: ProjectTextStyles().darkBlue_w600_s24,
                           ),
-                          FilterPage(),
-                          /* Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                DateRangeSelectionButton(),
-                                OutlinedButton(
-                                  onPressed: () {
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.menu,color: Colors.black),
-                                      Text(
-                                        'Filters',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                           */
+                          FilterPage(selectedFunction: onSelectedTimeChanged,),
+                          // Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       DateRangeSelectionButton(),
+                          //       OutlinedButton(
+                          //         onPressed: () {
+                          //         },
+                          //         child: Row(
+                          //           children: [
+                          //             Icon(Icons.menu,color: Colors.black),
+                          //             Text(
+                          //               'Filters',
+                          //               style: TextStyle(
+                          //                 color: Colors.black,
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //         style: OutlinedButton.styleFrom(
+                          //           side: BorderSide(
+                          //             color: Colors.grey,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+
                           SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,

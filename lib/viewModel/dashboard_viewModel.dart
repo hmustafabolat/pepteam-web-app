@@ -28,6 +28,7 @@ class DashboardViewModel extends GetxController {
   List<Logs> logs = [];
 
   Device? deviceId;
+  Logs? startTime, endTime;
 
   void getLogs(deviceId, startTime, endTime) {
     if (deviceId == null) {
@@ -137,7 +138,7 @@ class DashboardViewModel extends GetxController {
         print("Ekelenen device id: " + devices.last.id);
       });
     });
-    getLogs(deviceId, null, null);
+    getLogs(deviceId, startTime, endTime);
     getPump(deviceId);
     getAlarm(deviceId);
   }
