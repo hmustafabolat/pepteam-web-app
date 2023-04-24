@@ -12,15 +12,15 @@ class DashboardViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   StreamController<List<Pump>> _pumpModelController =
-  StreamController<List<Pump>>();
+      StreamController<List<Pump>>();
   Stream<List<Pump>> get pumpModelStream => _pumpModelController.stream;
 
   StreamController<List<Alarm>> _alarmModelController =
-  StreamController<List<Alarm>>();
+      StreamController<List<Alarm>>();
   Stream<List<Alarm>> get alarmModelStream => _alarmModelController.stream;
 
   StreamController<List<Logs>> _logsModelController =
-  StreamController<List<Logs>>();
+      StreamController<List<Logs>>();
   Stream<List<Logs>> get logsModelStream => _logsModelController.stream;
 
   List<Device> devices = [];
@@ -56,7 +56,7 @@ class DashboardViewModel extends GetxController {
         .where('Time', isLessThan: endTime)
         .where('Time', isGreaterThan: startTime)
         .orderBy('Time', descending: true)
-    //  .limit(1)
+        //  .limit(1)
         .snapshots()
         .listen((data) {
       List<Logs> logs = [];
@@ -149,33 +149,4 @@ class DashboardViewModel extends GetxController {
     _alarmModelController.close();
     super.onClose();
   }
-
-/* Future<List<Alarm>> getAlarms() async {
-    log("get alarm");
-    List<Alarm> tempList = [];
-    await _firestore
-
-    ///Users/User1/Devices/Device1/Alarms
-        .collection("Users")
-        .doc("User1")
-        .collection("Devices")
-        .doc("Device1")
-        .collection("Alarms")
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        tempList.add(Alarm(
-          //     alarmID: doc["AlarmID"],
-          time: null,
-          alarmState: doc["AlarmState"],
-          value: doc["AlarmValue"],
-        ));
-        // print(doc.data());
-        log("Son eklenen alarm value: ${tempList.last.value}");
-        log("Son eklenen alarm state: ${tempList.last.alarmState}");
-      }
-    });
-
-    return tempList;
-  } */
 }
