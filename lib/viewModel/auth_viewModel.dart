@@ -32,12 +32,16 @@ class AuthViewModel extends GetxController {
 
   Future<void> signUp(String email, String password, String name) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       print('User created: ${userCredential.user}');
-      await _firestoreService.collection('Users').doc(userCredential.user!.uid).set({
+      await _firestoreService
+          .collection('Users')
+          .doc(userCredential.user!.uid)
+          .set({
         'name': name,
         'id': userCredential.user!.uid,
         'email': email,

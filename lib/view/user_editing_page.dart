@@ -18,12 +18,10 @@ class UserEditingPage extends StatefulWidget {
 }
 
 class _UserEditingPageState extends State<UserEditingPage> {
-
   final AuthViewModel _controller = Get.put(AuthViewModel());
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-
 
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users', 'Kullanıcı Ekle'];
@@ -183,12 +181,14 @@ class _UserEditingPageState extends State<UserEditingPage> {
                     SizedBox(width: 10),
                     ElevatedButton(
                         onPressed: () {
+                          Get.back();
                           _controller.signUp(
                             _emailController.text.trim(),
                             _passwordController.text.trim(),
                             _nameController.text.trim(),
                           );
-                        }, child: Text('Kullanıcı Düzenle'))
+                        },
+                        child: Text('Kullanıcı Düzenle'))
                   ]),
                 )
               ],
