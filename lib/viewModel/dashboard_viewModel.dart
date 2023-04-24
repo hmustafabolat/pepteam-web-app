@@ -28,6 +28,7 @@ class DashboardViewModel extends GetxController {
   List<Logs> logs = [];
 
   Device? deviceId;
+  Logs? startTime, endTime;
 
   void getLogs(deviceId, startTime, endTime) {
     if (deviceId == null) {
@@ -37,7 +38,7 @@ class DashboardViewModel extends GetxController {
     // endTime ?? DateTime.now();
     // startTime ?? DateTime.now().subtract(const Duration(days: 5));
     if (startTime == null && endTime == null) {
-      log("tarihler null geldiii ");
+      log("tarihler null geldi ");
       startTime = DateTime.now().subtract(const Duration(days: 30));
       endTime = DateTime.now();
     }
