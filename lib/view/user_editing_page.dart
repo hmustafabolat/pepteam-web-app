@@ -5,6 +5,7 @@ import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/view/add_user_page.dart';
+import 'package:ss_test/viewModel/auth_viewModel.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
@@ -17,6 +18,13 @@ class UserEditingPage extends StatefulWidget {
 }
 
 class _UserEditingPageState extends State<UserEditingPage> {
+
+  final AuthViewModel _controller = Get.put(AuthViewModel());
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
+
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users', 'Kullanıcı Ekle'];
   @override
@@ -129,6 +137,7 @@ class _UserEditingPageState extends State<UserEditingPage> {
                   // onSaved: (value) {
                   //   _viewModel.password = value;
                   // },
+                  controller: _nameController,
                   keyboardType: TextInputType.name,
                   decoration: InputDecorators().FullNameInput,
                 ),
@@ -139,6 +148,7 @@ class _UserEditingPageState extends State<UserEditingPage> {
                   // onSaved: (value) {
                   //   _viewModel.password = value;
                   // },
+                  controller: _passwordController,
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecorators().PasswordInput,
@@ -153,6 +163,7 @@ class _UserEditingPageState extends State<UserEditingPage> {
                   // onSaved: (value) {
                   //   _viewModel.password = value;
                   // },
+                  controller: _emailController,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecorators().EmailInput,
                 ),
@@ -171,7 +182,13 @@ class _UserEditingPageState extends State<UserEditingPage> {
                         )),
                     SizedBox(width: 10),
                     ElevatedButton(
-                        onPressed: () {}, child: Text('Kullanıcı Düzenle'))
+                        onPressed: () {
+                          _controller.signUp(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                            _nameController.text.trim(),
+                          );
+                        }, child: Text('Kullanıcı Düzenle'))
                   ]),
                 )
               ],

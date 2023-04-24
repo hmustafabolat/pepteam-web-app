@@ -7,11 +7,9 @@ import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/constants/widgets/card_widget.dart';
 import 'package:ss_test/constants/widgets/charts_widget.dart';
-import 'package:ss_test/constants/widgets/date_selection.dart';
 import 'package:ss_test/constants/widgets/dropDown_widget.dart';
 import 'package:ss_test/constants/widgets/filter_widget.dart';
 import 'package:ss_test/model/alarm_model.dart';
-import 'package:ss_test/model/logs_model.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
@@ -36,6 +34,8 @@ class _DashboardPageState extends State<DashboardPage> {
   List<String> _buttonNames = ['Dashboard', 'Users'];
 
   Device? selectedOption;
+  DateTime? startTime;
+  DateTime? endTime;
   String? selectedName;
 
 
@@ -52,7 +52,9 @@ class _DashboardPageState extends State<DashboardPage> {
   void onSelectedTimeChanged(Device? deviceValue, DateTime? startTimeValue, DateTime? endTimeValue) {
     setState(() {
       selectedOption = deviceValue;
-      controller.getLogs(selectedOption!.id, startTimeValue, endTimeValue);
+      startTime = startTimeValue;
+      endTime = endTimeValue;
+      controller.getLogs(selectedOption!.id, startTime, endTime);
     });
   }
 
