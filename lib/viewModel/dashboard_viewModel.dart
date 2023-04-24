@@ -28,7 +28,6 @@ class DashboardViewModel extends GetxController {
   List<Logs> logs = [];
 
   Device? deviceId;
-  Logs? startTime, endTime;
 
   void getLogs(deviceId, startTime, endTime) {
     if (deviceId == null) {
@@ -46,7 +45,10 @@ class DashboardViewModel extends GetxController {
     print(startTime.toString());
     print(endTime.toString());
     print("--------");
-
+    log(deviceId);
+    /* startTime = DateTime(2023 - 03 - 07);
+    endTime = DateTime(2023 - 04 - 24);
+ */
     _firestore
         .collection('Users')
         .doc('User1')
@@ -62,7 +64,6 @@ class DashboardViewModel extends GetxController {
       List<Logs> logs = [];
       data.docs.forEach((doc) {
         logs.add(Logs.fromSnapShot(doc));
-        print('Modelden gelen: ' + logs.last.Humidity.toString());
       });
       deviceLogs.clear();
       deviceLogs = logs;
@@ -138,7 +139,7 @@ class DashboardViewModel extends GetxController {
         print("Ekelenen device id: " + devices.last.id);
       });
     });
-    getLogs(deviceId, startTime, endTime);
+    getLogs(deviceId, null, null);
     getPump(deviceId);
     getAlarm(deviceId);
   }

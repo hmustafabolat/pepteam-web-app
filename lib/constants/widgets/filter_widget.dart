@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/model/device_model.dart';
+import 'package:ss_test/storage/storage.dart';
+
+import '../../viewModel/dashboard_viewModel.dart';
+
+final DashboardViewModel controller = Get.put(DashboardViewModel());
 
 class FilterPage extends StatefulWidget {
-  final Function(Device? selectedOption, DateTime? startDate, DateTime? _endDate)? selectedFunction;
+  final Function(
+          Device? selectedOption, DateTime? startDate, DateTime? endDate)?
+      selectedFunction;
   FilterPage({this.selectedFunction});
   @override
   _FilterPageState createState() => _FilterPageState();
@@ -12,18 +21,19 @@ class FilterPage extends StatefulWidget {
 
 class _FilterPageState extends State<FilterPage> {
   Device? selectedOption;
-  DateTime? _startDate;
-  DateTime? _endDate;
+  DateTime? startDate;
+  DateTime? endDate;
 
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: _startDate ?? DateTime.now(),
+        initialDate: startDate ?? DateTime.now(),
         firstDate: DateTime(2012, 8),
         lastDate: DateTime(2101));
-    if (picked != null && picked != _startDate) {
+    if (picked != null && picked != startDate) {
       setState(() {
-        _startDate = picked;
+        startDate = picked;
+        selectedStartTime = picked;
       });
     }
   }
@@ -31,12 +41,13 @@ class _FilterPageState extends State<FilterPage> {
   Future<void> _selectEndDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: _endDate ?? DateTime.now(),
+        initialDate: endDate ?? DateTime.now(),
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
-    if (picked != null && picked != _endDate) {
+    if (picked != null && picked != endDate) {
       setState(() {
-        _endDate = picked;
+        endDate = picked;
+        selectedEndTime = picked;
       });
     }
   }
@@ -63,25 +74,32 @@ class _FilterPageState extends State<FilterPage> {
                 onPressed: () {
                   _selectStartDate(context);
                 },
-                child: Text(_startDate == null
+                child: Text(startDate == null
                     ? 'Başlangıç Tarihi'
-                    : formatter.format(_startDate!))),
+                    : formatter.format(startDate!))),
             Text("--"),
             TextButton(
                 onPressed: () {
                   _selectEndDate(context);
                 },
-                child: Text(_endDate == null
+                child: Text(endDate == null
                     ? 'Bitiş Tarihi'
-                    : formatter.format(_endDate!))),
+                    : formatter.format(endDate!))),
             SizedBox(
               width: 20,
             ),
             ElevatedButton.icon(
               onPressed: () {
-                // Filtreleme işlemi yapmak için seçilen tarihleri kullanabilirsiniz
-                print('Başlangıç Tarihi: $_startDate');
-                print('Bitiş Tarihi: $_endDate');
+                setState(() {
+                  controller.getLogs(
+                      selectedOption?.id, selectedStartTime, selectedEndTime);
+                });
+                /* /* print('Başlangıç Tarihi: $startDate');
+                print('Bitiş Tarihi: $endDate'); */
+                print(selectedStartTime);
+                print(selectedEndTime);
+                //print(selectedOption?.id);
+                print(selectedDevice.id); */
               },
               icon: Icon(Icons.filter_list),
               label: Text('Filtrele'),
