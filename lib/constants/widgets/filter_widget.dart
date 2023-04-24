@@ -55,11 +55,7 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     final DateFormat formatter = DateFormat('dd/MM/yyyy');
-    return SizedBox(
-      child: Card(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
+    return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -105,8 +101,6 @@ class _FilterPageState extends State<FilterPage> {
               label: Text('Filtrele'),
             )
           ],
-        ),
-      )),
     );
   }
 }
