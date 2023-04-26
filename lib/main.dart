@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ss_test/service/firebase_conf.dart';
 import 'package:ss_test/view/dashboard_page.dart';
 import 'package:ss_test/view/login_screen.dart';
+import 'package:ss_test/view/password_update_page.dart';
 import 'bindings/start_app.dart';
 
 final FirebaseConfigurations _firebaseConfigurations = FirebaseConfigurations();
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: DashboardPage(),
+      home: PasswordUpdate(),
     );
   }
 }
