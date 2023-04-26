@@ -51,6 +51,25 @@ class AuthViewModel extends GetxController {
     }
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      Get.snackbar(
+        'Başarılı',
+        'Parola sıfırlama e-postası gönderildi',
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Hata',
+        e.toString(),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
   Future signOut() async {
     userModel.value = (await _repository.signOut())!;
   }

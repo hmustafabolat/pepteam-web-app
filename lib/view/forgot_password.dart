@@ -5,6 +5,7 @@ import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/constants/project_text_styles.dart';
 import 'package:ss_test/constants/text_field_input_decorations.dart';
+import 'package:ss_test/viewModel/auth_viewModel.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -14,6 +15,8 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  final AuthViewModel _controller = Get.put(AuthViewModel());
+  final TextEditingController _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +47,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       height: 5,
                     ),
                     TextFormField(
+                      controller: _emailController,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecorators().EmailInput,
                     ),
@@ -58,7 +62,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _controller.sendPasswordResetEmail(
+                          _emailController.text.trim(),
+                        );
+                      },
                       child: Text(
                         "Şifreyi Sıfırla",
                         style: ProjectTextStyles().white_w500_s15,
