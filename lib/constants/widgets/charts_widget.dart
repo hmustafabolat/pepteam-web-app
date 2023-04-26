@@ -43,7 +43,7 @@ class ChartsWidget extends StatelessWidget {
               Padding(
                 padding: ProjectPaddings().only_lT_45_30,
                 child: Text(
-                  "Sales Report",
+                  "Humidity",
                   style: ProjectTextStyles().darkBlue_w600_s24,
                 ),
               ),
@@ -66,14 +66,6 @@ class ChartsWidget extends StatelessWidget {
                           sortFieldValueMapper: (Logs logs, _) =>
                               logs.time!.toString(),
                           name: "Humidity"),
-                      LineSeries<Logs, String>(
-                          dataLabelSettings: DataLabelSettings(isVisible: true),
-                          markerSettings: MarkerSettings(isVisible: true),
-                          color: ProjectCustomColors().customPalePurple2,
-                          dataSource: deviceLogs,
-                          xValueMapper: (Logs logs, _) => logs.time!.toString(),
-                          yValueMapper: (Logs logs, _) => logs.water,
-                          name: "Water"),
                     ]),
               ),
             ],
@@ -88,7 +80,7 @@ class ChartsWidget extends StatelessWidget {
               Padding(
                 padding: ProjectPaddings().only_lT_45_30,
                 child: Text(
-                  "Store Traffic",
+                  "Water",
                   style: ProjectTextStyles().darkBlue_w600_s24,
                 ),
               ),
@@ -99,17 +91,16 @@ class ChartsWidget extends StatelessWidget {
                   primaryYAxis: CategoryAxis(isVisible: false),
                   series: <ChartSeries<Logs, String>>[
                     StackedColumnSeries(
-                        color: ProjectCustomColors().customPurple,
-                        dataSource: deviceLogs,
-                        xValueMapper: (Logs logs, _) => logs.time!.toString(),
-                        yValueMapper: (Logs logs, _) => logs.Humidity,
-                        name: 'Humidity'),
-                    StackedColumnSeries(
+                        dataLabelSettings: DataLabelSettings(isVisible: true),
+                        markerSettings: MarkerSettings(isVisible: true),
                         color: ProjectCustomColors().customPalePurple2,
                         dataSource: deviceLogs,
                         xValueMapper: (Logs logs, _) => logs.time!.toString(),
                         yValueMapper: (Logs logs, _) => logs.water,
-                        name: 'Water'),
+                        sortingOrder: SortingOrder.ascending,
+                        sortFieldValueMapper: (Logs logs, _) =>
+                            logs.time!.toString(),
+                        name: "Water"),
                   ],
                 ),
               ),
