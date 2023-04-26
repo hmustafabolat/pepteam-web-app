@@ -15,6 +15,8 @@ class AuthViewModel extends GetxController {
   final FirebaseFirestore _firestoreService = FirebaseFirestore.instance;
 
   final signInFormGlobalKey = GlobalKey<FormState>();
+  final signUpFormGlobalKey = GlobalKey<FormState>();
+
   String? email, password;
 
   Future<bool> signIn() async {
@@ -31,6 +33,8 @@ class AuthViewModel extends GetxController {
   }
 
   Future<void> signUp(String email, String password, String name) async {
+    final isValid = signUpFormGlobalKey.currentState!.validate();
+    if (!isValid) return;
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(

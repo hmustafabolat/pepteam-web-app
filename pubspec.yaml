@@ -26,7 +26,8 @@ dependencies:
   #stateManagement
   get: ^4.6.5
 
-
+  #validator
+  email_validator: ^2.1.17
 
   #Firebase
   firebase_auth: ^4.4.0

@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
@@ -48,6 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecorators().EmailInput,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (email) => email != null && ! EmailValidator.validate(email) 
+                              ? 'Geçerli bir email giriniz' : null,
                         ),
                         SizedBox(height: 20),
                         Text('Şifre'),
@@ -56,8 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           onChanged: (value) {
                             _viewModel.password = value;
                           },
+                          obscureText: true,
                           keyboardType: TextInputType.visiblePassword,
-                          decoration: InputDecorators().EmailInput,
+                          decoration: InputDecorators().PasswordInput,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) => value != null && value.length < 8
+                              ? 'Enter min. 8 characters' : null,
                         ),
                       ],
                     )),
