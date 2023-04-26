@@ -8,7 +8,27 @@ import '../project_paddings.dart';
 import '../project_text_styles.dart';
 
 class ChartsWidget extends StatelessWidget {
-  const ChartsWidget({super.key});
+  ChartsWidget({super.key});
+  TooltipBehavior? _tooltipBehavior;
+  ZoomPanBehavior? _zoomPanBehavior;
+  TrackballBehavior? _trackballBehavior;
+
+  @override
+  void initState() {
+    _trackballBehavior = TrackballBehavior(
+        enable: true,
+        markerSettings: TrackballMarkerSettings(
+            markerVisibility: TrackballVisibilityMode.visible),
+        tooltipDisplayMode: TrackballDisplayMode.floatAllPoints,
+        tooltipSettings: InteractiveTooltip(enable: true, color: Colors.red),
+        activationMode: ActivationMode.singleTap);
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    _zoomPanBehavior = ZoomPanBehavior(
+      enableMouseWheelZooming: true,
+      zoomMode: ZoomMode.x,
+      enablePanning: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,23 +50,28 @@ class ChartsWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(40.0),
                 child: SfCartesianChart(
+                    trackballBehavior: _trackballBehavior,
+                    zoomPanBehavior: _zoomPanBehavior,
                     primaryXAxis: CategoryAxis(),
-                    primaryYAxis: NumericAxis(isVisible: false),
+                    primaryYAxis: NumericAxis(isVisible: true),
                     series: <ChartSeries<Logs, String>>[
-                      SplineSeries<Logs, String>(
+                      LineSeries<Logs, String>(
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
                           color: ProjectCustomColors().customPurple,
-                          // Bind data source
                           dataSource: deviceLogs,
-                          xValueMapper: (Logs logs, _) =>
-                              logs.time!.day.toString(),
+                          markerSettings: MarkerSettings(isVisible: true),
+                          xValueMapper: (Logs logs, _) => logs.time!.toString(),
                           yValueMapper: (Logs logs, _) => logs.Humidity,
+                          sortingOrder: SortingOrder.ascending,
+                          sortFieldValueMapper: (Logs logs, _) =>
+                              logs.time!.toString(),
                           name: "Humidity"),
-                      SplineSeries<Logs, String>(
+                      LineSeries<Logs, String>(
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                          markerSettings: MarkerSettings(isVisible: true),
                           color: ProjectCustomColors().customPalePurple2,
-                          // Bind data source
                           dataSource: deviceLogs,
-                          xValueMapper: (Logs logs, _) =>
-                              logs.time!.day.toString(),
+                          xValueMapper: (Logs logs, _) => logs.time!.toString(),
                           yValueMapper: (Logs logs, _) => logs.water,
                           name: "Water"),
                     ]),
@@ -76,15 +101,13 @@ class ChartsWidget extends StatelessWidget {
                     StackedColumnSeries(
                         color: ProjectCustomColors().customPurple,
                         dataSource: deviceLogs,
-                        xValueMapper: (Logs logs, _) =>
-                            logs.time!.day.toString(),
+                        xValueMapper: (Logs logs, _) => logs.time!.toString(),
                         yValueMapper: (Logs logs, _) => logs.Humidity,
                         name: 'Humidity'),
                     StackedColumnSeries(
                         color: ProjectCustomColors().customPalePurple2,
                         dataSource: deviceLogs,
-                        xValueMapper: (Logs logs, _) =>
-                            logs.time!.day.toString(),
+                        xValueMapper: (Logs logs, _) => logs.time!.toString(),
                         yValueMapper: (Logs logs, _) => logs.water,
                         name: 'Water'),
                   ],
