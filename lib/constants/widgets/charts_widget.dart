@@ -57,7 +57,7 @@ class ChartsWidget extends StatelessWidget {
                           dataSource: deviceLogs,
                           markerSettings: MarkerSettings(isVisible: true),
                           xValueMapper: (Logs logs, _) =>
-                              logs.time!.toString().split("")[0],
+                              logs.time!.toString().split(" ")[0],
                           yValueMapper: (Logs logs, _) => logs.Humidity,
                           sortingOrder: SortingOrder.ascending,
                           sortFieldValueMapper: (Logs logs, _) =>
@@ -92,7 +92,8 @@ class ChartsWidget extends StatelessWidget {
                         markerSettings: MarkerSettings(isVisible: true),
                         color: ProjectCustomColors().customPalePurple2,
                         dataSource: deviceLogs,
-                        xValueMapper: (Logs logs, _) => logs.time!.toString(),
+                        xValueMapper: (Logs logs, _) =>
+                            logs.time!.toString().split(" ")[0],
                         yValueMapper: (Logs logs, _) => logs.water,
                         sortingOrder: SortingOrder.ascending,
                         sortFieldValueMapper: (Logs logs, _) =>

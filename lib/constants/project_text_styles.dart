@@ -52,4 +52,18 @@ class ProjectTextStyles {
           fontSize: 24,
           fontWeight: FontWeight.w600,
           color: ProjectCustomColors().customDarkBlue));
+
+  final TextStyle black_w400_s13 = GoogleFonts.inter(
+      textStyle: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black));
+  final TextStyle customPurple_w400_s12 = GoogleFonts.inter(
+      textStyle: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: ProjectCustomColors().customPurple));
+  final TextStyle customPurple_w400_s14 = GoogleFonts.inter(
+      textStyle: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: ProjectCustomColors().customPurple));
 }

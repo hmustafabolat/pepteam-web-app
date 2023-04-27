@@ -10,4 +10,6 @@ class ProjectPaddings {
   final EdgeInsets only_rT = const EdgeInsets.only(right: 25, top: 10);
   final EdgeInsets only_rL = const EdgeInsets.only(right: 133, left: 133);
   final EdgeInsets only_lT_45_30 = const EdgeInsets.only(left: 45, top: 30);
+  final EdgeInsets only_lTR_50_50_50 =
+      const EdgeInsets.only(left: 30, right: 50, top: 20);
 }
