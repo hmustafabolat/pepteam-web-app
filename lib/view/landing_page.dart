@@ -13,7 +13,7 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (_authViewModel.userModel.value?.id != null) {
-        return LoginScreen();
+        return DashboardPage();
       } else {
         return LoginScreen();
       }

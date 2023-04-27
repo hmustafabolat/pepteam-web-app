@@ -23,11 +23,7 @@ class ChartsWidget extends StatelessWidget {
         tooltipSettings: InteractiveTooltip(enable: true, color: Colors.red),
         activationMode: ActivationMode.singleTap);
     _tooltipBehavior = TooltipBehavior(enable: true);
-    _zoomPanBehavior = ZoomPanBehavior(
-      enableMouseWheelZooming: true,
-      zoomMode: ZoomMode.x,
-      enablePanning: true,
-    );
+    _zoomPanBehavior = ZoomPanBehavior(enableDoubleTapZooming: true);
   }
 
   @override
@@ -60,7 +56,8 @@ class ChartsWidget extends StatelessWidget {
                           color: ProjectCustomColors().customPurple,
                           dataSource: deviceLogs,
                           markerSettings: MarkerSettings(isVisible: true),
-                          xValueMapper: (Logs logs, _) => logs.time!.toString(),
+                          xValueMapper: (Logs logs, _) =>
+                              logs.time!.toString().split("")[0],
                           yValueMapper: (Logs logs, _) => logs.Humidity,
                           sortingOrder: SortingOrder.ascending,
                           sortFieldValueMapper: (Logs logs, _) =>
