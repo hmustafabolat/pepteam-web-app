@@ -12,7 +12,7 @@ class InputDecorators {
       borderSide: BorderSide(color: ProjectCustomColors().customPaleGrey),
       borderRadius: BorderRadius.circular(8),
     ),
-    hintText: 'İsim Giriniz',
+    hintText: 'Ad, Soyad Giriniz',
     fillColor: Colors.white,
     filled: true,
   );
@@ -26,7 +26,7 @@ class InputDecorators {
       borderSide: BorderSide(color: ProjectCustomColors().customPaleGrey),
       borderRadius: BorderRadius.circular(8),
     ),
-    hintText: 'Email Giriniz',
+    hintText: 'E-mail Giriniz',
     fillColor: Colors.white,
     filled: true,
   );

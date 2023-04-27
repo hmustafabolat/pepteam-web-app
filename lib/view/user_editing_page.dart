@@ -26,7 +26,7 @@ class _UserEditingPageState extends State<UserEditingPage> {
   final TextEditingController _nameController = TextEditingController();
 
   int _selectedIndex = 0;
-  List<String> _buttonNames = ['Dashboard', 'Users', 'Kullanıcı Ekle'];
+  List<String> _buttonNames = ['Dashboard', 'Users'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,76 +117,77 @@ class _UserEditingPageState extends State<UserEditingPage> {
                 key: _controller.signUpFormGlobalKey,
                 child: Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Kullanıcı Düzenle',
-                          style: ProjectTextStyles().darkGrey_w500_s14,
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                            'Lütfen düzenlemek istediğiniz kullanıcı bilgilerini girin.',
-                            style: ProjectTextStyles().grey_w400_s14),
-                        SizedBox(height: 20),
-                        Container(
-                          height: 1,
-                          color: Colors.grey[300],
-                        ),
-                        SizedBox(height: 25),
-                        Text('Adı Soyadı'),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          // onSaved: (value) {
-                          //   _viewModel.password = value;
-                          // },
-                          controller: _nameController,
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecorators().FullNameInput,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) => value != null && value.length < 1
-                              ? 'Kullanıcı adı giriniz'
-                              : null,
-                        ),
-                        SizedBox(height: 20),
-                        Text('Şifre'),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          // onSaved: (value) {
-                          //   _viewModel.password = value;
-                          // },
-                          controller: _passwordController,
-                          obscureText: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          decoration: InputDecorators().PasswordInput,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) => value != null && value.length < 8
-                              ? 'Min. 8 karakter'
-                              : null,
-                        ),
-                        SizedBox(height: 5),
-                        Text('Şifre 8 karakterden uzun olmalıdır.',
-                            style: ProjectTextStyles().grey_w400_s14),
-                        SizedBox(height: 20),
-                        Text('Mail Adresi'),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          // onSaved: (value) {
-                          //   _viewModel.password = value;
-                          // },
-                          controller: _emailController,
-                          keyboardType: TextInputType.visiblePassword,
-                          decoration: InputDecorators().EmailInput,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (email) =>
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Kullanıcı Düzenle',
+                      style: ProjectTextStyles().darkGrey_w500_s14,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                        'Lütfen düzenlemek istediğiniz kullanıcı bilgilerini girin.',
+                        style: ProjectTextStyles().grey_w400_s14),
+                    SizedBox(height: 20),
+                    Container(
+                      height: 1,
+                      color: Colors.grey[300],
+                    ),
+                    SizedBox(height: 25),
+                    Text('Adı Soyadı'),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      // onSaved: (value) {
+                      //   _viewModel.password = value;
+                      // },
+                      controller: _nameController,
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecorators().FullNameInput,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) => value != null && value.length < 1
+                          ? 'Ad, soyad giriniz'
+                          : null,
+                    ),
+                    SizedBox(height: 20),
+                    Text('Şifre'),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      // onSaved: (value) {
+                      //   _viewModel.password = value;
+                      // },
+                      controller: _passwordController,
+                      obscureText: true,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecorators().PasswordInput,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) => value != null && value.length < 8
+                          ? 'Min. 8 karakter'
+                          : null,
+                    ),
+                    SizedBox(height: 5),
+                    Text('Şifre 8 karakterden uzun olmalıdır.',
+                        style: ProjectTextStyles().grey_w400_s14),
+                    SizedBox(height: 20),
+                    Text('Mail Adresi'),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      // onSaved: (value) {
+                      //   _viewModel.password = value;
+                      // },
+                      controller: _emailController,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecorators().EmailInput,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (email) =>
                           email != null && !EmailValidator.validate(email)
                               ? 'Geçerli bir email giriniz'
                               : null,
-                        ),
-                        SizedBox(height: 45),
-                        SizedBox(
-                          width: double.maxFinite,
-                          child:
-                          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    ),
+                    SizedBox(height: 45),
+                    SizedBox(
+                      width: double.maxFinite,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
                             OutlinedButton(
                                 onPressed: () {
                                   Get.back();
@@ -205,12 +206,11 @@ class _UserEditingPageState extends State<UserEditingPage> {
                                     _nameController.text.trim(),
                                   );
                                 },
-                                child: Text('Kullanıcı Düzenle'))
+                                child: Text('Kullanıcı Bilgilerini Güncelle'))
                           ]),
-                        )
-                      ],
-                    )))
-
+                    )
+                  ],
+                )))
           ],
         ),
       ),

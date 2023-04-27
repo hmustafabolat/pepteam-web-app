@@ -14,6 +14,7 @@ import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/model/logs_model.dart';
 import 'package:ss_test/storage/storage.dart';
 import 'package:ss_test/view/user_editing_page.dart';
+import 'package:ss_test/viewModel/auth_viewModel.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
 import '../model/device_model.dart';
@@ -110,13 +111,17 @@ class _DashboardPageState extends State<DashboardPage> {
                 SvgImage().settingsIcon,
                 color: Colors.white,
               )),
-          GestureDetector(
-            onTap: () {},
-            child: CircleAvatar(
-              backgroundImage: NetImage().userImage,
-              radius: 25,
+          CircleAvatar(
+            child: IconButton(
+              onPressed: () async {
+                print("#1");
+                final AuthViewModel _viewModel = Get.find();
+                await _viewModel.signOut();
+                print("#2");
+              },
+              icon: Icon(Icons.person),
             ),
-          ),
+          )
         ],
       ),
       body: SingleChildScrollView(
