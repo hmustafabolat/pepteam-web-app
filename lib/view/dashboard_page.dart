@@ -14,6 +14,7 @@ import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/model/logs_model.dart';
 import 'package:ss_test/storage/storage.dart';
 import 'package:ss_test/view/user_editing_page.dart';
+import 'package:ss_test/view/users_page.dart';
 import 'package:ss_test/viewModel/auth_viewModel.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 import '../constants/project_text_styles.dart';
@@ -74,31 +75,21 @@ class _DashboardPageState extends State<DashboardPage> {
               color: Colors.white,
             ),
             SizedBox(width: 30),
-            ToggleButtons(
-              selectedColor: Colors.white,
-              renderBorder: false,
-              children: _buttonNames.map((name) {
-                return ElevatedButton(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {},
+                child: Text("Dashboard"),
+                style: ElevatedButton.styleFrom(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
                   onPressed: () {
-                    int index = _buttonNames.indexOf(name);
-                    setState(() {
-                      _selectedIndex = index;
-                    });
+                    Get.to(UsersPage());
                   },
-                  child: Text(name),
-                  style: ElevatedButton.styleFrom(
-                    primary: _selectedIndex == _buttonNames.indexOf(name)
-                        ? ProjectCustomColors()
-                            .customPalePurple // seçili butonun rengi
-                        : Color.fromARGB(0, 255, 255,
-                            255), // seçili olmayan butonların rengi
-                    elevation: 0,
-                  ),
-                );
-              }).toList(),
-              isSelected: List.generate(_buttonNames.length, (index) {
-                return _selectedIndex == index;
-              }),
+                  child: Text("Users")),
             ),
           ],
         ),

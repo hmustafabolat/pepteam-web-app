@@ -6,10 +6,13 @@ import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/view/add_user_page.dart';
+import 'package:ss_test/view/dashboard_page.dart';
+import 'package:ss_test/view/users_page.dart';
 import 'package:ss_test/viewModel/auth_viewModel.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
+import 'password_update_page.dart';
 
 class UserEditingPage extends StatefulWidget {
   const UserEditingPage({super.key});
@@ -25,8 +28,15 @@ class _UserEditingPageState extends State<UserEditingPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
-  int _selectedIndex = 0;
-  List<String> _buttonNames = ['Dashboard', 'Users'];
+  /* int _selectedIndex = 0;
+  List<String> _buttonNames = [
+    'Dashboard',
+    'Users',
+    'Reset Password',
+    'Add User',
+    'Edit User'
+  ];
+ */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +50,30 @@ class _UserEditingPageState extends State<UserEditingPage> {
               color: Colors.white,
             ),
             SizedBox(width: 30),
-            ToggleButtons(
+
+            /* ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                onPressed: () {
+                  Get.to(DashboardPage());
+                },
+                child: Text(
+                  "Dashboard",
+                  style: ProjectTextStyles().black_w400_s13,
+                )),
+            SizedBox(
+              width: 20,
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                onPressed: () {
+                  Get.to(DashboardPage());
+                },
+                child: Text(
+                  "Users",
+                  style: ProjectTextStyles().black_w400_s13,
+                )), */
+
+            /* ToggleButtons(
               selectedColor: Colors.white,
               renderBorder: false,
               children: _buttonNames.map((name) {
@@ -64,21 +97,18 @@ class _UserEditingPageState extends State<UserEditingPage> {
               isSelected: List.generate(_buttonNames.length, (index) {
                 return _selectedIndex == index;
               }),
-            ),
+            ), */
           ],
         ),
         actions: [
-          IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                SvgImage().settingsIcon,
-                color: Colors.white,
-              )),
-          GestureDetector(
-            onTap: () {},
-            child: CircleAvatar(
-              backgroundImage: NetImage().userImage,
-              radius: 25,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: CircleAvatar(
+                backgroundImage: NetImage().userImage,
+                radius: 25,
+              ),
             ),
           )
         ],
@@ -88,29 +118,39 @@ class _UserEditingPageState extends State<UserEditingPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ToggleButtons(
-              direction: Axis.vertical,
-              selectedColor: Colors.white,
-              renderBorder: false,
-              fillColor: Colors.red,
-              children: _buttonNames.map((name) {
-                return ElevatedButton(
+            Column(
+              children: [
+                ElevatedButton(
                   onPressed: () {
-                    int index = _buttonNames.indexOf(name);
-                    _selectedIndex = index;
+                    Get.back();
                   },
-                  child: Text(name, style: ProjectTextStyles().grey_w500_s14),
-                  style: ElevatedButton.styleFrom(
-                    primary: _selectedIndex == _buttonNames.indexOf(name)
-                        ? Colors.white
-                        : Colors.transparent,
-                    elevation: 0,
-                  ),
-                );
-              }).toList(),
-              isSelected: List.generate(_buttonNames.length, (index) {
-                return _selectedIndex == index;
-              }),
+                  child: Text("Dashboard"),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(UsersPage());
+                    },
+                    child: Text("Users")),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(PasswordUpdate());
+                    },
+                    child: Text("Update Password")),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(UserAddPage());
+                    },
+                    child: Text("Add User")),
+              ],
             ),
             SizedBox(width: 110),
             Form(

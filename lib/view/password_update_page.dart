@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
+import 'user_editing_page.dart';
+import 'users_page.dart';
 
 class PasswordUpdate extends StatefulWidget {
   const PasswordUpdate({super.key});
@@ -30,31 +33,6 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
               color: Colors.white,
             ),
             SizedBox(width: 30),
-            ToggleButtons(
-              selectedColor: Colors.white,
-              renderBorder: false,
-              children: _buttonNames.map((name) {
-                return ElevatedButton(
-                  onPressed: () {
-                    int index = _buttonNames.indexOf(name);
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  },
-                  child: Text(name),
-                  style: ElevatedButton.styleFrom(
-                    primary: _selectedIndex == _buttonNames.indexOf(name)
-                        ? ProjectCustomColors()
-                            .customPalePurple // seçili butonun rengi
-                        : Colors.transparent, // seçili olmayan butonların rengi
-                    elevation: 0,
-                  ),
-                );
-              }).toList(),
-              isSelected: List.generate(_buttonNames.length, (index) {
-                return _selectedIndex == index;
-              }),
-            ),
           ],
         ),
         actions: [
@@ -79,29 +57,39 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ToggleButtons(
-              direction: Axis.vertical,
-              selectedColor: Colors.white,
-              renderBorder: false,
-              fillColor: Colors.red,
-              children: _buttonNames.map((name) {
-                return ElevatedButton(
+            Column(
+              children: [
+                ElevatedButton(
                   onPressed: () {
-                    int index = _buttonNames.indexOf(name);
-                    _selectedIndex = index;
+                    Get.back(); //Get.to kullanınca Stream hatası alıyorum!!!
                   },
-                  child: Text(name, style: ProjectTextStyles().grey_w500_s14),
-                  style: ElevatedButton.styleFrom(
-                    primary: _selectedIndex == _buttonNames.indexOf(name)
-                        ? Colors.white
-                        : Colors.transparent,
-                    elevation: 0,
-                  ),
-                );
-              }).toList(),
-              isSelected: List.generate(_buttonNames.length, (index) {
-                return _selectedIndex == index;
-              }),
+                  child: Text("Dashboard"),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(UsersPage());
+                    },
+                    child: Text("Users")),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(PasswordUpdate());
+                    },
+                    child: Text("Add User")),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      UserEditingPage();
+                    },
+                    child: Text("Edit User"))
+              ],
             ),
             SizedBox(width: 110),
             Expanded(

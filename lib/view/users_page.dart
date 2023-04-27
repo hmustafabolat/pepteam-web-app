@@ -9,6 +9,7 @@ import 'package:ss_test/view/user_editing_page.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
+import 'password_update_page.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
@@ -18,8 +19,6 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
-  int _selectedIndex = 0;
-  List<String> _buttonNames = ['Dashboard', 'Users'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,31 +32,6 @@ class _UsersPageState extends State<UsersPage> {
               color: Colors.white,
             ),
             SizedBox(width: 30),
-            ToggleButtons(
-              selectedColor: Colors.white,
-              renderBorder: false,
-              children: _buttonNames.map((name) {
-                return ElevatedButton(
-                  onPressed: () {
-                    int index = _buttonNames.indexOf(name);
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  },
-                  child: Text(name),
-                  style: ElevatedButton.styleFrom(
-                    primary: _selectedIndex == _buttonNames.indexOf(name)
-                        ? ProjectCustomColors()
-                            .customPalePurple // seçili butonun rengi
-                        : Colors.transparent, // seçili olmayan butonların rengi
-                    elevation: 0,
-                  ),
-                );
-              }).toList(),
-              isSelected: List.generate(_buttonNames.length, (index) {
-                return _selectedIndex == index;
-              }),
-            ),
           ],
         ),
         actions: [
@@ -87,29 +61,39 @@ class _UsersPageState extends State<UsersPage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ToggleButtons(
-            direction: Axis.vertical,
-            selectedColor: Colors.white,
-            renderBorder: false,
-            fillColor: Colors.red,
-            children: _buttonNames.map((name) {
-              return ElevatedButton(
+          Column(
+            children: [
+              ElevatedButton(
                 onPressed: () {
-                  int index = _buttonNames.indexOf(name);
-                  _selectedIndex = index;
+                  Get.back();
                 },
-                child: Text(name, style: ProjectTextStyles().grey_w500_s14),
-                style: ElevatedButton.styleFrom(
-                  primary: _selectedIndex == _buttonNames.indexOf(name)
-                      ? Colors.white
-                      : Colors.transparent,
-                  elevation: 0,
-                ),
-              );
-            }).toList(),
-            isSelected: List.generate(_buttonNames.length, (index) {
-              return _selectedIndex == index;
-            }),
+                child: Text("Dashboard"),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.to(UserAddPage());
+                  },
+                  child: Text("Add User")),
+              SizedBox(
+                height: 25,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.to(UserEditingPage());
+                  },
+                  child: Text("Edit User")),
+              SizedBox(
+                height: 25,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.to(PasswordUpdate());
+                  },
+                  child: Text("Update Password")),
+            ],
           ),
           SizedBox(width: 110),
           Expanded(
@@ -158,7 +142,7 @@ class _UsersPageState extends State<UsersPage> {
                 ),
                 Center(
                   child: Container(
-                    height: 500,
+                    height: 600,
                     width: 1560,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -180,9 +164,12 @@ class _UsersPageState extends State<UsersPage> {
                         children: [
                           Row(
                             children: [
+                              SizedBox(
+                                width: 40,
+                              ),
                               Text("Name"),
                               SizedBox(
-                                width: 1060,
+                                width: 780,
                               ),
                               Text("Role")
                             ],
