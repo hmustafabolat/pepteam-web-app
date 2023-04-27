@@ -12,3 +12,25 @@ class UserModel {
   UserModel.fromJson(DocumentSnapshot<Map<String, dynamic>> document)
       : this.email = document.data()?["email"];
 }
+
+class User {
+  String id;
+  String name;
+  String email;
+  bool isAdmin;
+  User({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.isAdmin,
+  });
+
+  factory User.fromSnapshot(DocumentSnapshot snapshot) {
+    return User(
+      id: snapshot['id'],
+      name: snapshot['name'],
+      email: snapshot['email'],
+      isAdmin: snapshot['isAdmin'],
+    );
+  }
+}

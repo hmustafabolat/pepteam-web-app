@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
+import 'package:ss_test/model/user_model.dart';
 import 'package:ss_test/view/add_user_page.dart';
 import 'package:ss_test/view/user_editing_page.dart';
+import 'package:ss_test/viewModel/dashboard_viewModel.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
@@ -19,6 +21,7 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
+  final DashboardViewModel controller = Get.put(DashboardViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,61 +180,91 @@ class _UsersPageState extends State<UsersPage> {
                           SizedBox(
                             height: 25,
                           ),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetImage().userImage,
-                                    radius: 15,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Kullanıcı Adı",
-                                          style: ProjectTextStyles()
-                                              .white_w500_s15,
-                                        ),
-                                        Text(
-                                          "Kullanıcı Email",
-                                          style:
-                                              ProjectTextStyles().grey_w400_s12,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    "Admin",
-                                    style: ProjectTextStyles().grey_w400_s14,
-                                  ),
-                                  SizedBox(
-                                    width: 100,
-                                  ),
-                                  Text(
-                                    "Delete",
-                                    style: ProjectTextStyles().grey_w500_s14,
-                                  ),
-                                  SizedBox(
-                                    width: 30,
-                                  ),
-                                  TextButton(
-                                      onPressed: () {
-                                        Get.to(UserEditingPage());
-                                      },
-                                      child: Text(
-                                        "Edit",
-                                        style: ProjectTextStyles()
-                                            .customPurple_w400_s14,
-                                      ))
-                                ],
-                              )
-                            ],
-                          )
+
+                          StreamBuilder<List<User>>(
+                            stream: controller.userModelStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+
+                              if (!snapshot.hasData) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              List<User> users = snapshot.data!;
+
+                              return ListView.builder(
+                                itemCount: users.length,
+                                itemBuilder: (context, index) {
+                                  String? userName = users[index].name;
+                                  String? userEmail = users[index].email;
+                                  String? userRole = users[index].isAdmin.toString();
+
+                                  return ListTile(
+                                    title: Text(userName!),
+                                    subtitle: Text(userEmail!),
+                                    trailing: Text(userRole),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          // Column(
+                          //   children: [
+                          //     Row(
+                          //       children: [
+                          //         CircleAvatar(
+                          //           backgroundImage: NetImage().userImage,
+                          //           radius: 15,
+                          //         ),
+                          //         Padding(
+                          //           padding: EdgeInsets.only(left: 8.0),
+                          //           child: Column(
+                          //             crossAxisAlignment:
+                          //                 CrossAxisAlignment.start,
+                          //             children: [
+                          //               Text(
+                          //                 "Kullanıcı Adı",
+                          //                 style: ProjectTextStyles()
+                          //                     .white_w500_s15,
+                          //               ),
+                          //               Text(
+                          //                 "Kullanıcı Email",
+                          //                 style:
+                          //                     ProjectTextStyles().grey_w400_s12,
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //         Spacer(),
+                          //         Text(
+                          //           "Admin",
+                          //           style: ProjectTextStyles().grey_w400_s14,
+                          //         ),
+                          //         SizedBox(
+                          //           width: 100,
+                          //         ),
+                          //         Text(
+                          //           "Delete",
+                          //           style: ProjectTextStyles().grey_w500_s14,
+                          //         ),
+                          //         SizedBox(
+                          //           width: 30,
+                          //         ),
+                          //         TextButton(
+                          //             onPressed: () {
+                          //               Get.to(UserEditingPage());
+                          //             },
+                          //             child: Text(
+                          //               "Edit",
+                          //               style: ProjectTextStyles()
+                          //                   .customPurple_w400_s14,
+                          //             ))
+                          //       ],
+                          //     )
+                          //   ],
+                          // )
                         ],
                       ),
                     ),

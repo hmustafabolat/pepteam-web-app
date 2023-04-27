@@ -6,6 +6,7 @@ import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/model/device_model.dart';
 import 'package:ss_test/model/logs_model.dart';
 import 'package:ss_test/model/pump_model.dart';
+import 'package:ss_test/model/user_model.dart';
 import 'package:ss_test/storage/storage.dart';
 
 class DashboardViewModel extends GetxController {
@@ -22,6 +23,12 @@ class DashboardViewModel extends GetxController {
   StreamController<List<Logs>> _logsModelController =
       StreamController<List<Logs>>();
   Stream<List<Logs>> get logsModelStream => _logsModelController.stream;
+
+  StreamController<List<User>> _userModelController =
+  StreamController<List<User>>();
+  Stream<List<User>> get userModelStream => _userModelController.stream;
+
+
 
   List<Device> devices = [];
 
@@ -124,6 +131,21 @@ class DashboardViewModel extends GetxController {
     });
   }
 
+  void getUsers(){
+    _firestore
+        .collection("Users")
+        .snapshots()
+        .listen((data) {
+      List<User> users = [];
+
+      data.docs.forEach((doc) {
+        users.add(User.fromSnapshot(doc));
+        print("Modelden gelen : " + users.last.name);
+      });
+      _userModelController.add(users);
+    });
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -143,6 +165,7 @@ class DashboardViewModel extends GetxController {
     getLogs(deviceId, null, null);
     getPump(deviceId);
     getAlarm(deviceId);
+    getUsers();
   }
 
   @override
