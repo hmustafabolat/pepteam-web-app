@@ -22,6 +22,10 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends State<UsersPage> {
   final DashboardViewModel controller = Get.put(DashboardViewModel());
+  void goToAddUserPage() {
+    Get.to(UserAddPage());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,7 +127,7 @@ class _UsersPageState extends State<UsersPage> {
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.white),
                     onPressed: () {
-                      Get.to(UserAddPage);
+                      goToAddUserPage();
                     },
                     icon: Icon(
                       Icons.add,
@@ -180,7 +184,6 @@ class _UsersPageState extends State<UsersPage> {
                           SizedBox(
                             height: 25,
                           ),
-
                           StreamBuilder<List<User>>(
                             stream: controller.userModelStream,
                             builder: (context, snapshot) {
@@ -196,92 +199,23 @@ class _UsersPageState extends State<UsersPage> {
                               List<User> users = snapshot.data!;
 
                               return Expanded(
-                                child:  ListView.builder(
-                                  itemCount: users.length,
-                                  itemBuilder: (context, index) {
-                                    String? userName = users[index].name;
-                                    String? userEmail = users[index].email;
-                                    String? userRole = users[index].isAdmin.toString();
+                                  child: ListView.builder(
+                                itemCount: users.length,
+                                itemBuilder: (context, index) {
+                                  String? userName = users[index].name;
+                                  String? userEmail = users[index].email;
+                                  String? userRole =
+                                      users[index].isAdmin.toString();
 
-                                    return ListTile(
-                                      title: Text(userName),
-                                      subtitle: Text(userEmail),
-                                      trailing: Text(userRole),
-                                    );
-                                  },
-                                )
-                              );
+                                  return ListTile(
+                                    title: Text(userName),
+                                    subtitle: Text(userEmail),
+                                    trailing: Text(userRole),
+                                  );
+                                },
+                              ));
                             },
                           ),
-                          //   ListView.builder(
-                          //   itemCount: users.length,
-                          //   itemBuilder: (context, index) {
-                          //     String? userName = users[index].name;
-                          //     String? userEmail = users[index].email;
-                          //     String? userRole = users[index].isAdmin.toString();
-                          //
-                          //     return ListTile(
-                          //       title: Text(userName!),
-                          //       subtitle: Text(userEmail!),
-                          //       trailing: Text(userRole),
-                          //     );
-                          //   },
-                          // );
-                          // Column(
-                          //   children: [
-                          //     Row(
-                          //       children: [
-                          //         CircleAvatar(
-                          //           backgroundImage: NetImage().userImage,
-                          //           radius: 15,
-                          //         ),
-                          //         Padding(
-                          //           padding: EdgeInsets.only(left: 8.0),
-                          //           child: Column(
-                          //             crossAxisAlignment:
-                          //                 CrossAxisAlignment.start,
-                          //             children: [
-                          //               Text(
-                          //                 "Kullanıcı Adı",
-                          //                 style: ProjectTextStyles()
-                          //                     .white_w500_s15,
-                          //               ),
-                          //               Text(
-                          //                 "Kullanıcı Email",
-                          //                 style:
-                          //                     ProjectTextStyles().grey_w400_s12,
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ),
-                          //         Spacer(),
-                          //         Text(
-                          //           "Admin",
-                          //           style: ProjectTextStyles().grey_w400_s14,
-                          //         ),
-                          //         SizedBox(
-                          //           width: 100,
-                          //         ),
-                          //         Text(
-                          //           "Delete",
-                          //           style: ProjectTextStyles().grey_w500_s14,
-                          //         ),
-                          //         SizedBox(
-                          //           width: 30,
-                          //         ),
-                          //         TextButton(
-                          //             onPressed: () {
-                          //               Get.to(UserEditingPage());
-                          //             },
-                          //             child: Text(
-                          //               "Edit",
-                          //               style: ProjectTextStyles()
-                          //                   .customPurple_w400_s14,
-                          //             ))
-                          //       ],
-                          //     )
-                          //   ],
-                          // )
                         ],
                       ),
                     ),
