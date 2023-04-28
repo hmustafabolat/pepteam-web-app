@@ -74,7 +74,10 @@ class _UsersPageState extends State<UsersPage> {
                 onPressed: () {
                   Get.back();
                 },
-                child: Text("Dashboard"),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+                  child: Text("Dashboard"),
+                ),
               ),
               SizedBox(
                 height: 25,
@@ -83,7 +86,11 @@ class _UsersPageState extends State<UsersPage> {
                   onPressed: () {
                     Get.to(UserAddPage());
                   },
-                  child: Text("Add User")),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+                    child: Text("Add User"),
+                  )),
               SizedBox(
                 height: 25,
               ),
@@ -91,7 +98,11 @@ class _UsersPageState extends State<UsersPage> {
                   onPressed: () {
                     Get.to(UserEditingPage());
                   },
-                  child: Text("Edit User")),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+                    child: Text("Edit User"),
+                  )),
               SizedBox(
                 height: 25,
               ),
@@ -99,7 +110,11 @@ class _UsersPageState extends State<UsersPage> {
                   onPressed: () {
                     Get.to(PasswordUpdate());
                   },
-                  child: Text("Update Password")),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 17),
+                    child: Text("Update Password"),
+                  )),
             ],
           ),
           SizedBox(width: 110),

@@ -26,15 +26,7 @@ class _UserEditingPageState extends State<UserEditingPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  /* int _selectedIndex = 0;
-  List<String> _buttonNames = [
-    'Dashboard',
-    'Users',
-    'Reset Password',
-    'Add User',
-    'Edit User'
-  ];
- */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,54 +40,6 @@ class _UserEditingPageState extends State<UserEditingPage> {
               color: Colors.white,
             ),
             SizedBox(width: 30),
-
-            /* ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                onPressed: () {
-                  Get.to(DashboardPage());
-                },
-                child: Text(
-                  "Dashboard",
-                  style: ProjectTextStyles().black_w400_s13,
-                )),
-            SizedBox(
-              width: 20,
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                onPressed: () {
-                  Get.to(DashboardPage());
-                },
-                child: Text(
-                  "Users",
-                  style: ProjectTextStyles().black_w400_s13,
-                )), */
-
-            /* ToggleButtons(
-              selectedColor: Colors.white,
-              renderBorder: false,
-              children: _buttonNames.map((name) {
-                return ElevatedButton(
-                  onPressed: () {
-                    int index = _buttonNames.indexOf(name);
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  },
-                  child: Text(name),
-                  style: ElevatedButton.styleFrom(
-                    primary: _selectedIndex == _buttonNames.indexOf(name)
-                        ? ProjectCustomColors()
-                            .customPalePurple // seçili butonun rengi
-                        : Colors.transparent, // seçili olmayan butonların rengi
-                    elevation: 0,
-                  ),
-                );
-              }).toList(),
-              isSelected: List.generate(_buttonNames.length, (index) {
-                return _selectedIndex == index;
-              }),
-            ), */
           ],
         ),
         actions: [
@@ -122,24 +66,12 @@ class _UserEditingPageState extends State<UserEditingPage> {
                   onPressed: () {
                     Get.back();
                   },
-                  child: Text("Dashboard"),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+                    child: Text("Dashboard"),
+                  ),
                 ),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(UsersPage());
-                    },
-                    child: Text("Users")),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(PasswordUpdate());
-                    },
-                    child: Text("Update Password")),
                 SizedBox(
                   height: 25,
                 ),
@@ -147,7 +79,35 @@ class _UserEditingPageState extends State<UserEditingPage> {
                     onPressed: () {
                       Get.to(UserAddPage());
                     },
-                    child: Text("Add User")),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+                      child: Text("Add User"),
+                    )),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(PasswordUpdate());
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 17),
+                      child: Text("Update Password"),
+                    )),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(PasswordUpdate());
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+                      child: Text("Users Page"),
+                    )),
               ],
             ),
             SizedBox(width: 110),

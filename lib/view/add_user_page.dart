@@ -69,18 +69,26 @@ class _UserAddPageState extends State<UserAddPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Get.back(); //Get.to kullanınca Stream hatası alıyorum!!!
+                    Get.back();
                   },
-                  child: Text("Dashboard"),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+                    child: Text("Dashboard"),
+                  ),
                 ),
                 SizedBox(
                   height: 25,
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Get.to(UsersPage());
+                      Get.to(UserEditingPage());
                     },
-                    child: Text("Users")),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+                      child: Text("Edit User"),
+                    )),
                 SizedBox(
                   height: 25,
                 ),
@@ -88,15 +96,23 @@ class _UserAddPageState extends State<UserAddPage> {
                     onPressed: () {
                       Get.to(PasswordUpdate());
                     },
-                    child: Text("Update Password")),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 17),
+                      child: Text("Update Password"),
+                    )),
                 SizedBox(
                   height: 25,
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      UserEditingPage();
+                      Get.to(PasswordUpdate());
                     },
-                    child: Text("Edit User"))
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+                      child: Text("Users Page"),
+                    )),
               ],
             ),
             SizedBox(width: 110),
@@ -104,100 +120,100 @@ class _UserAddPageState extends State<UserAddPage> {
                 key: _controller.signUpFormGlobalKey,
                 child: Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Kullanıcı Düzenle',
-                          style: ProjectTextStyles().darkGrey_w500_s14,
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                            'Lütfen düzenlemek istediğiniz kullanıcı bilgilerini girin.',
-                            style: ProjectTextStyles().grey_w400_s14),
-                        SizedBox(height: 20),
-                        Container(
-                          height: 1,
-                          color: Colors.grey[300],
-                        ),
-                        SizedBox(height: 25),
-                        Text('Adı Soyadı'),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          // onSaved: (value) {
-                          //   _viewModel.password = value;
-                          // },
-                          controller: _nameController,
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecorators().FullNameInput,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) => value != null && value.length < 1
-                              ? 'Ad, soyad giriniz'
-                              : null,
-                        ),
-                        SizedBox(height: 20),
-                        Text('Şifre'),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          // onSaved: (value) {
-                          //   _viewModel.password = value;
-                          // },
-                          controller: _passwordController,
-                          obscureText: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          decoration: InputDecorators().PasswordInput,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) => value != null && value.length < 8
-                              ? 'Min. 8 karakter'
-                              : null,
-                        ),
-                        SizedBox(height: 5),
-                        Text('Şifre 8 karakterden uzun olmalıdır.',
-                            style: ProjectTextStyles().grey_w400_s14),
-                        SizedBox(height: 20),
-                        Text('Mail Adresi'),
-                        SizedBox(height: 5),
-                        TextFormField(
-                          // onSaved: (value) {
-                          //   _viewModel.password = value;
-                          // },
-                          controller: _emailController,
-                          keyboardType: TextInputType.visiblePassword,
-                          decoration: InputDecorators().EmailInput,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (email) =>
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Kullanıcı Ekle',
+                      style: ProjectTextStyles().darkGrey_w500_s14,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                        'Lütfen eklemek istediğiniz kullanıcı bilgilerini girin.',
+                        style: ProjectTextStyles().grey_w400_s14),
+                    SizedBox(height: 20),
+                    Container(
+                      height: 1,
+                      color: Colors.grey[300],
+                    ),
+                    SizedBox(height: 25),
+                    Text('Adı Soyadı'),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      // onSaved: (value) {
+                      //   _viewModel.password = value;
+                      // },
+                      controller: _nameController,
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecorators().FullNameInput,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) => value != null && value.length < 1
+                          ? 'Ad, soyad giriniz'
+                          : null,
+                    ),
+                    SizedBox(height: 20),
+                    Text('Şifre'),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      // onSaved: (value) {
+                      //   _viewModel.password = value;
+                      // },
+                      controller: _passwordController,
+                      obscureText: true,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecorators().PasswordInput,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) => value != null && value.length < 8
+                          ? 'Min. 8 karakter'
+                          : null,
+                    ),
+                    SizedBox(height: 5),
+                    Text('Şifre 8 karakterden uzun olmalıdır.',
+                        style: ProjectTextStyles().grey_w400_s14),
+                    SizedBox(height: 20),
+                    Text('Mail Adresi'),
+                    SizedBox(height: 5),
+                    TextFormField(
+                      // onSaved: (value) {
+                      //   _viewModel.password = value;
+                      // },
+                      controller: _emailController,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecorators().EmailInput,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (email) =>
                           email != null && !EmailValidator.validate(email)
                               ? 'Geçerli bir email giriniz'
                               : null,
-                        ),
-                        SizedBox(height: 45),
-                        SizedBox(
-                          width: double.maxFinite,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                OutlinedButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: Text(
-                                      'İptal',
-                                      style: ProjectTextStyles().darkGrey_w500_s14,
-                                    )),
-                                SizedBox(width: 10),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Get.back();
-                                      _controller.signUp(
-                                        _emailController.text.trim(),
-                                        _passwordController.text.trim(),
-                                        _nameController.text.trim(),
-                                      );
-                                    },
-                                    child: Text('Kullanıcı Ekle'))
-                              ]),
-                        )
-                      ],
-                    )))
+                    ),
+                    SizedBox(height: 45),
+                    SizedBox(
+                      width: double.maxFinite,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            OutlinedButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text(
+                                  'İptal',
+                                  style: ProjectTextStyles().darkGrey_w500_s14,
+                                )),
+                            SizedBox(width: 10),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Get.back();
+                                  _controller.signUp(
+                                    _emailController.text.trim(),
+                                    _passwordController.text.trim(),
+                                    _nameController.text.trim(),
+                                  );
+                                },
+                                child: Text('Kullanıcı Ekle'))
+                          ]),
+                    )
+                  ],
+                )))
           ],
         ),
       ),

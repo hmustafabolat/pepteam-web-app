@@ -7,6 +7,7 @@ import 'package:ss_test/constants/project_paddings.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
+import 'add_user_page.dart';
 import 'user_editing_page.dart';
 import 'users_page.dart';
 
@@ -61,10 +62,38 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Get.back(); //Get.to kullanınca Stream hatası alıyorum!!!
+                    Get.back();
                   },
-                  child: Text("Dashboard"),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+                    child: Text("Dashboard"),
+                  ),
                 ),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(UserAddPage());
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+                      child: Text("Add User"),
+                    )),
+                SizedBox(
+                  height: 25,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(UserEditingPage());
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+                      child: Text("Edit User"),
+                    )),
                 SizedBox(
                   height: 25,
                 ),
@@ -72,23 +101,11 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                     onPressed: () {
                       Get.to(UsersPage());
                     },
-                    child: Text("Users")),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(PasswordUpdate());
-                    },
-                    child: Text("Add User")),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      UserEditingPage();
-                    },
-                    child: Text("Edit User"))
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+                      child: Text("Users Page"),
+                    )),
               ],
             ),
             SizedBox(width: 110),
