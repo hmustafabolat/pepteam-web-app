@@ -192,24 +192,41 @@ class _UsersPageState extends State<UsersPage> {
                                 return Center(
                                     child: CircularProgressIndicator());
                               }
+
                               List<User> users = snapshot.data!;
 
-                              return ListView.builder(
-                                itemCount: users.length,
-                                itemBuilder: (context, index) {
-                                  String? userName = users[index].name;
-                                  String? userEmail = users[index].email;
-                                  String? userRole = users[index].isAdmin.toString();
+                              return Expanded(
+                                child:  ListView.builder(
+                                  itemCount: users.length,
+                                  itemBuilder: (context, index) {
+                                    String? userName = users[index].name;
+                                    String? userEmail = users[index].email;
+                                    String? userRole = users[index].isAdmin.toString();
 
-                                  return ListTile(
-                                    title: Text(userName!),
-                                    subtitle: Text(userEmail!),
-                                    trailing: Text(userRole),
-                                  );
-                                },
+                                    return ListTile(
+                                      title: Text(userName),
+                                      subtitle: Text(userEmail),
+                                      trailing: Text(userRole),
+                                    );
+                                  },
+                                )
                               );
                             },
                           ),
+                          //   ListView.builder(
+                          //   itemCount: users.length,
+                          //   itemBuilder: (context, index) {
+                          //     String? userName = users[index].name;
+                          //     String? userEmail = users[index].email;
+                          //     String? userRole = users[index].isAdmin.toString();
+                          //
+                          //     return ListTile(
+                          //       title: Text(userName!),
+                          //       subtitle: Text(userEmail!),
+                          //       trailing: Text(userRole),
+                          //     );
+                          //   },
+                          // );
                           // Column(
                           //   children: [
                           //     Row(
