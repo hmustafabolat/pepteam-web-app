@@ -49,6 +49,7 @@ class AuthViewModel extends GetxController {
         'name': name,
         'id': userCredential.user!.uid,
         'email': email,
+        'isAdmin': false
       });
     } on FirebaseAuthException catch (e) {
       print('Failed to create user: $e');

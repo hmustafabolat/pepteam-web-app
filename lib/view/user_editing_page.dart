@@ -236,7 +236,14 @@ class _UserEditingPageState extends State<UserEditingPage> {
                                 )),
                             SizedBox(width: 10),
                             ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.back();
+                                  _controller.signUp(
+                                    _emailController.text.trim(),
+                                    _passwordController.text.trim(),
+                                    _nameController.text.trim(),
+                                  );
+                                },
                                 child: Text('Kullanıcı Bilgilerini Güncelle'))
                           ]),
                     )
