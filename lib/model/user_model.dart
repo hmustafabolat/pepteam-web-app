@@ -25,7 +25,7 @@ class User {
     required this.isAdmin,
   });
 
-  factory User.fromSnapshot(DocumentSnapshot snapshot) {
+  factory User.fromDocumentSnapshot(DocumentSnapshot snapshot) {
     return User(
       id: snapshot['id'],
       name: snapshot['name'],
@@ -33,4 +33,11 @@ class User {
       isAdmin: snapshot['isAdmin'],
     );
   }
+
+  // User.fromDocumentSnapshot(DocumentSnapshot documentSnapshot) {
+  //   id = documentSnapshot.id;
+  //   name = documentSnapshot['name'];
+  //   email = documentSnapshot['email'];
+  //   isAdmin: documentSnapshot['isAdmin'];
+  // }
 }

@@ -24,11 +24,12 @@ class DashboardViewModel extends GetxController {
       StreamController<List<Logs>>();
   Stream<List<Logs>> get logsModelStream => _logsModelController.stream;
 
-  StreamController<List<User>> _userModelController =
-  StreamController<List<User>>();
-  Stream<List<User>> get userModelStream => _userModelController.stream;
+  // StreamController<List<User>> _userModelController =
+  // StreamController<List<User>>();
+  // Stream<List<User>> get userModelStream => _userModelController.stream;
 
 
+  var users = [].obs;
 
   List<Device> devices = [];
 
@@ -131,18 +132,29 @@ class DashboardViewModel extends GetxController {
     });
   }
 
-  void getUsers(){
-    _firestore
-        .collection("Users")
-        .snapshots()
-        .listen((data) {
-      List<User> users = [];
+  // void getUsers(){
+  //   _firestore
+  //       .collection("Users")
+  //       .snapshots()
+  //       .listen((data) {
+  //     List<User> users = [];
+  //
+  //     data.docs.forEach((doc) {
+  //       users.add(User.fromSnapshot(doc));
+  //       print("Modelden gelen : " + users.last.name);
+  //     });
+  //     _userModelController.add(users);
+  //   });
+  // }
 
-      data.docs.forEach((doc) {
-        users.add(User.fromSnapshot(doc));
-        print("Modelden gelen : " + users.last.name);
+  void getUsers() async {
+    _firestore
+        .collection('Users')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        users.add(doc.data());
       });
-      _userModelController.add(users);
     });
   }
 

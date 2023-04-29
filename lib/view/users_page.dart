@@ -1,13 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
-import 'package:ss_test/model/user_model.dart';
 import 'package:ss_test/view/add_user_page.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/viewModel/dashboard_viewModel.dart';
+import 'package:ss_test/model/user_model.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
@@ -22,9 +23,12 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends State<UsersPage> {
   final DashboardViewModel controller = Get.put(DashboardViewModel());
+
   void goToAddUserPage() {
     Get.to(UserAddPage());
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,9 +139,6 @@ class _UsersPageState extends State<UsersPage> {
                   color: Colors.grey[300],
                 ),
                 SizedBox(height: 25),
-                //Table Oluşturulacak.
-                //Yeni kullanıcı ekleme butonu oluşturulacak.
-                //Roller verilecek.
                 ElevatedButton.icon(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.white),
@@ -199,39 +200,67 @@ class _UsersPageState extends State<UsersPage> {
                           SizedBox(
                             height: 25,
                           ),
-                          StreamBuilder<List<User>>(
-                            stream: controller.userModelStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              }
 
-                              if (!snapshot.hasData) {
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              }
 
-                              List<User> users = snapshot.data!;
-
-                              return Expanded(
+                          FutureBuilder(
+                            future: Future.delayed(Duration.zero, () async {
+                              return controller.users;
+                            }),
+                            builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+                              if (snapshot.hasData) {
+                                return Expanded(
                                   child: ListView.builder(
-                                itemCount: users.length,
-                                itemBuilder: (context, index) {
-                                  String? userName = users[index].name;
-                                  String? userEmail = users[index].email;
-                                  String? userRole =
-                                      users[index].isAdmin.toString();
-
-                                  return ListTile(
-                                    title: Text(userName),
-                                    subtitle: Text(userEmail),
-                                    trailing: Text(userRole),
-                                  );
-                                },
-                              ));
+                                    itemCount: snapshot.data!.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        title: Text(snapshot.data![index]['name']),
+                                        subtitle: Text(snapshot.data![index]['email']),
+                                        trailing: Text(snapshot.data![index]['isAdmin'].toString()),
+                                      );
+                                    },
+                                  ),
+                                );
+                              } else {
+                                return Center(child: CircularProgressIndicator());
+                              }
                             },
-                          ),
-                        ],
+                          )
+
+
+
+                          // StreamBuilder<List<User>>(
+                          //   stream: controller.userModelStream,
+                          //   builder: (context, snapshot) {
+                          //     if (snapshot.hasError) {
+                          //       return Text('Error: ${snapshot.error}');
+                          //     }
+                          //
+                          //     if (!snapshot.hasData) {
+                          //       return Center(
+                          //           child: CircularProgressIndicator());
+                          //     }
+                          //
+                          //     List<User> users = snapshot.data!;
+                          //
+                          //     return Expanded(
+                          //         child: ListView.builder(
+                          //       itemCount: users.length,
+                          //       itemBuilder: (context, index) {
+                          //         String? userName = users[index].name;
+                          //         String? userEmail = users[index].email;
+                          //         String? userRole =
+                          //             users[index].isAdmin.toString();
+                          //
+                          //         return ListTile(
+                          //           title: Text(userName),
+                          //           subtitle: Text(userEmail),
+                          //           trailing: Text(userRole),
+                          //         );
+                          //       },
+                          //     ));
+                          //   },
+                          // ),
+                         ]
                       ),
                     ),
                   ),
