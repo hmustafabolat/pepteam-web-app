@@ -12,6 +12,7 @@ import 'package:ss_test/viewModel/auth_viewModel.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
+import 'login_screen.dart';
 import 'password_update_page.dart';
 
 class UserEditingPage extends StatefulWidget {
@@ -44,15 +45,17 @@ class _UserEditingPageState extends State<UserEditingPage> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () {},
+              padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundImage: NetImage().userImage,
-                radius: 25,
-              ),
-            ),
-          )
+                child: IconButton(
+                  onPressed: () async {
+                    final AuthViewModel _viewModel = Get.find();
+                    await _viewModel.signOut();
+                    Get.to(LoginScreen());
+                  },
+                  icon: Icon(Icons.person),
+                ),
+              ))
         ],
       ),
       body: Padding(
@@ -60,56 +63,7 @@ class _UserEditingPageState extends State<UserEditingPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
-                    child: Text("Dashboard"),
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(UserAddPage());
-                    },
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
-                      child: Text("Add User"),
-                    )),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(PasswordUpdate());
-                    },
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 17),
-                      child: Text("Update Password"),
-                    )),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(PasswordUpdate());
-                    },
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
-                      child: Text("Users Page"),
-                    )),
-              ],
-            ),
+            RouteButtons(),
             SizedBox(width: 110),
             Form(
                 key: _controller.signUpFormGlobalKey,
@@ -212,6 +166,62 @@ class _UserEditingPageState extends State<UserEditingPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class RouteButtons extends StatelessWidget {
+  const RouteButtons({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Get.to(DashboardPage());
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+            child: Text("Dashboard"),
+          ),
+        ),
+        SizedBox(
+          height: 25,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Get.to(UserAddPage());
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+              child: Text("Add User"),
+            )),
+        SizedBox(
+          height: 25,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Get.to(PasswordUpdate());
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 17),
+              child: Text("Update Password"),
+            )),
+        SizedBox(
+          height: 25,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Get.to(UsersPage());
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+              child: Text("Users Page"),
+            )),
+      ],
     );
   }
 }

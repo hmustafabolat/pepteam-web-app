@@ -13,6 +13,7 @@ import 'package:ss_test/constants/widgets/filter_widget.dart';
 import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/model/logs_model.dart';
 import 'package:ss_test/storage/storage.dart';
+import 'package:ss_test/view/login_screen.dart';
 import 'package:ss_test/view/user_editing_page.dart';
 import 'package:ss_test/view/users_page.dart';
 import 'package:ss_test/viewModel/auth_viewModel.dart';
@@ -105,10 +106,9 @@ class _DashboardPageState extends State<DashboardPage> {
           CircleAvatar(
             child: IconButton(
               onPressed: () async {
-                print("#1");
                 final AuthViewModel _viewModel = Get.find();
                 await _viewModel.signOut();
-                print("#2");
+                Get.to(LoginScreen());
               },
               icon: Icon(Icons.person),
             ),

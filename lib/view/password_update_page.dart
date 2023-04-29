@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
+import 'package:ss_test/view/dashboard_page.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
+import '../viewModel/auth_viewModel.dart';
 import 'add_user_page.dart';
+import 'login_screen.dart';
 import 'user_editing_page.dart';
 import 'users_page.dart';
 
@@ -37,18 +40,22 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
           ],
         ),
         actions: [
-          ElevatedButton(onPressed: () {}, child: Text("")),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(UserEditingPage());
+              },
               icon: SvgPicture.asset(
                 SvgImage().settingsIcon,
                 color: Colors.white,
               )),
-          GestureDetector(
-            onTap: () {},
-            child: CircleAvatar(
-              backgroundImage: NetImage().userImage,
-              radius: 25,
+          CircleAvatar(
+            child: IconButton(
+              onPressed: () async {
+                final AuthViewModel _viewModel = Get.find();
+                await _viewModel.signOut();
+                Get.to(LoginScreen());
+              },
+              icon: Icon(Icons.person),
             ),
           )
         ],
@@ -58,56 +65,7 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
-                    child: Text("Dashboard"),
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(UserAddPage());
-                    },
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
-                      child: Text("Add User"),
-                    )),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(UserEditingPage());
-                    },
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
-                      child: Text("Edit User"),
-                    )),
-                SizedBox(
-                  height: 25,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Get.to(UsersPage());
-                    },
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
-                      child: Text("Users Page"),
-                    )),
-              ],
-            ),
+            RouteButtons(),
             SizedBox(width: 110),
             Expanded(
                 child: Column(
@@ -181,6 +139,62 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class RouteButtons extends StatelessWidget {
+  const RouteButtons({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Get.to(DashboardPage());
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+            child: Text("Dashboard"),
+          ),
+        ),
+        SizedBox(
+          height: 25,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Get.to(UserAddPage());
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+              child: Text("Add User"),
+            )),
+        SizedBox(
+          height: 25,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Get.to(UserEditingPage());
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
+              child: Text("Edit User"),
+            )),
+        SizedBox(
+          height: 25,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Get.to(UsersPage());
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
+              child: Text("Users Page"),
+            )),
+      ],
     );
   }
 }
