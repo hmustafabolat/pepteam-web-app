@@ -18,8 +18,6 @@ class CardWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DashboardViewModel controller = Get.put(DashboardViewModel());
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [

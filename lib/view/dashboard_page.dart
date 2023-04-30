@@ -30,10 +30,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final DashboardViewModel controller3 = Get.put(DashboardViewModel());
-  final DashboardViewModel controller = Get.put(DashboardViewModel());
-  final DashboardViewModel controller2 = Get.put(DashboardViewModel());
-
+  final DashboardViewModel controller = Get.find();
   final dateFormat = DateFormat('dd.MM.yyyy');
 
   int _selectedIndex = 0;
@@ -42,29 +39,32 @@ class _DashboardPageState extends State<DashboardPage> {
   Device? selectedOption;
   String? selectedName;
 
-  void onSelectedIdChanged(Device? deviceValue) {
-    setState(() {
-      selectedOption = deviceValue;
-      controller.getPump(selectedOption!.id);
-      controller.getAlarm(selectedOption!.id);
-      controller.getLogs(
-          selectedOption!.id, selectedStartTime, selectedEndTime);
+  onSelectedIdChanged(Device? deviceValue) async {
+    selectedOption = deviceValue;
+    controller.getPump(selectedOption!.id);
+    controller.getAlarm(selectedOption!.id);
+    controller.getLogs(selectedOption!.id, selectedStartTime, selectedEndTime);
 
-      selectedName = selectedOption!.deviceName;
+    selectedName = selectedOption!.deviceName;
+
+    await Future.delayed(Duration(seconds: 1), () {
+      setState(() {});
     });
   }
 
-  void onSelectedTimeChanged(
-      Device? deviceValue, DateTime? startTime, DateTime? endTime) {
-    setState(() {
-      selectedOption = deviceValue;
-      controller.getLogs(
-          selectedOption!.id, selectedStartTime, selectedEndTime);
+  void onSelectedTimeChanged(Device? deviceValue) async {
+    selectedOption = deviceValue;
+    controller.getLogs(selectedOption!.id, selectedStartTime, selectedEndTime);
+    print('onSelectedTimeChanged');
+
+    await Future.delayed(Duration(seconds: 1), () {
+      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Sayfa yenilendi');
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -88,7 +88,7 @@ class _DashboardPageState extends State<DashboardPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                   onPressed: () {
-                    Get.to(UsersPage());
+                    Get.offAll(() => UsersPage());
                   },
                   child: Text("Users")),
             ),
@@ -153,7 +153,8 @@ class _DashboardPageState extends State<DashboardPage> {
                             style: ProjectTextStyles().darkBlue_w600_s24,
                           ),
                           FilterPage(
-                            selectedFunction: onSelectedTimeChanged,
+                            selectedFunction: () =>
+                                onSelectedTimeChanged(selectedOption),
                           ),
                           SizedBox(height: 30),
                           Row(
@@ -234,7 +235,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               CardWidgets(
                                 itemTextState: "Alarm Durumu",
                                 containerChildState: StreamBuilder<List<Alarm>>(
-                                  stream: controller2.alarmModelStream,
+                                  stream: controller.alarmModelStream,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasError) {
                                       return Text('Error: ${snapshot.error}');

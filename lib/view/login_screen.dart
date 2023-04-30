@@ -9,6 +9,7 @@ import 'package:ss_test/constants/text_field_input_decorations.dart';
 import 'package:ss_test/view/dashboard_page.dart';
 import 'package:ss_test/viewModel/auth_viewModel.dart';
 
+import '../viewModel/dashboard_viewModel.dart';
 import 'forgot_password.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -50,8 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecorators().EmailInput,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (email) => email != null && ! EmailValidator.validate(email) 
-                              ? 'Geçerli bir email giriniz' : null,
+                          validator: (email) =>
+                              email != null && !EmailValidator.validate(email)
+                                  ? 'Geçerli bir email giriniz'
+                                  : null,
                         ),
                         SizedBox(height: 20),
                         Text('Şifre'),
@@ -64,8 +67,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecorators().PasswordInput,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) => value != null && value.length < 8
-                              ? 'Enter min. 8 characters' : null,
+                          validator: (value) =>
+                              value != null && value.length < 8
+                                  ? 'Enter min. 8 characters'
+                                  : null,
                         ),
                       ],
                     )),

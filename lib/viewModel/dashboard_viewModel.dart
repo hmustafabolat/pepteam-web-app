@@ -28,7 +28,6 @@ class DashboardViewModel extends GetxController {
   // StreamController<List<User>>();
   // Stream<List<User>> get userModelStream => _userModelController.stream;
 
-
   var users = [].obs;
 
   List<Device> devices = [];
@@ -81,7 +80,7 @@ class DashboardViewModel extends GetxController {
     });
   }
 
-  void getPump(deviceId) {
+  getPump(deviceId) {
     if (deviceId == null) {
       deviceId = 'Device1';
     }
@@ -148,10 +147,7 @@ class DashboardViewModel extends GetxController {
   // }
 
   void getUsers() async {
-    _firestore
-        .collection('Users')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
+    _firestore.collection('Users').get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         users.add(doc.data());
       });

@@ -13,6 +13,7 @@ import 'package:ss_test/model/user_model.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
+import '../constants/widgets/filter_widget.dart';
 import '../viewModel/auth_viewModel.dart';
 import 'login_screen.dart';
 import 'password_update_page.dart';
@@ -25,7 +26,7 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
-  final DashboardViewModel controller = Get.put(DashboardViewModel());
+  final DashboardViewModel controller = Get.find();
 
   void goToAddUserPage() {
     Get.to(UserAddPage());
@@ -210,7 +211,7 @@ class RouteButtons extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            Get.to(DashboardPage());
+            Get.to(() => DashboardPage());
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),

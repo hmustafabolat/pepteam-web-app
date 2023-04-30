@@ -8,12 +8,8 @@ import 'package:ss_test/storage/storage.dart';
 
 import '../../viewModel/dashboard_viewModel.dart';
 
-final DashboardViewModel controller = Get.put(DashboardViewModel());
-
 class FilterPage extends StatefulWidget {
-  final Function(
-          Device? selectedOption, DateTime? startDate, DateTime? endDate)?
-      selectedFunction;
+  final VoidCallback? selectedFunction;
   FilterPage({this.selectedFunction});
   @override
   _FilterPageState createState() => _FilterPageState();
@@ -21,13 +17,13 @@ class FilterPage extends StatefulWidget {
 
 class _FilterPageState extends State<FilterPage> {
   Device? selectedOption;
-  DateTime? startDate;
-  DateTime? endDate;
+  DateTime startDate = DateTime.now().subtract(const Duration(days: 30));
+  DateTime endDate = DateTime.now();
 
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: startDate ?? DateTime.now(),
+        initialDate: startDate,
         firstDate: DateTime(2012, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != startDate) {
@@ -41,7 +37,7 @@ class _FilterPageState extends State<FilterPage> {
   Future<void> _selectEndDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: endDate ?? DateTime.now(),
+        initialDate: endDate,
         firstDate: DateTime(2015, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != endDate) {
@@ -56,51 +52,36 @@ class _FilterPageState extends State<FilterPage> {
   Widget build(BuildContext context) {
     final DateFormat formatter = DateFormat('dd/MM/yyyy');
     return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.date_range,
-              color: ProjectCustomColors().customPurple,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            TextButton(
-                onPressed: () {
-                  _selectStartDate(context);
-                },
-                child: Text(startDate == null
-                    ? 'Başlangıç Tarihi'
-                    : formatter.format(startDate!))),
-            Text("--"),
-            TextButton(
-                onPressed: () {
-                  _selectEndDate(context);
-                },
-                child: Text(endDate == null
-                    ? 'Bitiş Tarihi'
-                    : formatter.format(endDate!))),
-            SizedBox(
-              width: 20,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  controller.getLogs(
-                      selectedOption?.id, selectedStartTime, selectedEndTime);
-                });
-                /* /* print('Başlangıç Tarihi: $startDate');
-                print('Bitiş Tarihi: $endDate'); */
-                print(selectedStartTime);
-                print(selectedEndTime);
-                //print(selectedOption?.id);
-                print(selectedDevice.id); */
-              },
-              icon: Icon(Icons.filter_list),
-              label: Text('Filtrele'),
-            )
-          ],
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.date_range,
+          color: ProjectCustomColors().customPurple,
+        ),
+        SizedBox(
+          width: 20,
+        ),
+        TextButton(
+            onPressed: () {
+              _selectStartDate(context);
+            },
+            child: Text(formatter.format(startDate))),
+        Text("--"),
+        TextButton(
+            onPressed: () {
+              _selectEndDate(context);
+            },
+            child: Text(formatter.format(endDate))),
+        SizedBox(
+          width: 20,
+        ),
+        ElevatedButton.icon(
+          onPressed: widget.selectedFunction,
+          icon: Icon(Icons.filter_list),
+          label: Text('Filtrele'),
+        )
+      ],
     );
   }
 }
