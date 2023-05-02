@@ -26,10 +26,12 @@ class _ChartsWidgetState extends State<ChartsWidget> {
         markerSettings: TrackballMarkerSettings(
             markerVisibility: TrackballVisibilityMode.visible),
         tooltipDisplayMode: TrackballDisplayMode.floatAllPoints,
-        tooltipSettings: InteractiveTooltip(enable: true, color: Colors.red),
+        tooltipSettings: InteractiveTooltip(
+            enable: true, color: ProjectCustomColors().customPalePurple),
         activationMode: ActivationMode.singleTap);
     _tooltipBehavior = TooltipBehavior(enable: true);
-    _zoomPanBehavior = ZoomPanBehavior(enableDoubleTapZooming: true);
+    _zoomPanBehavior = ZoomPanBehavior(
+        enableDoubleTapZooming: true, enableMouseWheelZooming: true);
     super.initState();
   }
 
@@ -62,9 +64,12 @@ class _ChartsWidgetState extends State<ChartsWidget> {
                           dataLabelSettings: DataLabelSettings(isVisible: true),
                           color: ProjectCustomColors().customPurple,
                           dataSource: deviceLogs,
-                          markerSettings: MarkerSettings(isVisible: true),
-                          xValueMapper: (Logs logs, _) =>
-                              logs.time!.toString().split(" ")[0],
+                          markerSettings: MarkerSettings(
+                              isVisible: false, shape: DataMarkerType.diamond),
+                          //X eksenini sade günler şeklinde yazmak için.
+                          /* xValueMapper: (Logs logs, _) =>
+                              logs.time!.toString().split(" ")[0], */
+                          xValueMapper: (Logs logs, _) => logs.time!.toString(),
                           yValueMapper: (Logs logs, _) => logs.Humidity,
                           sortingOrder: SortingOrder.ascending,
                           sortFieldValueMapper: (Logs logs, _) =>
