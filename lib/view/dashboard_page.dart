@@ -31,9 +31,6 @@ class _DashboardPageState extends State<DashboardPage> {
   final DashboardViewModel controller = Get.find();
   final dateFormat = DateFormat('dd.MM.yyyy');
 
-  int _selectedIndex = 0;
-  List<String> _buttonNames = ['Dashboard', 'Users'];
-
   Device? selectedOption;
   String? selectedName;
 
@@ -53,7 +50,6 @@ class _DashboardPageState extends State<DashboardPage> {
   void onSelectedTimeChanged(Device? deviceValue) async {
     selectedOption = deviceValue;
     controller.getLogs(selectedOption!.id, selectedStartTime, selectedEndTime);
-    print('onSelectedTimeChanged');
 
     await Future.delayed(Duration(seconds: 1), () {
       setState(() {});
@@ -62,7 +58,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('Sayfa yenilendi');
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -254,8 +249,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                         if (alarmState == 'activated') {
                                           alarmState = 'Aktif';
                                         } else if (alarmState ==
-                                            'decativated') {
-                                          print("Alarm durumu yazdırıldı");
+                                            'deactivated') {
                                           alarmState = 'Pasif';
                                         }
 
