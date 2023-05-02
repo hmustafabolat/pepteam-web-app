@@ -7,8 +7,14 @@ import '../project_custom_colors.dart';
 import '../project_paddings.dart';
 import '../project_text_styles.dart';
 
-class ChartsWidget extends StatelessWidget {
-  ChartsWidget({super.key});
+class ChartsWidget extends StatefulWidget {
+  ChartsWidget({Key? key}) : super(key: key);
+
+  @override
+  _ChartsWidgetState createState() => _ChartsWidgetState();
+}
+
+class _ChartsWidgetState extends State<ChartsWidget> {
   TooltipBehavior? _tooltipBehavior;
   ZoomPanBehavior? _zoomPanBehavior;
   TrackballBehavior? _trackballBehavior;
@@ -24,6 +30,7 @@ class ChartsWidget extends StatelessWidget {
         activationMode: ActivationMode.singleTap);
     _tooltipBehavior = TooltipBehavior(enable: true);
     _zoomPanBehavior = ZoomPanBehavior(enableDoubleTapZooming: true);
+    super.initState();
   }
 
   @override
