@@ -30,8 +30,7 @@ class _ChartsWidgetState extends State<ChartsWidget> {
             enable: true, color: ProjectCustomColors().customPalePurple),
         activationMode: ActivationMode.singleTap);
     _tooltipBehavior = TooltipBehavior(enable: true);
-    _zoomPanBehavior = ZoomPanBehavior(
-        enableDoubleTapZooming: true, enableMouseWheelZooming: true);
+    _zoomPanBehavior = ZoomPanBehavior(enableMouseWheelZooming: true);
     super.initState();
   }
 
@@ -96,23 +95,27 @@ class _ChartsWidgetState extends State<ChartsWidget> {
               Padding(
                 padding: EdgeInsets.all(40.0),
                 child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(isVisible: true),
-                  primaryYAxis: CategoryAxis(isVisible: false),
-                  series: <ChartSeries<Logs, String>>[
-                    StackedColumnSeries(
-                        dataLabelSettings: DataLabelSettings(isVisible: true),
-                        markerSettings: MarkerSettings(isVisible: true),
-                        color: ProjectCustomColors().customPalePurple2,
-                        dataSource: deviceLogs,
-                        xValueMapper: (Logs logs, _) =>
-                            logs.time!.toString().split(" ")[0],
-                        yValueMapper: (Logs logs, _) => logs.water,
-                        sortingOrder: SortingOrder.ascending,
-                        sortFieldValueMapper: (Logs logs, _) =>
-                            logs.time!.toString(),
-                        name: "Water"),
-                  ],
-                ),
+                    trackballBehavior: _trackballBehavior,
+                    zoomPanBehavior: _zoomPanBehavior,
+                    primaryXAxis: CategoryAxis(),
+                    primaryYAxis: NumericAxis(isVisible: true),
+                    series: <ChartSeries<Logs, String>>[
+                      LineSeries<Logs, String>(
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                          color: ProjectCustomColors().customPurple,
+                          dataSource: deviceLogs,
+                          markerSettings: MarkerSettings(
+                              isVisible: false, shape: DataMarkerType.diamond),
+                          //X eksenini sade günler şeklinde yazmak için.
+                          /* xValueMapper: (Logs logs, _) =>
+                              logs.time!.toString().split(" ")[0], */
+                          xValueMapper: (Logs logs, _) => logs.time!.toString(),
+                          yValueMapper: (Logs logs, _) => logs.water,
+                          sortingOrder: SortingOrder.ascending,
+                          sortFieldValueMapper: (Logs logs, _) =>
+                              logs.time!.toString(),
+                          name: "Water"),
+                    ]),
               ),
             ],
           )),
