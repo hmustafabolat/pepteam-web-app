@@ -5,6 +5,7 @@ import 'package:ss_test/constants/project_custom_colors.dart';
 import 'package:ss_test/constants/project_images.dart';
 import 'package:ss_test/constants/project_paddings.dart';
 import 'package:ss_test/view/dashboard_page.dart';
+import 'package:ss_test/viewModel/change_password_viewModel.dart';
 
 import '../constants/project_text_styles.dart';
 import '../constants/text_field_input_decorations.dart';
@@ -22,6 +23,8 @@ class PasswordUpdate extends StatefulWidget {
 }
 
 class _PasswordUpdateState extends State<PasswordUpdate> {
+  final ChangePasswordViewModel _changePasswordViewModel =
+  Get.put(ChangePasswordViewModel());
   int _selectedIndex = 0;
   List<String> _buttonNames = ['Dashboard', 'Users', 'Kullanıcı Ekle'];
   @override
@@ -88,22 +91,28 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                 Text('Geçerli Şifre'),
                 SizedBox(height: 5),
                 TextFormField(
-                  // onSaved: (value) {
-                  //   _viewModel.password = value;
-                  // },
+                  controller: _changePasswordViewModel.currentPasswordController,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecorators().PasswordInput,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) =>
+                  value != null && value.length < 8
+                      ? 'Minimum 8 karakter giriniz'
+                      : null,
                 ),
                 SizedBox(height: 20),
                 Text('Yeni Şifre'),
                 SizedBox(height: 5),
                 TextFormField(
-                  // onSaved: (value) {
-                  //   _viewModel.password = value;
-                  // },
+                  controller: _changePasswordViewModel.newPasswordController,
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecorators().PasswordInput,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) =>
+                  value != null && value.length < 8
+                      ? 'Minimum 8 karakter giriniz'
+                      : null,
                 ),
                 SizedBox(height: 5),
                 Text('Şifre 8 karakterden uzun olmalıdır.',
@@ -112,11 +121,15 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                 Text('Yeni Şifre'),
                 SizedBox(height: 5),
                 TextFormField(
-                  // onSaved: (value) {
-                  //   _viewModel.password = value;
-                  // },
+                  obscureText: true,
+                  controller: _changePasswordViewModel.confirmPasswordController,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecorators().PasswordInput,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) =>
+                  value != null && value.length < 8
+                      ? 'Minimum 8 karakter giriniz'
+                      : null,
                 ),
                 SizedBox(height: 45),
                 SizedBox(
@@ -124,14 +137,18 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                   child:
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.back();
+                        },
                         child: Text(
                           'İptal',
                           style: ProjectTextStyles().darkGrey_w500_s14,
                         )),
                     SizedBox(width: 10),
                     ElevatedButton(
-                        onPressed: () {}, child: Text('Şifreyi Güncelle'))
+                        onPressed: () {
+                          _changePasswordViewModel.changePassword();
+                        }, child: Text('Şifreyi Güncelle'))
                   ]),
                 )
               ],

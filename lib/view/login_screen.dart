@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) =>
                               value != null && value.length < 8
-                                  ? 'Enter min. 8 characters'
+                                  ? 'Minimum 8 karakter giriniz'
                                   : null,
                         ),
                       ],

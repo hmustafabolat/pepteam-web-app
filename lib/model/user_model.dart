@@ -13,20 +13,20 @@ class UserModel {
       : this.email = document.data()?["email"];
 }
 
-class User {
+class UserModel2 {
   String id;
   String name;
   String email;
   bool isAdmin;
-  User({
+  UserModel2({
     required this.id,
     required this.name,
     required this.email,
     required this.isAdmin,
   });
 
-  factory User.fromDocumentSnapshot(DocumentSnapshot snapshot) {
-    return User(
+  factory UserModel2.fromDocumentSnapshot(DocumentSnapshot snapshot) {
+    return UserModel2(
       id: snapshot['id'],
       name: snapshot['name'],
       email: snapshot['email'],

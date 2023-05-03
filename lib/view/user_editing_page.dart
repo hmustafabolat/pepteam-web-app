@@ -152,10 +152,10 @@ class _UserEditingPageState extends State<UserEditingPage> {
                             ElevatedButton(
                                 onPressed: () {
                                   Get.back();
-                                  _controller.signUp(
+                                  _controller.updateUserProfile(
+                                    _nameController.text.trim(),
                                     _emailController.text.trim(),
                                     _passwordController.text.trim(),
-                                    _nameController.text.trim(),
                                   );
                                 },
                                 child: Text('Kullanıcı Bilgilerini Güncelle'))

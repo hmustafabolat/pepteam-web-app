@@ -119,7 +119,7 @@ class _UserAddPageState extends State<UserAddPage> {
                       decoration: InputDecorators().PasswordInput,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) => value != null && value.length < 8
-                          ? 'Min. 8 karakter'
+                          ? 'Minimum 8 karakter giriniz'
                           : null,
                     ),
                     SizedBox(height: 5),

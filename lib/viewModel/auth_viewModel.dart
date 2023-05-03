@@ -1,12 +1,10 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/model/user_model.dart';
 import 'package:ss_test/repository/auth_repository.dart';
-import 'package:ss_test/service/firestore_service.dart';
 
 class AuthViewModel extends GetxController {
   final AuthRepository _repository = Get.find();
@@ -72,6 +70,25 @@ class AuthViewModel extends GetxController {
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
+    }
+  }
+
+  Future<void> updateUserProfile(String name, String email, String password) async {
+    try {
+      // Kullanıcının kimlik bilgilerini güncelleme
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.updateEmail(email);
+        await user.updatePassword(password);
+      }
+
+      // Firestore verilerini güncelleme
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      DocumentReference docRef = firestore.collection('Users').doc(user!.uid);
+      Map<String, dynamic> data = {'name': name, 'email': email};
+      await docRef.update(data);
+    } catch (e) {
+      print('Hata oluştu: $e');
     }
   }
 
