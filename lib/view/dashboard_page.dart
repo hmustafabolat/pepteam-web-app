@@ -71,19 +71,18 @@ class _DashboardPageState extends State<DashboardPage> {
             SizedBox(width: 30),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
+              child: TextButton(
                 onPressed: () {},
-                child: Text("Dashboard"),
-                style: ElevatedButton.styleFrom(),
+                child: Text("Dashboard",style: TextStyle(color: Colors.white)),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
+              child: TextButton(
                   onPressed: () {
                     Get.offAll(() => UsersPage());
                   },
-                  child: Text("Users")),
+                  child: Text("Users",style: TextStyle(color: Colors.white))),
             ),
           ],
         ),

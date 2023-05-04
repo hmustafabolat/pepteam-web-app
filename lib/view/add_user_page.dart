@@ -186,47 +186,47 @@ class RouteButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ElevatedButton(
+        TextButton(
           onPressed: () {
             Get.to(DashboardPage());
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
-            child: Text("Dashboard"),
+            child: Text("Dashboard",style: TextStyle(color: Colors.grey[600])),
           ),
         ),
         SizedBox(
           height: 25,
         ),
-        ElevatedButton(
+        TextButton(
             onPressed: () {
               Get.to(UserEditingPage());
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 45),
-              child: Text("Edit User"),
+              child: Text("Edit User",style: TextStyle(color: Colors.grey[600])),
             )),
         SizedBox(
           height: 25,
         ),
-        ElevatedButton(
+        TextButton(
             onPressed: () {
               Get.to(PasswordUpdate());
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 17),
-              child: Text("Update Password"),
+              child: Text("Update Password",style: TextStyle(color: Colors.grey[600])),
             )),
         SizedBox(
           height: 25,
         ),
-        ElevatedButton(
+        TextButton(
             onPressed: () {
               Get.to(PasswordUpdate());
             },
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40),
-              child: Text("Users Page"),
+              child: Text("Users Page",style: TextStyle(color: Colors.grey[600])),
             )),
       ],
     );
