@@ -32,6 +32,8 @@ class _UsersPageState extends State<UsersPage> {
     Get.to(UserAddPage());
   }
 
+  var refresh;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,41 +154,31 @@ class _UsersPageState extends State<UsersPage> {
                                 SizedBox(
                                   width: 780,
                                 ),
-                                Text("Role")
+                                Text("Role"),
                               ],
                             ),
                             SizedBox(
                               height: 25,
                             ),
-                            FutureBuilder(
-                              future: Future.delayed(Duration.zero, () async {
-                                return controller.users;
-                              }),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<List> snapshot) {
-                                if (snapshot.hasData) {
-                                  return Expanded(
-                                    child: ListView.builder(
-                                      itemCount: snapshot.data!.length,
-                                      itemBuilder: (context, index) {
-                                        return ListTile(
-                                          title: Text(
-                                              snapshot.data![index]['name']),
-                                          subtitle: Text(
-                                              snapshot.data![index]['email']),
-                                          trailing: Text(snapshot.data![index]
-                                                  ['isAdmin']
-                                              .toString()),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                } else {
-                                  return Center(
-                                      child: CircularProgressIndicator());
+
+                            GetX<DashboardViewModel>(
+                              builder: (controller) {
+                                if (controller.users.isEmpty) {
+                                  return Center(child: CircularProgressIndicator());
                                 }
+
+                                return Expanded(child: ListView.builder(
+                                  itemCount: controller.users.length,
+                                  itemBuilder: (context, index) {
+                                    final user = controller.users[index];
+                                    return ListTile(
+                                      title: Text(user['name']),
+                                      subtitle: Text(user['email']),
+                                    );
+                                  },
+                                ));
                               },
-                            )
+                            ),
                           ]),
                     ),
                   ),

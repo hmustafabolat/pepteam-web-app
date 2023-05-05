@@ -12,6 +12,22 @@ import 'package:ss_test/storage/storage.dart';
 class DashboardViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+
+  RxList<QueryDocumentSnapshot> users = <QueryDocumentSnapshot>[].obs;
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   _getUsers();
+  // }
+
+  void _getUsers() async {
+    QuerySnapshot querySnapshot =
+    await _firestore.collection('Users').get();
+    users.value = querySnapshot.docs;
+  }
+
+
   StreamController<List<Pump>> _pumpModelController =
       StreamController<List<Pump>>();
   Stream<List<Pump>> get pumpModelStream => _pumpModelController.stream;
@@ -28,7 +44,7 @@ class DashboardViewModel extends GetxController {
   // StreamController<List<User>>();
   // Stream<List<User>> get userModelStream => _userModelController.stream;
 
-  var users = [].obs;
+  // var users = [].obs;
 
   List<Device> devices = [];
 
@@ -146,13 +162,13 @@ class DashboardViewModel extends GetxController {
   //   });
   // }
 
-  void getUsers() async {
-    _firestore.collection('Users').get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        users.add(doc.data());
-      });
-    });
-  }
+  // void getUsers() async {
+  //   _firestore.collection('Users').get().then((QuerySnapshot querySnapshot) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       users.add(doc.data());
+  //     });
+  //   });
+  // }
 
   @override
   void onInit() {
@@ -173,7 +189,8 @@ class DashboardViewModel extends GetxController {
     getLogs(deviceId, null, null);
     getPump(deviceId);
     getAlarm(deviceId);
-    getUsers();
+    // getUsers();
+    _getUsers();
   }
 
   @override
