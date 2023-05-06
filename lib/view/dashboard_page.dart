@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -59,54 +60,54 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset(PngImage().contentIcon),
-            SizedBox(width: 10),
-            SvgPicture.asset(
-              SvgImage().untitledUiText,
-              color: Colors.white,
-            ),
-            SizedBox(width: 30),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                onPressed: () {},
-                child: Text("Dashboard",style: TextStyle(color: Colors.white)),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                  onPressed: () {
-                    Get.offAll(() => UsersPage());
-                  },
-                  child: Text("Users",style: TextStyle(color: Colors.white))),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(UserEditingPage());
-              },
-              icon: SvgPicture.asset(
-                SvgImage().settingsIcon,
-                color: Colors.white,
-              )),
-          CircleAvatar(
-            child: IconButton(
-              onPressed: () async {
-                final AuthViewModel _viewModel = Get.find();
-                await _viewModel.signOut();
-                Get.to(LoginScreen());
-              },
-              icon: Icon(Icons.person),
-            ),
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: Row(
+      //     children: [
+      //       Image.asset(PngImage().contentIcon),
+      //       SizedBox(width: 10),
+      //       SvgPicture.asset(
+      //         SvgImage().untitledUiText,
+      //         color: Colors.white,
+      //       ),
+      //       SizedBox(width: 30),
+      //       Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: TextButton(
+      //           onPressed: () {},
+      //           child: Text("Dashboard", style: TextStyle(color: Colors.white)),
+      //         ),
+      //       ),
+      //       Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: TextButton(
+      //             onPressed: () {
+      //               Get.offAll(() => UsersPage());
+      //             },
+      //             child: Text("Users", style: TextStyle(color: Colors.white))),
+      //       ),
+      //     ],
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //         onPressed: () {
+      //           Get.to(UserEditingPage());
+      //         },
+      //         icon: SvgPicture.asset(
+      //           SvgImage().settingsIcon,
+      //           color: Colors.white,
+      //         )),
+      //     CircleAvatar(
+      //       child: IconButton(
+      //         onPressed: () async {
+      //           final AuthViewModel _viewModel = Get.find();
+      //           await _viewModel.signOut();
+      //           Get.to(LoginScreen());
+      //         },
+      //         icon: Icon(Icons.person),
+      //       ),
+      //     )
+      //   ],
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -155,67 +156,58 @@ class _DashboardPageState extends State<DashboardPage> {
                               CardWidget(),
                               CardWidgets(
                                 itemTextState: "Pompa Durumu",
-                                containerChildState: StreamBuilder<List<Pump>>(
-                                  stream: controller.pumpModelStream,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasError) {
-                                      return Text('Error: ${snapshot.error}');
-                                    }
-
-                                    if (!snapshot.hasData) {
+                                containerChildState: GetX<DashboardViewModel>(
+                                  builder: (controller) {
+                                    if (controller.pumps.isEmpty) {
                                       return Center(
                                           child: CircularProgressIndicator());
                                     }
-                                    List<Pump> pumps = snapshot.data!;
 
                                     return ListView.builder(
-                                      itemCount: pumps.length,
+                                      itemCount: controller.pumps.length,
                                       itemBuilder: (context, index) {
-                                        String pumpState =
-                                            pumps[index].pumpState;
-                                        DateTime time = pumps[index].time;
-
+                                        final pump = controller.pumps[index];
+                                        String? pumpState =
+                                        pump['PumpState'];
+                                        DateTime time = pump['Time'].toDate();
                                         if (pumpState == 'activated') {
                                           pumpState = 'Aktif';
-                                        } else if (pumpState == 'deactivated') {
+                                        } else if (pumpState ==
+                                            'deactivated') {
                                           pumpState = 'Pasif';
                                         }
 
                                         return Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              pumpState,
+                                              pumpState
+                                                  .toString(),
                                               style: ProjectTextStyles()
                                                   .darkBlue_w600_s30,
                                             ),
                                             Padding(
                                               padding:
-                                                  const EdgeInsets.all(8.0),
+                                              const EdgeInsets.all(8.0),
                                               child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: ProjectCustomColors()
-                                                      .customGreen,
-                                                ),
-                                                child: Row(
-                                                  children: [
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10),
+                                                    color: ProjectCustomColors()
+                                                        .customGreen,
+                                                  ),
+                                                  child: Row(children: [
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
+                                                      const EdgeInsets.all(
+                                                          8.0),
                                                       child: Text(
                                                         dateFormat.format(time),
-                                                        style: TextStyle(
-                                                            color: ProjectCustomColors()
-                                                                .customGreenText),
                                                       ),
                                                     )
-                                                  ],
-                                                ),
-                                              ),
+                                                  ])),
                                             ),
                                           ],
                                         );
@@ -223,28 +215,92 @@ class _DashboardPageState extends State<DashboardPage> {
                                     );
                                   },
                                 ),
+
+                                // StreamBuilder<List<Pump>>(
+                                //   stream: controller.pumpModelStream,
+                                //   builder: (context, snapshot) {
+                                //     if (snapshot.hasError) {
+                                //       return Text('Error: ${snapshot.error}');
+                                //     }
+                                //
+                                //     if (!snapshot.hasData) {
+                                //       return Center(
+                                //           child: CircularProgressIndicator());
+                                //     }
+                                //     List<Pump> pumps = snapshot.data!;
+                                //
+                                //     return ListView.builder(
+                                //       itemCount: pumps.length,
+                                //       itemBuilder: (context, index) {
+                                //         String pumpState =
+                                //             pumps[index].pumpState;
+                                //         DateTime time = pumps[index].time;
+                                //
+                                //         if (pumpState == 'activated') {
+                                //           pumpState = 'Aktif';
+                                //         } else if (pumpState == 'deactivated') {
+                                //           pumpState = 'Pasif';
+                                //         }
+                                //
+                                //         return Row(
+                                //           mainAxisAlignment:
+                                //               MainAxisAlignment.spaceBetween,
+                                //           children: [
+                                //             Text(
+                                //               pumpState,
+                                //               style: ProjectTextStyles()
+                                //                   .darkBlue_w600_s30,
+                                //             ),
+                                //             Padding(
+                                //               padding:
+                                //                   const EdgeInsets.all(8.0),
+                                //               child: Container(
+                                //                 decoration: BoxDecoration(
+                                //                   borderRadius:
+                                //                       BorderRadius.circular(10),
+                                //                   color: ProjectCustomColors()
+                                //                       .customGreen,
+                                //                 ),
+                                //                 child: Row(
+                                //                   children: [
+                                //                     Padding(
+                                //                       padding:
+                                //                           const EdgeInsets.all(
+                                //                               8.0),
+                                //                       child: Text(
+                                //                         dateFormat.format(time),
+                                //                         style: TextStyle(
+                                //                             color: ProjectCustomColors()
+                                //                                 .customGreenText),
+                                //                       ),
+                                //                     )
+                                //                   ],
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         );
+                                //       },
+                                //     );
+                                //   },
+                                // ),
                               ),
                               CardWidgets(
                                 itemTextState: "Alarm Durumu",
-                                containerChildState: StreamBuilder<List<Alarm>>(
-                                  stream: controller.alarmModelStream,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasError) {
-                                      return Text('Error: ${snapshot.error}');
-                                    }
-
-                                    if (!snapshot.hasData) {
+                                containerChildState: GetX<DashboardViewModel>(
+                                  builder: (controller) {
+                                    if (controller.alarms.isEmpty) {
                                       return Center(
                                           child: CircularProgressIndicator());
                                     }
-                                    List<Alarm> alarm = snapshot.data!;
 
                                     return ListView.builder(
-                                      itemCount: alarm.length,
+                                      itemCount: controller.alarms.length,
                                       itemBuilder: (context, index) {
+                                        final alarm = controller.alarms[index];
                                         String? alarmState =
-                                            alarm[index].alarmState;
-                                        DateTime time = alarm[index].time;
+                                            alarm['AlarmState'];
+                                        DateTime time = alarm['Time'].toDate();
                                         if (alarmState == 'activated') {
                                           alarmState = 'Aktif';
                                         } else if (alarmState ==
@@ -257,8 +313,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              alarm[index]
-                                                  .alarmState
+                                              alarmState
                                                   .toString(),
                                               style: ProjectTextStyles()
                                                   .darkBlue_w600_s30,
@@ -291,6 +346,72 @@ class _DashboardPageState extends State<DashboardPage> {
                                     );
                                   },
                                 ),
+
+                                // StreamBuilder<List<Alarm>>(
+                                //   stream: controller.alarmModelStream,
+                                //   builder: (context, snapshot) {
+                                //     if (snapshot.hasError) {
+                                //       return Text('Error: ${snapshot.error}');
+                                //     }
+                                //
+                                //     if (!snapshot.hasData) {
+                                //       return Center(
+                                //           child: CircularProgressIndicator());
+                                //     }
+                                //     List<Alarm> alarm = snapshot.data!;
+                                //
+                                //     return ListView.builder(
+                                //       itemCount: alarm.length,
+                                //       itemBuilder: (context, index) {
+                                //         String? alarmState =
+                                //             alarm[index].alarmState;
+                                //         DateTime time = alarm[index].time;
+                                //         if (alarmState == 'activated') {
+                                //           alarmState = 'Aktif';
+                                //         } else if (alarmState ==
+                                //             'deactivated') {
+                                //           alarmState = 'Pasif';
+                                //         }
+                                //
+                                //         return Row(
+                                //           mainAxisAlignment:
+                                //               MainAxisAlignment.spaceBetween,
+                                //           children: [
+                                //             Text(
+                                //               alarm[index]
+                                //                   .alarmState
+                                //                   .toString(),
+                                //               style: ProjectTextStyles()
+                                //                   .darkBlue_w600_s30,
+                                //             ),
+                                //             Padding(
+                                //               padding:
+                                //                   const EdgeInsets.all(8.0),
+                                //               child: Container(
+                                //                   decoration: BoxDecoration(
+                                //                     borderRadius:
+                                //                         BorderRadius.circular(
+                                //                             10),
+                                //                     color: ProjectCustomColors()
+                                //                         .customRed,
+                                //                   ),
+                                //                   child: Row(children: [
+                                //                     Padding(
+                                //                       padding:
+                                //                           const EdgeInsets.all(
+                                //                               8.0),
+                                //                       child: Text(
+                                //                         dateFormat.format(time),
+                                //                       ),
+                                //                     )
+                                //                   ])),
+                                //             ),
+                                //           ],
+                                //         );
+                                //       },
+                                //     );
+                                //   },
+                                // ),
                               )
                             ],
                           ),

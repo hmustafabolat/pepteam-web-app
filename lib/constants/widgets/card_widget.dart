@@ -8,7 +8,7 @@ import '../project_text_styles.dart';
 
 class CardWidgets extends StatelessWidget {
   final String itemTextState;
-  final StreamBuilder<List> containerChildState;
+  final GetX<DashboardViewModel> containerChildState;
 
   const CardWidgets({
     super.key,

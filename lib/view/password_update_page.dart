@@ -29,54 +29,12 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
   List<String> _buttonNames = ['Dashboard', 'Users', 'Kullanıcı Ekle'];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset(PngImage().contentIcon),
-            SizedBox(width: 10),
-            SvgPicture.asset(
-              SvgImage().untitledUiText,
-              color: Colors.white,
-            ),
-            SizedBox(width: 30),
-          ],
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.to(UserEditingPage());
-              },
-              icon: SvgPicture.asset(
-                SvgImage().settingsIcon,
-                color: Colors.white,
-              )),
-          CircleAvatar(
-            child: IconButton(
-              onPressed: () async {
-                final AuthViewModel _viewModel = Get.find();
-                await _viewModel.signOut();
-                Get.to(LoginScreen());
-              },
-              icon: Icon(Icons.person),
-            ),
-          )
-        ],
-      ),
-      body: Padding(
-        padding: ProjectPaddings().only_lTR_125_50_125,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RouteButtons(),
-            SizedBox(width: 110),
-            Expanded(
-                child: Column(
+    return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Şifre',
-                  style: ProjectTextStyles().darkGrey_w500_s14,
+                  style: ProjectTextStyles().darkBlue_w600_s24,
                 ),
                 SizedBox(height: 5),
                 Text(
@@ -152,10 +110,7 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                   ]),
                 )
               ],
-            ))
-          ],
-        ),
-      ),
+
     );
   }
 }

@@ -66,13 +66,17 @@ class _FilterPageState extends State<FilterPage> {
             onPressed: () {
               _selectStartDate(context);
             },
-            child: Text(formatter.format(startDate))),
+            child: Text('Başlangıç Tarihi'
+                // formatter.format(startDate)
+                )),
         Text("--"),
         TextButton(
             onPressed: () {
               _selectEndDate(context);
             },
-            child: Text(formatter.format(endDate))),
+            child: Text('Bitiş Tarihi'
+                // formatter.format(endDate)
+                )),
         SizedBox(
           width: 20,
         ),

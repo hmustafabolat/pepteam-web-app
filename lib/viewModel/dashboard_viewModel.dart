@@ -1,19 +1,22 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/model/alarm_model.dart';
 import 'package:ss_test/model/device_model.dart';
 import 'package:ss_test/model/logs_model.dart';
 import 'package:ss_test/model/pump_model.dart';
-import 'package:ss_test/model/user_model.dart';
 import 'package:ss_test/storage/storage.dart';
 
 class DashboardViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
 
 
   RxList<QueryDocumentSnapshot> users = <QueryDocumentSnapshot>[].obs;
+  RxList<QueryDocumentSnapshot> alarms = <QueryDocumentSnapshot>[].obs;
+  RxList<QueryDocumentSnapshot> pumps = <QueryDocumentSnapshot>[].obs;
 
   // @override
   // void onInit() {
@@ -21,7 +24,8 @@ class DashboardViewModel extends GetxController {
   //   _getUsers();
   // }
 
-  void _getUsers() async {
+
+  void _getUser() async {
     QuerySnapshot querySnapshot =
     await _firestore.collection('Users').get();
     users.value = querySnapshot.docs;
@@ -75,14 +79,13 @@ class DashboardViewModel extends GetxController {
  */
     _firestore
         .collection('Users')
-        .doc('User1')
+        .doc('User1') // user!.uid yazılacak
         .collection('Devices')
         .doc(deviceId)
         .collection('Logs')
         .where('Time', isLessThan: endTime)
         .where('Time', isGreaterThan: startTime)
         .orderBy('Time', descending: true)
-        //  .limit(1)
         .snapshots()
         .listen((data) {
       List<Logs> logs = [];
@@ -96,12 +99,12 @@ class DashboardViewModel extends GetxController {
     });
   }
 
-  getPump(deviceId) {
+  getPump(deviceId) async {
     if (deviceId == null) {
       deviceId = 'Device1';
     }
-    log('fonksiyon başladı');
-    _firestore
+    QuerySnapshot querySnapshot =
+        await _firestore
         .collection("Users")
         .doc("User1")
         .collection("Devices")
@@ -109,43 +112,76 @@ class DashboardViewModel extends GetxController {
         .collection("Pump")
         .orderBy("Time", descending: true)
         .limit(1)
-        .snapshots()
-        .listen((data) {
-      List<Pump> pumps = [];
-
-      data.docs.forEach((doc) {
-        log(doc['PumpState'].toString());
-        pumps.add(Pump.fromSnapshot(doc));
-        print("Modelden gelen : " + pumps.last.pumpState);
-      });
-      _pumpModelController.add(pumps);
-      log(pumps.last.time.toString());
-    });
+        .get();
+    pumps.value = querySnapshot.docs;
   }
 
-  void getAlarm(deviceId) {
-    if (deviceId == null) {
-      deviceId = 'Device1';
-    }
+  // getPump(deviceId) {
+  //   if (deviceId == null) {
+  //     deviceId = 'Device1';
+  //   }
+  //   log('fonksiyon başladı');
+  //   _firestore
+  //       .collection("Users")
+  //       .doc("User1")
+  //       .collection("Devices")
+  //       .doc(deviceId)
+  //       .collection("Pump")
+  //       .orderBy("Time", descending: true)
+  //       .limit(1)
+  //       .snapshots()
+  //       .listen((data) {
+  //     List<Pump> pumps = [];
+  //
+  //     data.docs.forEach((doc) {
+  //       log(doc['PumpState'].toString());
+  //       pumps.add(Pump.fromSnapshot(doc));
+  //       print("Modelden gelen : " + pumps.last.pumpState);
+  //     });
+  //     _pumpModelController.add(pumps);
+  //     log(pumps.last.time.toString());
+  //   });
+  // }
 
-    _firestore
+  void getAlarm(deviceId) async {
+    if (deviceId == null) {
+          deviceId = 'Device1';
+        }
+    QuerySnapshot querySnapshot =
+    await _firestore
         .collection("Users")
         .doc("User1")
         .collection("Devices")
         .doc(deviceId)
         .collection("Alarms")
         .orderBy("Time", descending: true)
-        .limit(1)
-        .snapshots()
-        .listen((data) {
-      List<Alarm> alarms = [];
-
-      data.docs.forEach((doc) {
-        alarms.add(Alarm.fromSnapshot(doc));
-      });
-      _alarmModelController.add(alarms);
-    });
+        .limit(1).get();
+    alarms.value = querySnapshot.docs;
   }
+
+  // void getAlarm(deviceId) {
+  //   if (deviceId == null) {
+  //     deviceId = 'Device1';
+  //   }
+  //
+  //   _firestore
+  //       .collection("Users")
+  //       .doc("User1")
+  //       .collection("Devices")
+  //       .doc(deviceId)
+  //       .collection("Alarms")
+  //       .orderBy("Time", descending: true)
+  //       .limit(1)
+  //       .snapshots()
+  //       .listen((data) {
+  //     List<Alarm> alarms = [];
+  //
+  //     data.docs.forEach((doc) {
+  //       alarms.add(Alarm.fromSnapshot(doc));
+  //     });
+  //     _alarmModelController.add(alarms);
+  //   });
+  // }
 
   // void getUsers(){
   //   _firestore
@@ -190,7 +226,7 @@ class DashboardViewModel extends GetxController {
     getPump(deviceId);
     getAlarm(deviceId);
     // getUsers();
-    _getUsers();
+    _getUser();
   }
 
   @override

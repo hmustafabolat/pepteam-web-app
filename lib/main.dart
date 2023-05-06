@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ss_test/service/firebase_conf.dart';
 import 'package:ss_test/view/dashboard_page.dart';
+import 'package:ss_test/view/home.dart';
 import 'package:ss_test/view/landing_page.dart';
 import 'package:ss_test/view/login_screen.dart';
 import 'package:ss_test/view/password_update_page.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: LandingPage(),
+      home: Home(),
     );
   }
 }
